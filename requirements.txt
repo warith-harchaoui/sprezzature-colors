@@ -1,0 +1,6 @@
+# Core — stdlib only (audit_contrast, palette_to_tailwind, accessibility_levels)
+# No runtime dependencies required for the base install.
+# For CVD image simulation (simulate_cvd.py), install the optional extra:
+#   pip install sprezzature-colors[cvd]
+# or directly:
+#   pip install Pillow>=10.0
