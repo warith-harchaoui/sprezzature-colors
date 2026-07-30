@@ -21,6 +21,10 @@ dev = ["pytest>=8.0", "ruff"]
 Homepage = "https://harchaoui.org/warith/sprezzature/"
 Repository = "https://github.com/warith-harchaoui/sprezzature-colors"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sprezzature_colors*", "scripts*"]
+
 [tool.ruff]
 line-length = 100
 target-version = "py310"
