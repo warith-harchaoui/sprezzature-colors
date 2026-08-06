@@ -131,7 +131,7 @@ Contrast ratios follow WCAG 2.x: relative luminance uses the 2.4-gamma transfer 
 | [sprezzature](https://github.com/warith-harchaoui/sprezzature) | Nine skill collection + web |
 | [sprezzature-colors](https://github.com/warith-harchaoui/sprezzature-colors) | This repo |
 | [sprezzature-figures](https://github.com/warith-harchaoui/sprezzature-figures) | Data visualization |
-| [sprezzature-local](https://github.com/warith-harchaoui/sprezzature-local) | Offline LLM runtime |
+| [best-engine-ai-helper](https://github.com/warith-harchaoui/best-engine-ai-helper) | Offline LLM/VLM runtime |
 
 ---
 

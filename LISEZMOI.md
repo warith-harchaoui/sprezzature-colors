@@ -99,7 +99,7 @@ Les ratios de contraste suivent WCAG 2.x : la luminance relative utilise la fonc
 | [sprezzature](https://github.com/warith-harchaoui/sprezzature) | Neuf compétences + site web |
 | [sprezzature-colors](https://github.com/warith-harchaoui/sprezzature-colors) | Ce dépôt |
 | [sprezzature-figures](https://github.com/warith-harchaoui/sprezzature-figures) | Visualisation de données |
-| [sprezzature-local](https://github.com/warith-harchaoui/sprezzature-local) | Runtime LLM hors ligne |
+| [best-engine-ai-helper](https://github.com/warith-harchaoui/best-engine-ai-helper) | Runtime LLM/VLM hors ligne |
 
 ---
 
