@@ -21,9 +21,11 @@ dev = ["pytest>=8.0", "ruff"]
 Homepage = "https://harchaoui.org/warith/sprezzature/"
 Repository = "https://github.com/warith-harchaoui/sprezzature-colors"
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["sprezzature_colors*", "scripts*"]
+[tool.setuptools]
+packages = ["sprezzature_colors", "sprezzature_colors_scripts"]
+
+[tool.setuptools.package-dir]
+"sprezzature_colors_scripts" = "scripts"
 
 [tool.ruff]
 line-length = 100
