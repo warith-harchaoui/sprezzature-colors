@@ -2,15 +2,20 @@
 _colors
 =======
 
-Shared color primitives for ``sprezzature-colors``: sRGB ↔ linear, hex parsing,
-WCAG luminance and contrast, OKLab / OKLCH conversions (Björn Ottosson),
-perceptual ``lighten`` / ``darken`` on the OKLCH L axis, the Machado et
-al. (2009) CVD simulation matrices, and the curated palette accessors
-(Apple base + emotion / concept / psychology projections).
+Shared color primitives for ``sprezzature-colors``: sRGB (the standard
+red/green/blue encoding used by displays and image files) conversion to
+and from a linear scale, hex-code parsing, WCAG (Web Content
+Accessibility Guidelines) luminance and contrast, OKLab / OKLCH
+conversions (a perceptual color model published by Björn Ottosson in
+which a fixed numeric step always looks like the same-sized change to
+the eye, unlike raw RGB), perceptual ``lighten`` / ``darken`` on the
+OKLCH lightness axis, the Machado et al. (2009) color-vision-deficiency
+simulation matrices, and the curated palette accessors (Apple base plus
+emotion / concept / psychology projections).
 
-The palette ships as ``references/palette.csv`` — one row per canonical
-color, with semantic projections as columns. Loaded lazily on first
-access; no network at import time.
+The palette ships as ``references/palette.csv``: one row per canonical
+color, with semantic projections as columns. It is loaded lazily, on
+first access, and there is no network call at import time.
 
 Pure Python, stdlib only. The CVD matrices intentionally do not require
 NumPy (callers that need bulk image work use ``simulate_cvd.py``'s
@@ -58,6 +63,8 @@ __all__ = [
     # Palette accessors
     "load_palette",
     "apple_palette",
+    "academic_palette",
+    "academic_palette_rows",
     "palette_names",
     "name_to_hex",
     "name_to_rgb",
@@ -458,6 +465,62 @@ def apple_palette() -> dict[str, str]:
     """
     saturated = {"Red", "Orange", "Yellow", "Green", "Turquoise", "Blue", "Purple", "Pink"}
     return {row["Base"]: row["Hexcode"] for row in load_palette() if row["Base"] in saturated}
+
+
+#: Okabe & Ito (2002) categorical palette — colour-vision-deficiency-safe by
+#: construction (no pure red/green pairing), the de facto standard for
+#: scientific figures since Bang Wong's 2011 Nature Methods editorial. Same
+#: 8 ``Base`` keys as :func:`apple_palette` so any caller iterating
+#: ``palette_names()``-shaped keys resolves under either theme. Turquoise and
+#: Pink have no distinct Okabe-Ito counterpart, so they share the nearest hue
+#: (Sky Blue, Reddish Purple) rather than inventing an unvetted 9th colour —
+#: mirroring the same Mint/Teal sharing in sprezzature-figures' ``_style.py``.
+#: This is a fixed, citable scientific standard, not a brand palette, so
+#: unlike :func:`apple_palette` it is not read from ``palette.csv``.
+_ACADEMIC_PALETTE: dict[str, str] = {
+    "Red":       "#D55E00",  # vermilion
+    "Orange":    "#E69F00",
+    "Yellow":    "#F0E442",
+    "Green":     "#009E73",  # bluish green
+    "Turquoise": "#56B4E9",  # sky blue
+    "Blue":      "#0072B2",
+    "Purple":    "#CC79A7",  # reddish purple
+    "Pink":      "#CC79A7",  # no distinct Okabe-Ito equivalent; shares Purple
+}
+
+#: OKLCH lightness bump used to derive each academic colour's light tonal
+#: variant (there is no curated ``LightHex`` for a non-brand standard).
+#: Chosen to land in the same "pastel wash" neighbourhood as the corporate
+#: CSV's hand-curated ``LightHex`` column.
+ACADEMIC_LIGHT_DELTA: float = 0.32
+
+
+def academic_palette() -> dict[str, str]:
+    """
+    Return the Okabe-Ito academic palette as ``{base_name: hex}``.
+
+    Same key set as :func:`apple_palette` (the 8 saturated bases), so a
+    caller can pick either at runtime with ``palette = academic_palette() if
+    theme == "academic" else apple_palette()``. See :data:`_ACADEMIC_PALETTE`
+    for the colour rationale.
+    """
+    return dict(_ACADEMIC_PALETTE)
+
+
+def academic_palette_rows() -> list[dict[str, str]]:
+    """
+    Return the academic palette as CSV-row-shaped dicts.
+
+    Mirrors :func:`load_palette`'s row shape (``Base``, ``Hexcode``,
+    ``LightHex``) for consumers — like ``palette_to_tailwind.py`` — that
+    render whichever theme's rows without caring which one they came from.
+    ``LightHex`` is derived via :func:`lighten` (:data:`ACADEMIC_LIGHT_DELTA`)
+    since Okabe-Ito defines no curated light tint.
+    """
+    return [
+        {"Base": base, "Hexcode": hexv, "LightHex": lighten(hexv, ACADEMIC_LIGHT_DELTA)}
+        for base, hexv in _ACADEMIC_PALETTE.items()
+    ]
 
 
 def palette_names() -> list[str]:
