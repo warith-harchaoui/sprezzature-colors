@@ -1,6 +1,6 @@
 # Contrast audit — `audit_contrast.py`
 
-Audit every (foreground, background) pair in a palette against the WCAG contrast ratio thresholds, and propose the nearest accessible alternative for failing pairs. Deterministic, stdlib-only, no model.
+Audit every (foreground, background) pair in a palette against the contrast-ratio thresholds published by the Web Content Accessibility Guidelines (WCAG, the reference standard for making web content usable by people with disabilities), and propose the nearest accessible alternative for failing pairs. The contrast ratio itself is a single number from 1 (identical brightness, unreadable) to 21 (pure black on pure white): the higher it is, the easier the two colors are to tell apart at a glance. Deterministic, stdlib-only, no model.
 
 ## What this tool is — and isn't
 
@@ -79,7 +79,7 @@ Other roles are ignored. Re-name your palette keys to fit this scheme, or extend
 
 For each failing pair, the script:
 
-1. Converts the foreground to OKLCH (Björn Ottosson's published matrices).
+1. Converts the foreground to OKLCH, a color model published by Björn Ottosson (2020) in which moving the lightness value by a fixed amount produces a change the eye perceives as equally large everywhere in the color space, unlike raw RGB.
 2. Walks the L axis from 0.00 to 1.00 in 0.01 steps, keeping C (chroma) and H (hue) fixed.
 3. Returns the candidate with the smallest `|ΔL|` that meets the target ratio.
 
@@ -94,7 +94,9 @@ If no candidate meets the target across the full L axis, the suggestion is omitt
 - WCAG 2.x SC 1.4.11 — Non-text Contrast.
 - OKLab / OKLCH — Björn Ottosson, "A perceptual color space for image processing", <https://bottosson.github.io/posts/oklab/>.
 
-## CI integration
+## Continuous integration (CI)
+
+Continuous integration (CI) is the practice of running checks automatically on every code change, in this case as a step in a GitHub Actions workflow, so a contrast regression is caught before it reaches production rather than after a user reports it:
 
 ```yaml
 - name: Contrast audit

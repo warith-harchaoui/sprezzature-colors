@@ -1,8 +1,15 @@
 """
-sprezzature_colors -- color accessibility and palette tooling.
+sprezzature_colors: color accessibility and palette tooling.
 
-WCAG contrast auditing, color vision deficiency simulation,
-and Tailwind CSS palette export for the sprezzature stack.
+Three checks a design should pass before it ships: enough contrast between
+text and its background (an audit against the WCAG standard, short for the
+Web Content Accessibility Guidelines, the reference rules for accessible
+web content), a design that still reads correctly for a color-blind viewer
+(color vision deficiency simulation), and one shared source of brand
+colors instead of every project hand-copying hex codes (Tailwind CSS
+palette export). This top-level package is what `pip install
+sprezzature-colors` provides; the command-line tools themselves live one
+level down, in the sibling `sprezzature_colors_scripts` package.
 
 Author
 ------

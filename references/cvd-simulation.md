@@ -4,7 +4,7 @@ Render an image (a chart, a UI screenshot, an asset) as a color-blind viewer wou
 
 ## Why it matters
 
-Roughly 1 in 12 men and 1 in 200 women have some form of color vision deficiency. The most common (deuteranomaly / deuteranopia) collapses the red / green channel. UIs that lean on red-for-bad / green-for-good without a secondary cue (icon, label, shape) become unreadable.
+Roughly 1 in 12 men and 1 in 200 women have some form of color vision deficiency (CVD): the eye's cone cells, which normally split incoming light into red-, green-, and blue-sensitive signals, are missing or malfunctioning for one of the three. Deuteranopia (green-sensitive cones affected) and protanopia (red-sensitive cones affected) both collapse the red/green distinction and are by far the most common; tritanopia (blue-sensitive cones affected) is rare and collapses blue/yellow instead. A UI that leans on red-for-bad / green-for-good without a secondary cue (icon, label, shape) becomes unreadable for the first two groups.
 
 The simulation is qualitative: a real viewer's experience varies with severity and adaptation. The output is faithful enough for review.
 
@@ -63,9 +63,9 @@ This is not the only model. Brettel / Viénot / Mollon (1997) work in LMS space 
 - The simulation is per-pixel: it does not account for surround / context adaptation.
 - Animated content needs frame-by-frame simulation; this script handles still images only.
 
-## CI integration
+## Continuous integration (CI)
 
-Combine with `lint_a11y.py` to catch color-only state at the markup layer, and the CVD simulation to catch palette failures at the design layer. A CI job that produces the grid mosaic as an artifact is a low-friction review step:
+Combine with `lint_a11y.py` to catch color-only state at the markup layer, and the CVD simulation to catch palette failures at the design layer. Continuous integration (CI) is the practice of running checks automatically on every code change; a CI job that produces the grid mosaic as an artifact is a low-friction review step, since a reviewer can glance at the mosaic instead of running the script locally:
 
 ```yaml
 - name: CVD preview

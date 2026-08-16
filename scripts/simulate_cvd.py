@@ -5,7 +5,13 @@ simulate_cvd
 
 Render an image as a color-blind viewer sees it.
 
-Three CVD (color vision deficiency) types are supported:
+The retina normally has three types of cone cell, each tuned to a
+different band of light: L cones peak in the red range, M cones in the
+green range, S cones in the blue range, and the brain compares their
+three signals to build the color you perceive. Color vision deficiency
+(CVD) is what happens when one type is missing or underperforms, so
+that comparison loses one of its three inputs. Three CVD types are
+supported here:
 
 * ``protanopia``     — no functional L cones; reds desaturate toward gray.
 * ``deuteranopia``   — no functional M cones; the largest CVD population.
@@ -43,9 +49,8 @@ Usage
 Notes
 -----
 * Python 3.10+, ``Pillow``.
-* Numeric work uses Python floats (no NumPy dependency) — slower per pixel
-  than NumPy but still milliseconds for typical screenshots, and one less
-  dependency to install.
+* Numeric work uses Python floats, not NumPy: slower per pixel, but still
+  milliseconds for typical screenshots, and one less dependency to install.
 * Matrices: Machado, Oliveira, Fernandes (2009),
   "A Physiologically-based Model for Simulation of Color Vision Deficiency",
   IEEE Transactions on Visualization and Computer Graphics.

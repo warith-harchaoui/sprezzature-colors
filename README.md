@@ -2,13 +2,17 @@
 
 Color accessibility and palette tooling for the [sprezzature](https://harchaoui.org/warith/sprezzature/) stack.
 
-Three tools in one package:
+## What problem this solves
 
-- **WCAG contrast auditing** -- check every (foreground, background) pair against the 4.5:1, 3:1, or 7:1 thresholds. Get suggested fixes that stay on the same hue.
-- **Color vision deficiency simulation** -- render images as protanopia, deuteranopia, or tritanopia viewers see them. Produces sibling files or a 2x2 review mosaic.
-- **Tailwind CSS palette export** -- write the canonical brand palette as a `tailwind.config.js` theme block or full config, with optional derived dark variants.
+Take a button with light-gray text on a white background. To most people it reads fine. To someone with low vision, or in bright sunlight on a phone screen, the same button can be unreadable: the text and the background are too close in brightness for the eye to separate them. The same gap shows up when a chart uses red for "down" and green for "up": about 1 man in 12 has a form of color vision deficiency (CVD, the inability to tell certain hues apart, most often red from green) and sees both bars as the same color.
 
-All scripts are deterministic and run on pure stdlib (CVD simulation adds Pillow). No network at import time.
+This package gives three deterministic, stdlib-only tools that catch these gaps before a design ships, rather than relying on someone happening to notice:
+
+- **Contrast auditing.** Checks every (text, background) color pair in a palette against the accessibility thresholds published by the Web Content Accessibility Guidelines (WCAG, the standard body of rules for making web content usable by people with disabilities), and suggests a fix that stays visually close to the original color.
+- **Color-blindness simulation.** Renders an image the way a person with protanopia, deuteranopia, or tritanopia (the three common forms of red/green/blue color blindness) would actually see it, so a design can be checked before it ships rather than after a complaint.
+- **Tailwind palette export.** Writes the project's approved brand colors as a ready-to-use Tailwind CSS configuration block, so every project in the stack draws from the same source instead of each one hand-copying hex codes.
+
+All three run on pure stdlib (the color-blindness simulation additionally needs Pillow, a Python imaging library, to read and write image files). Nothing here calls out to the network or an AI model.
 
 ---
 
@@ -18,7 +22,7 @@ All scripts are deterministic and run on pure stdlib (CVD simulation adds Pillow
 pip install sprezzature-colors
 ```
 
-For CVD image simulation:
+For color-blindness image simulation:
 
 ```bash
 pip install sprezzature-colors[cvd]
@@ -39,6 +43,8 @@ python scripts/audit_contrast.py
 #       -> suggest #D4000A  (ratio 4.51)
 ```
 
+"Ratio" here is the WCAG contrast ratio: a number from 1 (identical brightness, unreadable) to 21 (pure black on pure white). 4.5 is the WCAG threshold for normal body text.
+
 With a custom palette JSON:
 
 ```bash
@@ -46,7 +52,7 @@ python scripts/audit_contrast.py --palette my-palette.json --target 7 --fix
 python scripts/audit_contrast.py --palette my-palette.json --format json
 ```
 
-### CVD simulation
+### Color-blindness simulation
 
 ```bash
 # Three sibling PNG files
@@ -92,7 +98,10 @@ ratio = contrast_ratio_hex("#007AFF", "#FFFFFF")   # -> 4.55
 # WCAG AA test
 ok = meets_wcag("#007AFF", "#FFFFFF", level="AA", size="normal")   # -> True
 
-# Perceptual lighten/darken (OKLCH axis, hue preserved)
+# Perceptual lighten/darken (OKLCH axis, hue preserved): OKLCH is a color
+# model built so that a fixed numeric step in lightness matches what a human
+# eye perceives as an equal step in brightness, unlike raw RGB where the same
+# numeric step can look barely different in one area and drastic in another.
 lighter = lighten("#007AFF", 0.15)   # -> "#5FA8FF" (approx.)
 darker  = darken("#007AFF", 0.10)    # -> "#005DC2" (approx.)
 
@@ -120,7 +129,7 @@ r, g, b = simulate_pixel((255, 0, 0), CVD_MATRICES["protanopia"])
 
 ## Color science
 
-Contrast ratios follow WCAG 2.x: relative luminance uses the 2.4-gamma transfer function. Perceptual adjustments use OKLab / OKLCH (Bjorn Ottosson, 2020). CVD matrices come from Machado, Oliveira, Fernandes (2009), IEEE TVCG.
+Contrast ratios follow WCAG 2.x: relative luminance (how bright a color looks to the eye, not just its raw RGB numbers) uses the 2.4-gamma transfer function that the standard specifies. Perceptual adjustments use OKLab / OKLCH, a color model designed by Björn Ottosson (2020) precisely so that "move the lightness value by X" matches how much brighter the color actually looks, which plain RGB does not guarantee. Color-blindness simulation matrices come from Machado, Oliveira, and Fernandes (2009, IEEE Transactions on Visualization and Computer Graphics), a widely cited paper that measured how each type of color blindness transforms a color and published the transformation as a matrix of numbers, which is exactly what `CVD_MATRICES` stores.
 
 ---
 
@@ -137,6 +146,6 @@ Contrast ratios follow WCAG 2.x: relative luminance uses the 2.4-gamma transfer 
 
 ## Author
 
-Warith Harchaoui -- [harchaoui.org/warith](https://harchaoui.org/warith)
+Warith Harchaoui, [harchaoui.org/warith](https://harchaoui.org/warith)
 
 License: BSD-3-Clause

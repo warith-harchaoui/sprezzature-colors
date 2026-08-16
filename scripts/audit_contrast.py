@@ -4,18 +4,25 @@ audit_contrast
 ==============
 
 Audit a palette's foreground / background contrast against the WCAG
-ratio thresholds (4.5:1 for body text, 3:1 for large text and UI, 7:1
-for AAA). For failing pairs, propose the nearest accessible alternative
-by walking the OKLCH lightness axis.
+(Web Content Accessibility Guidelines) ratio thresholds: 4.5:1 for body
+text, 3:1 for large text and UI, 7:1 for the stricter AAA level. The
+ratio is a single number from 1 (identical brightness, unreadable) to
+21 (pure black on pure white); the higher it is, the easier two colors
+are to tell apart. For failing pairs, propose the nearest accessible
+alternative by walking the OKLCH lightness axis: OKLCH is a color model
+in which moving the lightness number by a fixed step produces a change
+the eye perceives as equally large everywhere in the space, so nudging
+along it gives a color that looks like "the same hue, just brighter or
+darker" rather than a different color entirely.
 
 The script accepts two input shapes:
 
 * A JSON palette: ``{"role": "#RRGGBB", ...}`` or ``{"role": {"DEFAULT": "#…", "dark": "#…"}, ...}``.
 * The skill's built-in default palette (when no ``--palette`` is given).
 
-It is **deterministic** — no model, no network — and uses standard formulas:
+It is **deterministic**: no model, no network, and it uses standard formulas:
 
-* WCAG relative luminance (the 2.4-gamma formula).
+* WCAG relative luminance (the 2.4-gamma formula the standard specifies).
 * OKLab / OKLCH conversion via Björn Ottosson's published matrices
   (https://bottosson.github.io/posts/oklab/).
 
