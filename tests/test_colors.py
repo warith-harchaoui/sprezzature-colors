@@ -98,3 +98,37 @@ def test_parse_hex_roundtrip() -> None:
 
     for hexv in ("#FF3B30", "#007AFF", "#FFFFFF", "#000000"):
         assert rgb_to_hex(parse_hex(hexv)) == hexv
+
+
+def test_academic_palette_matches_apple_keys() -> None:
+    """academic_palette() must expose the same base names as apple_palette()."""
+    from _colors import academic_palette, apple_palette
+
+    assert set(academic_palette().keys()) == set(apple_palette().keys())
+    assert academic_palette()["Blue"] == "#0072B2"
+
+
+def test_academic_palette_rows_shape() -> None:
+    """academic_palette_rows() rows must carry Base/Hexcode/LightHex like load_palette()."""
+    from _colors import academic_palette_rows
+
+    rows = academic_palette_rows()
+    assert len(rows) == 8
+    for row in rows:
+        assert set(row.keys()) == {"Base", "Hexcode", "LightHex"}
+        assert row["Hexcode"].startswith("#")
+        assert row["LightHex"].startswith("#")
+
+
+def test_palette_to_tailwind_theme_flag() -> None:
+    """--theme academic must emit Okabe-Ito hexes; default stays corporate."""
+    import contextlib
+    import io
+
+    from palette_to_tailwind import main as ptt_main
+
+    out = io.StringIO()
+    with contextlib.redirect_stdout(out):
+        assert ptt_main(["--theme", "academic"]) == 0
+    assert "#0072B2" in out.getvalue()
+    assert "#007AFF" not in out.getvalue()
