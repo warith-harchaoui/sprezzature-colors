@@ -87,10 +87,9 @@ import sys
 from collections.abc import Iterable
 from pathlib import Path
 
-# Sibling-module imports. Both shipped inside ``sprezzature-colors/scripts/`` so
-# they are on ``sys.path`` whenever this script is invoked.
-from _argparse import make_parser
-from _colors import academic_palette_rows, lighten, load_palette
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _argparse import make_parser  # noqa: E402
+from _colors import academic_palette_rows, lighten, load_palette  # noqa: E402
 
 # ── Constants ──────────────────────────────────────────────────────────────
 
