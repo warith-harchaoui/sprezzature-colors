@@ -104,8 +104,8 @@ blue-to-red house convention; text and marks target WCAG AA. Every figure is
 checked with `sprezzature-colors/scripts/simulate_cvd.py` (the three deficiencies plus
 `--grayscale`) and with `sprezzature-accessibility/scripts/lint_a11y.py`, and the
 result is looked at through the Ralph Eyeball Loop, including the CVD and
-greyscale sheets. In other words, the shipped default is designed against the
-greyscale worst case by method, which is what the literature recommends.
+greyscale sheets: the shipped default is designed against the greyscale worst
+case by method, which is what the literature recommends.
 
 **The optional levels are the roadmap.** The clean way to expose them is the
 pattern already used for interactivity: an argument with a universal default and

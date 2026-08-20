@@ -11,7 +11,7 @@ The simulation is qualitative: a real viewer's experience varies with severity a
 ## Install
 
 ```bash
-pip install -r scripts/requirements-cvd.txt
+pip install -r requirements-cvd.txt
 ```
 
 Pillow is the only dependency.
@@ -47,7 +47,7 @@ For each variant, ask:
 If the answer to (2) is yes:
 
 - Add a non-color cue (icon, label, shape).
-- Switch the palette: see `references/dataviz-color-palettes.md` (categorical guidance: max 8 hues, no simultaneous red + green).
+- Switch the palette: prefer a Colour-Universal-Design set such as Okabe-Ito (`_colors.academic_palette`), which already avoids simultaneous red + green.
 - For sequential data, use a single-hue luminance ramp (Viridis-style) instead of red → green.
 
 ## The math
@@ -65,7 +65,7 @@ This is not the only model. Brettel / Viénot / Mollon (1997) work in LMS space 
 
 ## Continuous integration (CI)
 
-Combine with `lint_a11y.py` to catch color-only state at the markup layer, and the CVD simulation to catch palette failures at the design layer. Continuous integration (CI) is the practice of running checks automatically on every code change; a CI job that produces the grid mosaic as an artifact is a low-friction review step, since a reviewer can glance at the mosaic instead of running the script locally:
+Combine with `sprezzature-accessibility/scripts/lint_a11y.py` to catch color-only state at the markup layer, and the CVD simulation to catch palette failures at the design layer. Continuous integration (CI) is the practice of running checks automatically on every code change; a CI job that produces the grid mosaic as an artifact is a low-friction review step, since a reviewer can glance at the mosaic instead of running the script locally:
 
 ```yaml
 - name: CVD preview
@@ -80,6 +80,6 @@ Combine with `lint_a11y.py` to catch color-only state at the markup layer, and t
 
 - [ ] Run on every UI screenshot before review.
 - [ ] Run on every chart before publishing.
-- [ ] Pair with `lint_a11y.py` to catch `color-only-state` markup violations.
+- [ ] Pair with `sprezzature-accessibility/scripts/lint_a11y.py` to catch `color-only-state` markup violations.
 - [ ] If a pair collapses, change the palette or add a non-color cue.
 - [ ] Cite the model in design docs ("Machado et al. 2009, severity 1.0").
