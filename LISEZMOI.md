@@ -75,6 +75,41 @@ python scripts/palette_to_tailwind.py
 python scripts/palette_to_tailwind.py --emit config --with-dark --out tailwind.config.js
 ```
 
+### Niveaux d'accessibilité
+
+```bash
+# Prévisualiser la palette canonique au niveau fort contraste (AAA)
+python scripts/accessibility_levels.py --level high-contrast
+
+# Niveaux disponibles : universal (défaut), high-contrast, monochrome,
+#                       deuteranopia, protanopia, tritanopia
+```
+
+---
+
+## Utilisation en bibliothèque
+
+```python
+from scripts._colors import contrast_ratio_hex, meets_wcag, lighten, darken, simulate_pixel, CVD_MATRICES
+
+# Ratio de contraste WCAG
+ratio = contrast_ratio_hex("#007AFF", "#FFFFFF")   # -> 4.55
+
+# Test WCAG AA
+ok = meets_wcag("#007AFF", "#FFFFFF", level="AA", size="normal")   # -> True
+
+# Éclaircir / assombrir de façon perceptuelle (axe OKLCH, teinte conservée) :
+# OKLCH est un modèle de couleur construit pour qu'un même pas numérique de
+# luminosité corresponde à un même écart de clarté perçu par l'œil, ce que
+# le RGB brut ne garantit pas (le même pas numérique peut y paraître à peine
+# visible dans une zone et brutal dans une autre).
+plus_clair = lighten("#007AFF", 0.15)   # -> "#5FA8FF" (approx.)
+plus_sombre = darken("#007AFF", 0.10)   # -> "#005DC2" (approx.)
+
+# Simulation de daltonisme pixel par pixel
+r, g, b = simulate_pixel((255, 0, 0), CVD_MATRICES["protanopia"])
+```
+
 ---
 
 ## Fonctionnalités
