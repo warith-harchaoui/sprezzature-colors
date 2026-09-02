@@ -393,11 +393,16 @@ CVD_MATRICES: dict[str, tuple[tuple[float, float, float], ...]] = {
     ),
 }
 
-#: Long-form CVD labels for mosaic / UI labelling.
+#: Long-form CVD labels for mosaic / UI labelling. Their only consumer is
+#: ``simulate_cvd.make_grid``, which draws them with ``PIL.ImageFont.load_default()``
+#: — a small bundled bitmap-derived font whose glyph set does not include an
+#: em dash (U+2014), which renders as a tofu box. A plain hyphen is used
+#: instead so the mosaic labels are always legible without pulling in a
+#: TrueType font dependency.
 CVD_LABELS: dict[str, str] = {
-    "protanopia":   "Protanopia — no L (red) cones",
-    "deuteranopia": "Deuteranopia — no M (green) cones",
-    "tritanopia":   "Tritanopia — no S (blue) cones",
+    "protanopia":   "Protanopia - no L (red) cones",
+    "deuteranopia": "Deuteranopia - no M (green) cones",
+    "tritanopia":   "Tritanopia - no S (blue) cones",
 }
 
 #: Short CLI aliases (``prot`` / ``deut`` / ``trit``).
