@@ -22,10 +22,14 @@ Homepage = "https://harchaoui.org/warith/sprezzature/"
 Repository = "https://github.com/warith-harchaoui/sprezzature-colors"
 
 [tool.setuptools]
-packages = ["sprezzature_colors", "sprezzature_colors_scripts"]
+packages = ["sprezzature_colors", "sprezzature_colors_scripts", "sprezzature_colors_references"]
 
 [tool.setuptools.package-dir]
 "sprezzature_colors_scripts" = "scripts"
+"sprezzature_colors_references" = "references"
+
+[tool.setuptools.package-data]
+"sprezzature_colors_references" = ["palette.csv"]
 
 [tool.ruff]
 line-length = 100

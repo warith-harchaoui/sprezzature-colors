@@ -430,7 +430,22 @@ def simulate_pixel(
 
 # ── Palette (one canonical row per color, multiple semantic projections) ───
 
-_PALETTE_PATH: Path = Path(__file__).resolve().parent.parent / "references" / "palette.csv"
+# In the source tree the CSV lives in references/; once installed it ships
+# (collision-free) as the sibling package sprezzature_colors_references/,
+# same pattern as sprezzature-figures' bundled fonts.
+_PALETTE_PATH: Path = next(
+    (
+        p
+        for p in (
+            Path(__file__).resolve().parent.parent / "references" / "palette.csv",
+            Path(__file__).resolve().parent.parent
+            / "sprezzature_colors_references"
+            / "palette.csv",
+        )
+        if p.is_file()
+    ),
+    Path(__file__).resolve().parent.parent / "references" / "palette.csv",
+)
 
 #: Cached palette rows. Each row is a dict keyed by the CSV header column.
 _PALETTE_CACHE: list[dict[str, str]] | None = None
