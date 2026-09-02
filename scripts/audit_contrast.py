@@ -170,8 +170,13 @@ def normalize_palette(raw: dict) -> dict[str, str]:
 
 
 def is_foreground(role: str) -> bool:
-    """Return True when ``role`` is conventionally drawn on top of a surface."""
-    return role.startswith(("label-", "brand-")) and not role.endswith(("-light", "-dark"))
+    """Return True when ``role`` is conventionally drawn on top of a surface.
+
+    ``-light`` brand tints are wash backgrounds, never text. ``-dark``
+    label variants ARE foregrounds -- they are the dark theme's text
+    colours, paired with the dark surfaces by :func:`themes_compatible`.
+    """
+    return role.startswith(("label-", "brand-")) and not role.endswith("-light")
 
 
 def is_background(role: str) -> bool:
@@ -179,13 +184,45 @@ def is_background(role: str) -> bool:
     return role.startswith("surface-")
 
 
+def role_theme(role: str) -> str | None:
+    """Which theme a role belongs to: ``"dark"``, ``"light"``, or ``None``.
+
+    A ``-dark`` suffix marks the dark theme's variant of a role; its
+    unsuffixed sibling is the light theme's. Brand accents carry no
+    ``-dark`` sibling and are used in both themes, so they are
+    theme-neutral (``None``).
+    """
+    if role.endswith("-dark"):
+        return "dark"
+    if role.startswith("brand-"):
+        return None
+    return "light"
+
+
+def themes_compatible(fg_role: str, bg_role: str) -> bool:
+    """True when the pair can actually co-occur in a rendered theme.
+
+    The light label on the dark surface is never drawn: each theme pairs
+    its own labels with its own surfaces. Theme-neutral brand accents
+    pair with every surface.
+    """
+    fg_theme = role_theme(fg_role)
+    return fg_theme is None or fg_theme == role_theme(bg_role)
+
+
 def audit(
     palette: dict[str, str],
     target: float,
     propose_fix: bool,
+    all_pairs: bool = False,
 ) -> dict:
     """
-    Audit every (foreground, background) pair against the target ratio.
+    Audit the palette's (foreground, background) pairs against the target.
+
+    By default only pairs that co-occur in a rendered theme are checked
+    (light labels on light surfaces, dark labels on dark surfaces, brand
+    accents on everything); ``all_pairs=True`` restores the exhaustive
+    cross-product, cross-theme combinations included.
 
     Returns ``{"target": <target>, "pairs": [...]}`` where each pair entry has
     ``fg``, ``bg``, ``ratio``, ``passes``, and optionally ``suggested``.
@@ -196,6 +233,8 @@ def audit(
             continue
         for bg_role, bg_hex in palette.items():
             if not is_background(bg_role):
+                continue
+            if not all_pairs and not themes_compatible(fg_role, bg_role):
                 continue
             # Alpha-aware: a translucent foreground (#RRGGBBAA) is composited
             # over its background before the ratio, so the audit judges the
@@ -225,8 +264,9 @@ def main() -> int:
     p = make_parser(
         prog="sprezzature-colors-contrast",
         description="Audit a palette's foreground/background contrast against WCAG. "
-                    "Walks every (label, surface) pair, suggests the nearest OKLCH "
-                    "neighbour for failing pairs when --fix is set.",
+                    "Walks the (label, surface) pairs that co-occur in a rendered "
+                    "theme (--all-pairs for the full cross-product), suggests the "
+                    "nearest OKLCH neighbour for failing pairs when --fix is set.",
         epilog="Examples:\n"
                "  sprezzature-colors-contrast --palette palette.json\n"
                "  sprezzature-colors-contrast --palette palette.json --target 7 --fix\n"
@@ -248,6 +288,11 @@ def main() -> int:
         "--format", choices=["text", "json"], default="text",
         help="Output format. Default: text.",
     )
+    p.add_argument(
+        "--all-pairs", action="store_true",
+        help="Also check cross-theme pairs (light labels on dark surfaces and "
+             "vice versa). Default: only pairs that co-occur in a rendered theme.",
+    )
     args = p.parse_args()
 
     if args.palette is not None:
@@ -256,7 +301,7 @@ def main() -> int:
         raw = DEFAULT_PALETTE
     flat = normalize_palette(raw)
 
-    result = audit(flat, args.target, args.fix)
+    result = audit(flat, args.target, args.fix, all_pairs=args.all_pairs)
 
     if args.format == "json":
         json.dump(result, sys.stdout, indent=2, ensure_ascii=False)

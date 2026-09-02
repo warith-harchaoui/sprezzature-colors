@@ -1,10 +1,10 @@
 # Contrast audit — `audit_contrast.py`
 
-Audit every (foreground, background) pair in a palette against the contrast-ratio thresholds published by the Web Content Accessibility Guidelines (WCAG, the reference standard for making web content usable by people with disabilities), and propose the nearest accessible alternative for failing pairs. The contrast ratio itself is a single number from 1 (identical brightness, unreadable) to 21 (pure black on pure white): the higher it is, the easier the two colors are to tell apart at a glance. Deterministic, stdlib-only, no model.
+Audit a palette's (foreground, background) pairs against the contrast-ratio thresholds published by the Web Content Accessibility Guidelines (WCAG, the reference standard for making web content usable by people with disabilities), and propose the nearest accessible alternative for failing pairs. The contrast ratio itself is a single number from 1 (identical brightness, unreadable) to 21 (pure black on pure white): the higher it is, the easier the two colors are to tell apart at a glance. Deterministic, stdlib-only, no model.
 
 ## What this tool is — and isn't
 
-This tool **flags WCAG contrast failures** on every (foreground, background) pair in a palette and **proposes a minimal-edit nudge** along the OKLCH lightness axis. The proposed fix preserves the WCAG ratio at the cost of moving along the L axis only: same hue, same chroma, brighter or darker. That is a useful starting suggestion when nothing else is on the line; it is **not** a designer-approved replacement.
+This tool **flags WCAG contrast failures** on the (foreground, background) pairs that co-occur in a rendered theme — light labels on light surfaces, dark labels (`*-dark`) on dark surfaces, theme-neutral brand accents on every surface (`--all-pairs` restores the exhaustive cross-product) — and **proposes a minimal-edit nudge** along the OKLCH lightness axis. The proposed fix preserves the WCAG ratio at the cost of moving along the L axis only: same hue, same chroma, brighter or darker. That is a useful starting suggestion when nothing else is on the line; it is **not** a designer-approved replacement.
 
 Brand-critical colours (the primary CTA, accent colours that carry semantic meaning across the product, anything tied to a logo) should be reviewed by a designer. A neighbour that passes 4.5:1 can still violate brand identity, tonal hierarchy, or the relationship between sibling tokens. Treat `--fix` as a flagged failure with a proposed minimum edit, not as the final swatch.
 
@@ -37,9 +37,12 @@ python scripts/audit_contrast.py --palette my-palette.json --fix
 
 # JSON output for CI
 python scripts/audit_contrast.py --format json
+
+# Exhaustive cross-product, cross-theme pairs included
+python scripts/audit_contrast.py --all-pairs
 ```
 
-Exit code is `0` when every pair passes, `1` when any pair fails. The exit code is the same regardless of `--fix`; the script reports the failures even when it suggests alternatives.
+Exit code is `0` when every checked pair passes, `1` when any pair fails. The exit code is the same regardless of `--fix`; the script reports the failures even when it suggests alternatives.
 
 ## Palette format
 
