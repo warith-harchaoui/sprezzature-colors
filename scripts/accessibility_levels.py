@@ -52,6 +52,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _colors import (  # noqa: E402
+    _PALETTE_PATH,  # source-tree vs. installed-package path, resolved once
     CVD_MATRICES,
     contrast_ratio_hex,
     linear_to_oklab,
@@ -227,7 +228,7 @@ def apply_level(
     return _rank_spread(palette, lambda h: _cvd_luminance(h, level), gray=False, bg=bg)
 
 
-def _main() -> int:
+def main() -> int:
     """Preview a level: print ``name  #hex  contrast-vs-white`` for each colour."""
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     from _argparse import make_parser  # noqa: E402  (local import keeps module import light)
@@ -240,8 +241,9 @@ def _main() -> int:
     parser.add_argument(
         "--csv",
         type=Path,
-        default=Path(__file__).resolve().parent.parent / "references" / "palette.csv",
-        help="palette CSV to read (default: the canonical references/palette.csv)",
+        default=_PALETTE_PATH,
+        help="palette CSV to read (default: the canonical palette.csv, resolved "
+             "the same way in a source checkout or an installed package)",
     )
     args = parser.parse_args()
 
@@ -262,4 +264,4 @@ def _main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(_main())
+    raise SystemExit(main())
