@@ -417,3 +417,210 @@ def test_apply_level_cvd_levels_keep_keys_and_hue() -> None:
             _, orig_c, orig_h = oklab_to_oklch(linear_to_oklab(parse_hex_linear(pal[name])))
             _, new_c, new_h = oklab_to_oklch(linear_to_oklab(parse_hex_linear(hexv)))
             assert abs(new_h - orig_h) < 10.0 or orig_c < 1e-6
+
+
+# ── Palette data quality ─────────────────────────────────────────────────────
+
+def test_every_light_hex_is_a_pale_wash() -> None:
+    """Every curated LightHex must be a low-chroma pastel, like its siblings.
+
+    Regression test: ``Turquoise``'s LightHex once shipped as ``#00FFEF``, a
+    saturated neon cyan (OKLCH chroma ~0.157) rather than a pale wash like
+    every other row (chroma ~0.03-0.05) — a data-entry mistake that would
+    have flowed straight into ``palette_to_tailwind.py``'s ``light`` token.
+    This guards against a repeat for any row, not just Turquoise.
+    """
+    from _colors import linear_to_oklab, load_palette, oklab_to_oklch, parse_hex_linear
+
+    for row in load_palette():
+        light = row.get("LightHex", "").strip()
+        if not light:
+            continue
+        _, chroma, _ = oklab_to_oklch(linear_to_oklab(parse_hex_linear(light)))
+        assert chroma < 0.08, f"{row['Base']}'s LightHex {light} is not a pale wash (chroma={chroma:.3f})"
+
+
+# ── accessibility_levels.py CLI ──────────────────────────────────────────────
+
+def test_accessibility_levels_csv_default_resolves_to_a_real_file() -> None:
+    """The ``--csv`` default must exist, in a source checkout or an install.
+
+    Regression test: this used to hardcode ``Path(__file__).parent.parent /
+    "references" / "palette.csv"``, which only resolves in a source
+    checkout. Once installed, the CSV ships as the sibling package
+    ``sprezzature_colors_references/palette.csv`` and that hardcoded path
+    does not exist, so ``sprezzature-colors-levels`` crashed with
+    ``FileNotFoundError`` for anyone who ran it after a plain ``pip
+    install`` (confirmed with a real non-editable install into a fresh
+    venv). The fix reuses ``_colors._PALETTE_PATH``, which already resolves
+    both layouts.
+    """
+    from accessibility_levels import _PALETTE_PATH
+
+    assert _PALETTE_PATH.is_file()
+
+
+def test_accessibility_levels_main_cli(capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch) -> None:
+    """The CLI entry point must print one line per color at the chosen level."""
+    from accessibility_levels import main as levels_main
+
+    monkeypatch.setattr("sys.argv", ["sprezzature-colors-levels", "--level", "monochrome"])
+    assert levels_main() == 0
+    out = capsys.readouterr().out
+    lines = [line for line in out.splitlines() if line.strip()]
+    assert len(lines) >= 8  # at least the 8 saturated Apple bases
+    assert "contrast-vs-white" in lines[0]
+
+
+# ── audit_contrast.py CLI ────────────────────────────────────────────────────
+
+def test_audit_contrast_main_cli_json(capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch) -> None:
+    """``--format json`` must emit valid, well-shaped JSON on stdout."""
+    import json
+
+    from audit_contrast import main as audit_main
+
+    monkeypatch.setattr("sys.argv", ["sprezzature-colors-contrast", "--format", "json", "--fix"])
+    audit_main()
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["target"] == 4.5
+    assert len(payload["pairs"]) > 0
+    assert all({"fg", "bg", "ratio", "passes"} <= set(p) for p in payload["pairs"])
+
+
+def test_audit_contrast_main_cli_exit_code_reflects_failures(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Exit code must be 0 when every pair passes, 1 when at least one fails."""
+    from audit_contrast import main as audit_main
+
+    monkeypatch.setattr("sys.argv", ["sprezzature-colors-contrast", "--target", "1.0"])
+    assert audit_main() == 0  # trivial target: every pair passes
+
+    monkeypatch.setattr("sys.argv", ["sprezzature-colors-contrast", "--target", "21.0"])
+    assert audit_main() == 1  # impossible target: every pair fails
+
+
+def test_audit_contrast_main_cli_all_pairs_flag(monkeypatch: pytest.MonkeyPatch) -> None:
+    """``--all-pairs`` must check strictly more pairs than the themed default."""
+    import contextlib
+    import io
+    import json
+
+    from audit_contrast import main as audit_main
+
+    monkeypatch.setattr("sys.argv", ["sprezzature-colors-contrast", "--format", "json"])
+    out = io.StringIO()
+    with contextlib.redirect_stdout(out):
+        audit_main()
+    default_pairs = len(json.loads(out.getvalue())["pairs"])
+
+    monkeypatch.setattr("sys.argv", ["sprezzature-colors-contrast", "--format", "json", "--all-pairs"])
+    out = io.StringIO()
+    with contextlib.redirect_stdout(out):
+        audit_main()
+    all_pairs = len(json.loads(out.getvalue())["pairs"])
+
+    assert all_pairs > default_pairs
+
+
+# ── simulate_cvd.py ──────────────────────────────────────────────────────────
+
+@pytest.fixture
+def sample_image():
+    """A tiny 4x4 RGB image with a handful of distinct colors, for CVD tests."""
+    from PIL import Image
+
+    im = Image.new("RGB", (4, 4), (255, 0, 0))
+    px = im.load()
+    px[1, 1] = (0, 255, 0)
+    px[2, 2] = (0, 0, 255)
+    px[3, 3] = (255, 255, 255)
+    return im
+
+
+def test_simulate_image_changes_saturated_colors(sample_image) -> None:
+    """Applying a CVD matrix must change at least some pixels of a colorful image."""
+    from simulate_cvd import simulate_image
+
+    out = simulate_image(sample_image, "deuteranopia")
+    assert out.size == sample_image.size
+    assert list(out.getdata()) != list(sample_image.getdata())
+
+
+def test_grayscale_image_strips_all_chroma() -> None:
+    """Every output pixel of grayscale_image must have R == G == B."""
+    from PIL import Image
+    from simulate_cvd import grayscale_image
+
+    im = Image.new("RGB", (2, 2))
+    im.putpixel((0, 0), (255, 0, 0))
+    im.putpixel((1, 0), (0, 255, 0))
+    im.putpixel((0, 1), (0, 0, 255))
+    im.putpixel((1, 1), (128, 64, 200))
+    out = grayscale_image(im)
+    for r, g, b in out.getdata():
+        assert r == g == b
+
+
+def test_parse_types_shorthands_and_default() -> None:
+    """parse_types must expand shorthands and default to all three kinds."""
+    from simulate_cvd import parse_types
+
+    assert parse_types("prot,deut") == ["protanopia", "deuteranopia"]
+    assert set(parse_types("")) == {"protanopia", "deuteranopia", "tritanopia"}
+    with pytest.raises(Exception):  # argparse.ArgumentTypeError
+        parse_types("not-a-type")
+
+
+def test_make_grid_layout_matches_cell_count() -> None:
+    """make_grid must size the mosaic canvas to the number of cells supplied."""
+    from PIL import Image
+    from simulate_cvd import make_grid
+
+    original = Image.new("RGB", (10, 10), (200, 200, 200))
+    simulated = {"protanopia": Image.new("RGB", (10, 10), (50, 50, 50))}
+    grid = make_grid(original, simulated)
+    # 2 cells -> 1x2 grid -> canvas is 2 cells wide, 1 cell tall.
+    assert grid.size == (20, 10)
+
+
+def test_simulate_cvd_main_cli_writes_sibling_files(tmp_path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """The CLI must write one sibling PNG per requested CVD type."""
+    from PIL import Image
+    from simulate_cvd import main as cvd_main
+
+    src = tmp_path / "hero.png"
+    Image.new("RGB", (3, 3), (10, 200, 30)).save(src)
+
+    monkeypatch.setattr("sys.argv", ["sprezzature-colors-cvd", str(src), "--types", "prot,deut"])
+    assert cvd_main() == 0
+    assert (tmp_path / "hero-protanopia.png").is_file()
+    assert (tmp_path / "hero-deuteranopia.png").is_file()
+    assert not (tmp_path / "hero-tritanopia.png").is_file()
+
+
+def test_simulate_cvd_main_cli_grid_and_grayscale(tmp_path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """``--grid --grayscale`` must write a single mosaic file that includes a grayscale panel."""
+    from PIL import Image
+    from simulate_cvd import main as cvd_main
+
+    src = tmp_path / "hero.png"
+    Image.new("RGB", (3, 3), (10, 200, 30)).save(src)
+    out = tmp_path / "grid.png"
+
+    monkeypatch.setattr(
+        "sys.argv",
+        ["sprezzature-colors-cvd", str(src), "--grid", "--grayscale", "--out", str(out)],
+    )
+    assert cvd_main() == 0
+    assert out.is_file()
+    with Image.open(out) as im:
+        # 1 original + 3 CVD types + 1 grayscale = 5 cells -> 2 cols x 3 rows.
+        assert im.size == (6, 9)
+
+
+def test_simulate_cvd_main_cli_missing_source_returns_1(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Opening a nonexistent source image must fail cleanly with exit code 1."""
+    from simulate_cvd import main as cvd_main
+
+    monkeypatch.setattr("sys.argv", ["sprezzature-colors-cvd", "/no/such/file.png"])
+    assert cvd_main() == 1
