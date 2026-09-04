@@ -17,6 +17,12 @@ dependencies = []
 cvd = ["Pillow>=10.0"]
 dev = ["pytest>=8.0", "ruff"]
 
+[project.scripts]
+sprezzature-colors-contrast = "sprezzature_colors_scripts.audit_contrast:main"
+sprezzature-colors-cvd = "sprezzature_colors_scripts.simulate_cvd:main"
+sprezzature-colors-levels = "sprezzature_colors_scripts.accessibility_levels:main"
+sprezzature-colors-palette-to-tailwind = "sprezzature_colors_scripts.palette_to_tailwind:main"
+
 [project.urls]
 Homepage = "https://harchaoui.org/warith/sprezzature/"
 Repository = "https://github.com/warith-harchaoui/sprezzature-colors"
