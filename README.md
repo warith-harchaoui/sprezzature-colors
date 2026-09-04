@@ -28,6 +28,15 @@ For color-blindness image simulation:
 pip install sprezzature-colors[cvd]
 ```
 
+`pip install` also puts four console commands on the PATH:
+`sprezzature-colors-contrast`, `sprezzature-colors-cvd`,
+`sprezzature-colors-palette-to-tailwind`, and `sprezzature-colors-levels`.
+The examples below use `python scripts/….py`, which is the form for a
+source checkout (`git clone` + `pip install -e ".[dev,cvd]"`); after a
+plain `pip install`, run the matching console command instead — for
+example `sprezzature-colors-contrast --fix` in place of
+`python scripts/audit_contrast.py --fix`.
+
 ---
 
 ## Quick start

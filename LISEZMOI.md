@@ -28,6 +28,15 @@ Pour la simulation de daltonisme sur des images :
 pip install sprezzature-colors[cvd]
 ```
 
+`pip install` ajoute aussi quatre commandes au PATH :
+`sprezzature-colors-contrast`, `sprezzature-colors-cvd`,
+`sprezzature-colors-palette-to-tailwind` et `sprezzature-colors-levels`.
+Les exemples ci-dessous utilisent la forme `python scripts/….py`, celle
+d'un dépôt cloné (`git clone` puis `pip install -e ".[dev,cvd]"`) ; après
+un `pip install` classique, utilisez plutôt la commande correspondante,
+par exemple `sprezzature-colors-contrast --fix` au lieu de
+`python scripts/audit_contrast.py --fix`.
+
 ---
 
 ## Démarrage rapide
