@@ -96,7 +96,7 @@ DEFAULT_PALETTE: dict[str, dict[str, str]] = {
     "brand-yellow":    {"DEFAULT": "#FFCC00", "dark": "#FFD60A", "light": "#FFF5CC"},
     "brand-purple":    {"DEFAULT": "#AF52DE", "dark": "#BF5AF2", "light": "#EFDCF8"},
     "brand-pink":      {"DEFAULT": "#FF2D55", "dark": "#FF375F", "light": "#FFD5DD"},
-    "brand-turquoise": {"DEFAULT": "#79DBDC", "dark": "#64D2FF", "light": "#00FFEF"},
+    "brand-turquoise": {"DEFAULT": "#79DBDC", "dark": "#64D2FF", "light": "#C0E7E7"},
     "label-primary":   {"DEFAULT": "#000000", "dark": "#FFFFFF"},
     "label-secondary": {"DEFAULT": "#3C3C434D", "dark": "#EBEBF54D"},
     "surface-primary": {"DEFAULT": "#FFFFFF", "dark": "#000000"},
