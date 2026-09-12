@@ -81,7 +81,19 @@ from _colors import (
 from _colors import (
     srgb_to_linear as srgb_to_linear,  # re-exported for tests/consumers
 )
-from PIL import Image, ImageDraw, ImageFont
+try:
+    from PIL import Image, ImageDraw, ImageFont
+except ImportError:  # pragma: no cover - dependency guard
+    # Pillow is an optional extra: simulating colour-vision deficiency is the
+    # one thing here that needs to open and redraw an image, and the rest of
+    # the package does not. Reaching this command without the extra needs a
+    # one-line fix, not a stack trace.
+    print(
+        "sprezzature-colors CVD simulation requires Pillow. "
+        "Install with: pip install 'sprezzature-colors[cvd]'",
+        file=sys.stderr,
+    )
+    sys.exit(1)
 
 # Legacy alias retained for tests / external callers that imported from this
 # module before the math moved to ``_colors``.

@@ -8,9 +8,19 @@ version = "1.0.0"
 description = "Color accessibility and palette tooling for the sprezzature stack: WCAG contrast auditing, color vision deficiency simulation, and Tailwind CSS palette export."
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "BSD-3-Clause"}
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
 authors = [{name = "Warith HARCHAOUI", email = "warith.harchaoui@gmail.com"}]
 keywords = ["color", "accessibility", "wcag", "tailwind", "cvd", "palette", "sprezzature"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
 dependencies = []
 
 [project.optional-dependencies]
@@ -28,6 +38,14 @@ api = [
 mcp = [
     "sprezzature-colors[api]",
     "fastapi-mcp>=0.3",
+    # fastapi-mcp 0.4.0 (the latest as of 2026-08) declares mcp>=1.12.0 with
+    # no upper bound, but calls mcp's Server(name, description) positionally
+    # -- mcp 2.0.0 made `description` keyword-only, so an unconstrained
+    # resolve breaks FastApiMCP(...) at construction time (verified: pip
+    # happily installs mcp 2.2.0 alongside fastapi-mcp 0.4.0, and
+    # `sprezzature_colors.mcp` then raises TypeError on import). Pin below
+    # 2.0 until fastapi-mcp ships a fix.
+    "mcp<2.0",
 ]
 
 [project.scripts]
