@@ -18,7 +18,7 @@ def test_package_imports() -> None:
     import sprezzature_colors
 
     assert sprezzature_colors.__version__ == "1.0.0"
-    assert sprezzature_colors.__author__ == "Warith Harchaoui"
+    assert sprezzature_colors.__author__ == "Warith HARCHAOUI"
 
 
 def test_srgb_to_linear_black_white() -> None:

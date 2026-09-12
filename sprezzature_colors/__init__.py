@@ -36,7 +36,7 @@ True
 
 Author
 ------
-`Warith Harchaoui, Ph.D. <https://www.linkedin.com/in/warith-harchaoui/>`_
+`Warith HARCHAOUI, Ph.D. <https://www.linkedin.com/in/warith-harchaoui/>`_
 """
 from __future__ import annotations
 
@@ -80,7 +80,7 @@ from sprezzature_colors_scripts._colors import (
 )
 
 __version__ = "1.0.0"
-__author__ = "Warith Harchaoui"
+__author__ = "Warith HARCHAOUI"
 __email__ = "warith.harchaoui@gmail.com"
 
 #: The public surface, grouped the way the documentation presents it:
