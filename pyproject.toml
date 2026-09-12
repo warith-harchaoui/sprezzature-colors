@@ -16,8 +16,22 @@ dependencies = []
 [project.optional-dependencies]
 cvd = ["Pillow>=10.0"]
 dev = ["pytest>=8.0", "ruff"]
+# HTTP surface (sprezzature_colors/api.py): the library's functions over
+# HTTP, so a design system in another language can run the same checks.
+api = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+]
+# MCP surface (sprezzature_colors/mcp.py): the same routes republished as
+# agent tools. Pinned loosely because fastapi-mcp has already split mount()
+# into transport-specific entry points once; mcp.py handles both shapes.
+mcp = [
+    "sprezzature-colors[api]",
+    "fastapi-mcp>=0.3",
+]
 
 [project.scripts]
+sprezzature-colors-mcp = "sprezzature_colors.mcp:main"
 sprezzature-colors-contrast = "sprezzature_colors_scripts.audit_contrast:main"
 sprezzature-colors-cvd = "sprezzature_colors_scripts.simulate_cvd:main"
 sprezzature-colors-levels = "sprezzature_colors_scripts.accessibility_levels:main"
