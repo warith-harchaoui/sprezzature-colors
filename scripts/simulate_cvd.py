@@ -81,6 +81,7 @@ from _colors import (
 from _colors import (
     srgb_to_linear as srgb_to_linear,  # re-exported for tests/consumers
 )
+
 try:
     from PIL import Image, ImageDraw, ImageFont
 except ImportError:  # pragma: no cover - dependency guard

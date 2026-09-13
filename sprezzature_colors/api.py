@@ -67,7 +67,6 @@ from pydantic import BaseModel, Field
 
 from . import (
     CVD_MATRICES,
-    __version__ as _VERSION,
     concept_search,
     contrast_ratio_hex,
     darken,
@@ -80,6 +79,9 @@ from . import (
     psychology_for,
     rgb_to_hex,
     simulate_pixel,
+)
+from . import (
+    __version__ as _VERSION,
 )
 
 app = FastAPI(
@@ -166,10 +168,17 @@ def _resolve(value: str) -> str:
         ) from exc
 
 
-@app.get("/health", tags=["meta"], operation_id="health")
+@app.get(
+    "/health",
+    tags=["meta"],
+    operation_id="health",
+    summary="Check that this colour server is up",
+)
 def health() -> dict:
     """
     Liveness probe — no dependency check, just proves the app is up.
+
+    Call this only to diagnose a connection problem.
 
     Returns
     -------
@@ -179,10 +188,20 @@ def health() -> dict:
     return {"status": "ok"}
 
 
-@app.get("/v1/palette", tags=["palette"], operation_id="get_palette")
+@app.get(
+    "/v1/palette",
+    tags=["palette"],
+    operation_id="get_palette",
+    summary="Get the house colour palette by name",
+)
 def palette() -> dict:
     """
     The house palette: every name, its hex, and its light variant.
+
+    Call this when you need a colour and want the project's own rather than
+    inventing a hex: "what are our brand colours", "give me the palette",
+    "quelle couleur pour…". Every other tool here accepts a palette NAME
+    wherever it accepts a hex, so fetching this once lets you talk in names.
 
     Returns
     -------
@@ -192,10 +211,20 @@ def palette() -> dict:
     return {"colors": load_palette()}
 
 
-@app.post("/v1/contrast", tags=["accessibility"], operation_id="check_contrast")
+@app.post(
+    "/v1/contrast",
+    tags=["accessibility"],
+    operation_id="check_contrast",
+    summary="Check text/background pairs against WCAG contrast",
+)
 def contrast(request: ContrastRequest) -> dict:
     """
     Contrast ratio and WCAG verdict for each pair.
+
+    This is the tool for "is this readable", "WCAG check", "contrast audit",
+    "is my palette accessible", "est-ce que ce texte passe sur ce fond". Call
+    it before shipping any foreground/background pair you chose by eye --
+    that is the failure it exists to catch.
 
     The ratio is the WCAG 2.x definition: relative luminance of the lighter
     colour plus 0.05, over the darker plus 0.05, so it runs from 1 (identical)
@@ -230,10 +259,21 @@ def contrast(request: ContrastRequest) -> dict:
     return {"results": results}
 
 
-@app.post("/v1/cvd", tags=["accessibility"], operation_id="simulate_color_blindness")
+@app.post(
+    "/v1/cvd",
+    tags=["accessibility"],
+    operation_id="simulate_color_blindness",
+    summary="Show how colours look to colour-blind viewers",
+)
 def cvd(request: CvdRequest) -> dict:
     """
     How each colour looks to a viewer with each colour-vision deficiency.
+
+    This is the tool for "colourblind preview", "deuteranopia / protanopia /
+    tritanopia", "is this colour-blind safe", "daltonisme". Reach for it
+    whenever two colours are the ONLY thing distinguishing two series -- and
+    note that passing contrast does not imply passing this: red and green can
+    contrast well and still converge here.
 
     Uses the Machado matrices, the published linear approximations. Two
     colours that stay distinct here survive the most common form of
@@ -262,10 +302,19 @@ def cvd(request: CvdRequest) -> dict:
     return {"results": results}
 
 
-@app.post("/v1/adjust", tags=["palette"], operation_id="adjust_lightness")
+@app.post(
+    "/v1/adjust",
+    tags=["palette"],
+    operation_id="adjust_lightness",
+    summary="Lighten or darken a colour perceptually",
+)
 def adjust(request: AdjustRequest) -> dict:
     """
     Lighten or darken colours in OKLab, not in RGB.
+
+    Call this for "a lighter version of this", "a hover state", "darken it a
+    bit", "éclaircir cette couleur" -- instead of nudging hex digits
+    yourself, which is where inconsistent palettes come from.
 
     OKLab is perceptually uniform, so the same step looks like the same step
     whatever the hue. Doing this in RGB makes yellows wash out while blues
@@ -292,10 +341,19 @@ def adjust(request: AdjustRequest) -> dict:
     }
 
 
-@app.get("/v1/psychology/{color}", tags=["psychology"], operation_id="get_color_psychology")
+@app.get(
+    "/v1/psychology/{color}",
+    tags=["psychology"],
+    operation_id="get_color_psychology",
+    summary="Look up what a colour conventionally connotes",
+)
 def psychology(color: str) -> dict:
     """
     What a colour is conventionally associated with.
+
+    Call this when someone asks what a colour "says" -- "what does blue
+    convey", "que signifie le rouge ici". For the opposite direction, a
+    concept in search of a colour, use `search_concepts`.
 
     Returns associations, not facts: these are Western design conventions,
     and they are the kind of thing to check against an audience rather than
@@ -322,10 +380,20 @@ def psychology(color: str) -> dict:
     return {"color": color, "associations": found, "emotions": emotions()}
 
 
-@app.get("/v1/concepts", tags=["psychology"], operation_id="search_concepts")
+@app.get(
+    "/v1/concepts",
+    tags=["psychology"],
+    operation_id="search_concepts",
+    summary="Find colours that carry a concept or emotion",
+)
 def concepts(keyword: str) -> dict:
     """
     Colours associated with a concept keyword.
+
+    Call this when the brief names a feeling rather than a colour: "something
+    that says trust", "a warning colour", "une couleur qui inspire le calme".
+    Returns candidates to choose from -- check the winner with
+    `check_contrast` before using it for text.
 
     Parameters
     ----------
