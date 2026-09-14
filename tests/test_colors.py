@@ -17,7 +17,10 @@ def test_package_imports() -> None:
     """sprezzature_colors package should be importable with correct metadata."""
     import sprezzature_colors
 
-    assert sprezzature_colors.__version__ == "1.0.0"
+    # The version itself is checked against pyproject.toml and the
+    # CHANGELOG in test_release_consistency.py. Asserting the literal
+    # here only made the next release a red build.
+    assert sprezzature_colors.__version__
     assert sprezzature_colors.__author__ == "Warith HARCHAOUI"
 
 
