@@ -1,6 +1,6 @@
 # sprezzature-colors
 
-Outils d'accessibilité des couleurs et d'export de palette pour la suite [sprezzature](https://harchaoui.org/warith/sprezzature/).
+Outils d'accessibilité des couleurs et d'export de palette pour la suite [sprezzature](https://sprezzature.ai/).
 
 ## Le problème que ça résout
 

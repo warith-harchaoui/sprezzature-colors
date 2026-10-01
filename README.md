@@ -1,6 +1,6 @@
 # sprezzature-colors
 
-Color accessibility and palette tooling for the [sprezzature](https://harchaoui.org/warith/sprezzature/) stack.
+Color accessibility and palette tooling for the [sprezzature](https://sprezzature.ai/) stack.
 
 ## What problem this solves
 

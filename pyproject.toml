@@ -56,7 +56,7 @@ sprezzature-colors-levels = "sprezzature_colors_scripts.accessibility_levels:mai
 sprezzature-colors-palette-to-tailwind = "sprezzature_colors_scripts.palette_to_tailwind:main"
 
 [project.urls]
-Homepage = "https://harchaoui.org/warith/sprezzature/"
+Homepage = "https://sprezzature.ai/"
 Repository = "https://github.com/warith-harchaoui/sprezzature-colors"
 
 [tool.setuptools]
