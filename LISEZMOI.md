@@ -155,6 +155,6 @@ Les ratios de contraste suivent la norme WCAG 2.x : la luminance relative (à qu
 
 ## Auteur
 
-Warith HARCHAOUI, [harchaoui.org/warith](https://harchaoui.org/warith)
+Warith HARCHAOUI, [deraison.ai](https://deraison.ai)
 
 Licence : BSD-3-Clause

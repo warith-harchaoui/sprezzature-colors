@@ -155,6 +155,6 @@ Contrast ratios follow WCAG 2.x: relative luminance (how bright a color looks to
 
 ## Author
 
-Warith HARCHAOUI, [harchaoui.org/warith](https://harchaoui.org/warith)
+Warith HARCHAOUI, [deraison.ai](https://deraison.ai)
 
 License: BSD-3-Clause
