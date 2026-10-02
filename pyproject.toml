@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sprezzature-colors"
-version = "1.0.0"
+version = "1.0.1"
 description = "Color accessibility and palette tooling for the sprezzature stack: WCAG contrast auditing, color vision deficiency simulation, and Tailwind CSS palette export."
 readme = "README.md"
 requires-python = ">=3.10"
