@@ -3,7 +3,7 @@
 ## Audit a palette for WCAG contrast
 
 ```bash
-python scripts/audit_contrast.py
+sprezzature-colors-contrast
 ```
 
 Output (text):
@@ -22,7 +22,7 @@ Exit code: `1` (a pair failed).
 ## Audit an external palette with fix suggestions
 
 ```bash
-python scripts/audit_contrast.py --palette my-palette.json --target 7 --fix
+sprezzature-colors-contrast --palette my-palette.json --target 7 --fix
 ```
 
 `my-palette.json`:
@@ -45,26 +45,26 @@ target ratio:
 ## JSON output for CI
 
 ```bash
-python scripts/audit_contrast.py --palette my-palette.json --format json | jq '.pairs | map(select(.passes == false)) | length'
+sprezzature-colors-contrast --palette my-palette.json --format json | jq '.pairs | map(select(.passes == false)) | length'
 ```
 
 ## Simulate color-blindness on a screenshot
 
 ```bash
 # Three sibling PNGs: hero-protanopia.png, hero-deuteranopia.png, hero-tritanopia.png
-python scripts/simulate_cvd.py hero.png
+sprezzature-colors-cvd hero.png
 
 # One 2x2 mosaic for a design review, with a grayscale panel added
-python scripts/simulate_cvd.py hero.png --grid --grayscale --out hero-cvd-review.png
+sprezzature-colors-cvd hero.png --grid --grayscale --out hero-cvd-review.png
 
 # Only deuteranopia (the most common form)
-python scripts/simulate_cvd.py hero.png --types deut
+sprezzature-colors-cvd hero.png --types deut
 ```
 
 ## Preview an accessibility level
 
 ```bash
-python scripts/accessibility_levels.py --level deuteranopia
+sprezzature-colors-levels --level deuteranopia
 ```
 
 ```
@@ -77,13 +77,13 @@ Orange       #B8853A  contrast-vs-white 2.4:1
 
 ```bash
 # Just the brand: { ... } block, ready to paste into an existing config
-python scripts/palette_to_tailwind.py
+sprezzature-colors-palette-to-tailwind
 
 # Full tailwind.config.js, with derived dark-mode variants, written to disk
-python scripts/palette_to_tailwind.py --emit config --with-dark --out tailwind.config.js
+sprezzature-colors-palette-to-tailwind --emit config --with-dark --out tailwind.config.js
 
 # The Okabe-Ito academic standard instead of the Apple-derived brand palette
-python scripts/palette_to_tailwind.py --theme academic
+sprezzature-colors-palette-to-tailwind --theme academic
 ```
 
 ## Pre-commit hook
@@ -95,7 +95,7 @@ repos:
     hooks:
       - id: contrast-audit
         name: WCAG contrast audit
-        entry: python scripts/audit_contrast.py
+        entry: sprezzature-colors-contrast
         language: python
         files: tokens/colors\.json$
         args: ["--palette", "tokens/colors.json"]

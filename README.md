@@ -31,11 +31,9 @@ pip install sprezzature-colors[cvd]
 `pip install` also puts four console commands on the PATH:
 `sprezzature-colors-contrast`, `sprezzature-colors-cvd`,
 `sprezzature-colors-palette-to-tailwind`, and `sprezzature-colors-levels`.
-The examples below use `python scripts/….py`, which is the form for a
-source checkout (`git clone` + `pip install -e ".[dev,cvd]"`); after a
-plain `pip install`, run the matching console command instead — for
-example `sprezzature-colors-contrast --fix` in place of
-`python scripts/audit_contrast.py --fix`.
+The examples below use those commands. From a source checkout
+(`git clone` + `pip install -e ".[dev,cvd]"`) the same thing reads
+`python scripts/audit_contrast.py --fix`, one file per command.
 
 ---
 
@@ -44,7 +42,7 @@ example `sprezzature-colors-contrast --fix` in place of
 ### Contrast audit
 
 ```bash
-python scripts/audit_contrast.py
+sprezzature-colors-contrast
 # Target ratio: 4.5
 #
 #   ✓      brand-blue  on  surface-primary   ratio 4.55
@@ -57,38 +55,38 @@ python scripts/audit_contrast.py
 With a custom palette JSON:
 
 ```bash
-python scripts/audit_contrast.py --palette my-palette.json --target 7 --fix
-python scripts/audit_contrast.py --palette my-palette.json --format json
+sprezzature-colors-contrast --palette my-palette.json --target 7 --fix
+sprezzature-colors-contrast --palette my-palette.json --format json
 ```
 
 ### Color-blindness simulation
 
 ```bash
 # Three sibling PNG files
-python scripts/simulate_cvd.py hero.png
+sprezzature-colors-cvd hero.png
 
 # 2x2 mosaic for design review
-python scripts/simulate_cvd.py hero.png --grid --out hero-cvd-grid.png
+sprezzature-colors-cvd hero.png --grid --out hero-cvd-grid.png
 
 # Only deuteranopia + grayscale
-python scripts/simulate_cvd.py hero.png --types deut --grayscale
+sprezzature-colors-cvd hero.png --types deut --grayscale
 ```
 
 ### Palette to Tailwind
 
 ```bash
 # Copy-paste block for an existing config
-python scripts/palette_to_tailwind.py
+sprezzature-colors-palette-to-tailwind
 
 # Full tailwind.config.js with derived dark variants
-python scripts/palette_to_tailwind.py --emit config --with-dark --out tailwind.config.js
+sprezzature-colors-palette-to-tailwind --emit config --with-dark --out tailwind.config.js
 ```
 
 ### Accessibility levels
 
 ```bash
 # Preview the canonical palette at AAA high-contrast
-python scripts/accessibility_levels.py --level high-contrast
+sprezzature-colors-levels --level high-contrast
 
 # Available levels: universal (default), high-contrast, monochrome,
 #                   deuteranopia, protanopia, tritanopia
