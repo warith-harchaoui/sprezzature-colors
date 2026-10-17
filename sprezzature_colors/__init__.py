@@ -81,7 +81,7 @@ from sprezzature_colors_scripts._colors import (
 
 __version__ = "1.0.1"
 __author__ = "Warith HARCHAOUI"
-__email__ = "warith.harchaoui@gmail.com"
+__email__ = "warithmetics@deraison.ai"
 
 #: The public surface, grouped the way the documentation presents it:
 #: contrast and WCAG, color spaces, palette lookup, and color psychology.
