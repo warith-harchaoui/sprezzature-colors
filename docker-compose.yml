@@ -1,0 +1,28 @@
+# `docker compose up` is the whole onboarding. The Dockerfile beside this file
+# is a recipe; this is the way in — the port, the volume, the environment and
+# the command, declared rather than reconstructed by the next reader from a
+# `docker run` line in somebody's shell history.
+#
+#   docker compose up -d
+#   curl -s localhost:8000/health
+#   docker compose run --rm api sprezzature-colors-contrast --target 7
+#   docker compose run --rm api sprezzature-colors-cvd /work/hero.png --grid
+#
+# No model and no network: the contrast arithmetic and the colour-vision
+# simulation are pure functions. One service, no profile, and saying so is
+# part of the declaration.
+
+services:
+  api:
+    build: .
+    image: sprezzature-colors:local
+    ports:
+      - "8000:8000"
+    volumes:
+      # Screenshots in, simulations and generated Tailwind config out. The
+      # CVD tool writes its three siblings *next to the source image*, so the
+      # mount has to be writable — a read-only bind would fail on the write,
+      # not on the read, which is the confusing half.
+      - ./work:/work
+    working_dir: /work
+    restart: unless-stopped
