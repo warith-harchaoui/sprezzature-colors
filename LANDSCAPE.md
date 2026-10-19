@@ -31,6 +31,16 @@ means that math is written once.
 | Zero-dep install | ⭐⭐⭐⭐⭐ | ⭐⭐ | N/A (plugin) | ⭐⭐⭐ |
 | Fix suggestions | ⭐⭐⭐⭐ | ⭐ | ⭐ | N/A |
 
+Other LANDSCAPE files in this suite put their table through
+[`standpoint`](https://github.com/warith-harchaoui/standpoint) and show a positioning
+map. This one does not, and the reason is the table's size: four options hold at most
+three independent directions, so two axes keep two of three. The projection was run to
+check, and it reports **84 % of the variance** — less a summary of the table than a
+redrawing of it. There is a second reason worth stating: with so few tools rating each
+column, `N/A` is doing real work here, and a map has to encode it as a number. The table
+above is small enough to read directly, and it can say "not applicable" without pretending
+that is a score.
+
 ## When to use what
 
 Use `sprezzature-colors` as the **CI gate** for both problems at once:

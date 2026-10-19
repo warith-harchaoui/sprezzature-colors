@@ -33,6 +33,17 @@ paquet évite de l'écrire deux fois.
 | Installation sans dépendance | ⭐⭐⭐⭐⭐ | ⭐⭐ | Sans objet (plugin) | ⭐⭐⭐ |
 | Suggestions de correction | ⭐⭐⭐⭐ | ⭐ | ⭐ | Sans objet |
 
+D'autres fichiers PAYSAGE de cette suite passent leur table dans
+[`standpoint`](https://github.com/warith-harchaoui/standpoint) et montrent une carte de
+positionnement. Celui-ci non, et la raison tient à la taille de la table : quatre options
+ne portent au plus que trois directions indépendantes, donc deux axes en gardent deux sur
+trois. La projection a été faite pour vérifier : elle annonce **84 % de la variance**, ce
+qui tient moins du résumé de la table que de sa redite. Il y a une seconde raison qui
+vaut d'être dite : tant d'outils ici ne sont pas notés sur une colonne donnée que `N/A`
+fait un vrai travail, et une carte est obligée de le coder par un nombre. La table
+ci-dessus est assez petite pour être lue directement, et elle peut dire « sans objet »
+sans faire semblant que c'en soit une note.
+
 ## Quand utiliser quoi
 
 Utilisez `sprezzature-colors` comme **porte CI** pour les deux problèmes à
