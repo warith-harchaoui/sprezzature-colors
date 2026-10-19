@@ -2,6 +2,47 @@
 
 All notable changes to sprezzature-colors are documented here.
 
+## [1.1.0] - 2026-10-19: two front doors over the four tools
+
+Until now there was no way to find out what this package does except by
+reading its README. Each tool had its own console script and nothing listed
+them together — four commands on the PATH and no catalogue.
+
+### Added
+
+- **`make-colors` (argparse) and `sprezzature-colors` (click)**, two front
+  doors over the same four tools. Both read a single table
+  (`sprezzature_colors/cli.py`) and share the one sentence said about a
+  missing extra, so a tool cannot appear in one and be missing from the
+  other, nor be explained differently by each. `make-colors --help` prints
+  the catalogue.
+
+  Each tool is still its own command — `sprezzature-colors-contrast`,
+  `-cvd`, `-levels`, `-palette-to-tailwind` — which is what a script should
+  call. Nothing is taken away.
+
+- **A `[click]` extra.** Click belongs to one of the two front doors, so it
+  is an extra rather than a dependency, and the import in `cli_click.py` is
+  **guarded**. That matters more here than in most packages: this one
+  declares no base dependencies at all, which is the whole reason its
+  contrast audit is cheap enough to live in a pre-commit hook. A twin that
+  imported click at module load would end that silently, because the failure
+  arrives at the console script rather than at the install. A bare install
+  gets a sentence naming the extra, and is told that `make-colors` needs
+  nothing.
+
+  The guard is checked by hiding click from a subprocess rather than by
+  reading the source, and the check was verified by sabotage: with the
+  `try/except` removed, three tests fail.
+
+### Fixed
+
+- **The README's PyPI-safety check read code blocks as links.** An example
+  containing `'<a href="/">x</a>'` counted as a relative link and failed the
+  build. The rule is narrowed to the prose rather than weakened by an
+  allow-list, with a second test proving a real relative link in prose still
+  fails.
+
 ## [1.0.1] - 2026-10-02: the half of the dependency guard nobody runs
 
 ### Fixed
