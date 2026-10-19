@@ -25,15 +25,31 @@ pip install sprezzature-colors
 For color-blindness image simulation:
 
 ```bash
-pip install sprezzature-colors[cvd]
+pip install sprezzature-colors[cvd]       # + Pillow
+pip install "sprezzature-colors[click]"   # + the click front door
+pip install "sprezzature-colors[api,mcp]" # + the HTTP and agent surfaces
 ```
 
-`pip install` also puts four console commands on the PATH:
-`sprezzature-colors-contrast`, `sprezzature-colors-cvd`,
-`sprezzature-colors-palette-to-tailwind`, and `sprezzature-colors-levels`.
-The examples below use those commands. From a source checkout
-(`git clone` + `pip install -e ".[dev,cvd]"`) the same thing reads
-`python scripts/audit_contrast.py --fix`, one file per command.
+That the audit itself has **no dependencies at all** is the point of this
+package, and the reason it is cheap enough to put in a pre-commit hook. Every
+heavier thing is an extra, named after the tool that needs it, so an install
+says what it is for.
+
+### Two front doors, four tools
+
+```bash
+make-colors contrast                  # argparse — needs nothing
+sprezzature-colors contrast           # click    — needs [click]
+make-colors --help                    # the four tools, with what each does
+```
+
+Both read a single table (`sprezzature_colors/cli.py`), so a tool cannot
+appear in one and be missing from the other. Each tool is also still its own
+command — `sprezzature-colors-contrast`, `-cvd`, `-levels`,
+`-palette-to-tailwind` — which is what a script should call. The examples
+below use those. From a source checkout (`git clone` + `pip install -e
+".[dev,cvd]"`) the same thing reads `python scripts/audit_contrast.py --fix`,
+one file per command.
 
 ---
 

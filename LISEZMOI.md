@@ -25,13 +25,29 @@ pip install sprezzature-colors
 Pour la simulation de daltonisme sur des images :
 
 ```bash
-pip install sprezzature-colors[cvd]
+pip install sprezzature-colors[cvd]       # + Pillow
+pip install "sprezzature-colors[click]"   # + la porte click
+pip install "sprezzature-colors[api,mcp]" # + les surfaces HTTP et agent
 ```
 
-`pip install` ajoute aussi quatre commandes au PATH :
-`sprezzature-colors-contrast`, `sprezzature-colors-cvd`,
-`sprezzature-colors-palette-to-tailwind` et `sprezzature-colors-levels`.
-Les exemples ci-dessous utilisent ces commandes. Depuis un dépôt cloné
+Que l'audit lui-même n'ait **aucune dépendance** est tout l'intérêt de ce
+paquet, et la raison pour laquelle il est assez bon marché pour tenir dans un
+crochet de pré-commit. Tout ce qui est plus lourd est un extra, nommé d'après
+l'outil qui en a besoin, pour qu'une installation dise à quoi elle sert.
+
+### Deux portes d'entrée, quatre outils
+
+```bash
+make-colors contrast                  # argparse — ne demande rien
+sprezzature-colors contrast           # click    — demande [click]
+make-colors --help                    # les quatre outils, et ce que fait chacun
+```
+
+Les deux lisent **une seule** table (`sprezzature_colors/cli.py`), donc un
+outil ne peut pas apparaître dans l'une et manquer dans l'autre. Chaque outil
+reste aussi sa propre commande — `sprezzature-colors-contrast`, `-cvd`,
+`-levels`, `-palette-to-tailwind` — et c'est ce qu'un script devrait appeler.
+Les exemples ci-dessous utilisent celles-là. Depuis un dépôt cloné
 (`git clone` puis `pip install -e ".[dev,cvd]"`), la même chose s'écrit
 `python scripts/audit_contrast.py --fix`, un fichier par commande.
 

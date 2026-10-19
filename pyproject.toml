@@ -25,7 +25,12 @@ dependencies = []
 
 [project.optional-dependencies]
 cvd = ["Pillow>=10.0"]
-dev = ["pytest>=8.0", "ruff"]
+dev = ["pytest>=8.0", "ruff", "mypy"]
+# The click front door only. This package declares no base dependencies, and
+# that is the reason its contrast audit is cheap enough for a pre-commit hook
+# — so click, which only one of the two front doors needs, is an extra rather
+# than a dependency. `make-colors` needs nothing.
+click = ["click>=8.0"]
 # HTTP surface (sprezzature_colors/api.py): the library's functions over
 # HTTP, so a design system in another language can run the same checks.
 api = [
@@ -49,6 +54,14 @@ mcp = [
 ]
 
 [project.scripts]
+# The two front doors, over the same four tools and the same table
+# (sprezzature_colors/cli.py). argparse because it is in the standard library
+# and therefore always there; click because its sub-commands carry the shape
+# without hand-rolling it. Until these existed there was no way to find out
+# what this package does except by reading its README — each tool had its own
+# console script and nothing listed them together.
+make-colors = "sprezzature_colors.cli:main"
+sprezzature-colors = "sprezzature_colors.cli_click:main"
 sprezzature-colors-mcp = "sprezzature_colors.mcp:main"
 sprezzature-colors-contrast = "sprezzature_colors_scripts.audit_contrast:main"
 sprezzature-colors-cvd = "sprezzature_colors_scripts.simulate_cvd:main"
