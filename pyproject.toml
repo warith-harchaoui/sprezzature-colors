@@ -82,6 +82,21 @@ packages = ["sprezzature_colors", "sprezzature_colors_scripts", "sprezzature_col
 [tool.setuptools.package-data]
 "sprezzature_colors_references" = ["palette.csv"]
 
+[tool.pytest.ini_options]
+# This repository had no pytest section at all: no `testpaths`, so a bare
+# `pytest` collected from the root and would have swept up anything under
+# `build/` or a stray venv, and no `--strict-markers` either.
+testpaths = ["tests"]
+# `--strict-markers` because the alternative is a marker that does nothing.
+# pytest warns about an unknown mark and then runs the test anyway: a typo in
+# `@pytest.mark.slow` reads as a marked test and behaves as an unmarked one.
+# It cost sprezzature-accessibility seven LLM tests running in every default
+# run for weeks, and that repository is the only one of the nine that had the
+# flag. The flag is cheap, it fires at collection, and the whole suite now
+# carries it -- tests/test_the_suite_runs_tests_the_same_way.py in the hub
+# checks that it still does.
+addopts = "-ra --strict-markers"
+
 [tool.ruff]
 line-length = 100
 target-version = "py310"
