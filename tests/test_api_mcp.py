@@ -50,9 +50,9 @@ def test_large_text_has_a_lower_bar() -> None:
     """The size band changes the threshold, as WCAG defines it."""
     pair = {"foreground": "#767676", "background": "#ffffff"}
     normal = client.post("/v1/contrast", json={"pairs": [pair]}).json()["results"][0]
-    large = client.post(
-        "/v1/contrast", json={"pairs": [{**pair, "size": "large"}]}
-    ).json()["results"][0]
+    large = client.post("/v1/contrast", json={"pairs": [{**pair, "size": "large"}]}).json()[
+        "results"
+    ][0]
     assert normal["required"] == 4.5
     assert large["required"] == 3.0
 
@@ -88,19 +88,21 @@ def test_red_and_green_collide_under_deuteranopia() -> None:
     before = sum(abs(a - b) for a, b in zip(rgb("#e74c3c"), rgb("#2ecc71")))
     after = sum(
         abs(a - b)
-        for a, b in zip(rgb(red["simulated"]["deuteranopia"]), rgb(green["simulated"]["deuteranopia"]))
+        for a, b in zip(
+            rgb(red["simulated"]["deuteranopia"]), rgb(green["simulated"]["deuteranopia"])
+        )
     )
     assert after < before / 2, f"red/green should converge: {before} -> {after}"
 
 
 def test_adjust_moves_in_the_asked_direction() -> None:
     """Negative darkens, positive lightens."""
-    darker = client.post(
-        "/v1/adjust", json={"colors": ["#2563eb"], "amount": -0.2}
-    ).json()["results"][0]["adjusted"]
-    lighter = client.post(
-        "/v1/adjust", json={"colors": ["#2563eb"], "amount": 0.2}
-    ).json()["results"][0]["adjusted"]
+    darker = client.post("/v1/adjust", json={"colors": ["#2563eb"], "amount": -0.2}).json()[
+        "results"
+    ][0]["adjusted"]
+    lighter = client.post("/v1/adjust", json={"colors": ["#2563eb"], "amount": 0.2}).json()[
+        "results"
+    ][0]["adjusted"]
     luminance = lambda h: sum(int(h[i : i + 2], 16) for i in (1, 3, 5))  # noqa: E731
     assert luminance(darker) < luminance("#2563eb") < luminance(lighter)
 

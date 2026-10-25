@@ -1,6 +1,7 @@
 """
 Tests for sprezzature_colors and its core scripts.
 """
+
 from __future__ import annotations
 
 import sys
@@ -141,6 +142,7 @@ def test_palette_to_tailwind_theme_flag() -> None:
 
 # ── Color class ──────────────────────────────────────────────────────────────
 
+
 def test_color_from_hex_and_tuple_agree() -> None:
     """Color built from a hex string and from an equivalent RGB tuple must match."""
     from _colors import Color
@@ -230,6 +232,7 @@ def test_color_linear_and_oklch_properties() -> None:
 
 # ── Alpha-aware helpers ────────────────────────────────────────────────────
 
+
 def test_parse_hex_rgba_variants() -> None:
     """3/4/6/8-digit hex must parse to the right (R, G, B, A) shape."""
     from _colors import parse_hex_rgba
@@ -286,6 +289,7 @@ def test_meets_wcag_alpha_aware_translucent_label() -> None:
 
 
 # ── Semantic palette accessors ─────────────────────────────────────────────
+
 
 def test_palette_names_includes_known_bases() -> None:
     """palette_names() must include both saturated hues and neutrals."""
@@ -350,6 +354,7 @@ def test_psychology_for_by_name_and_hex() -> None:
 
 
 # ── apply_level (accessibility_levels.py) ──────────────────────────────────
+
 
 def test_apply_level_universal_is_identity() -> None:
     """The 'universal' level must return the palette unchanged (same dict values)."""
@@ -424,6 +429,7 @@ def test_apply_level_cvd_levels_keep_keys_and_hue() -> None:
 
 # ── Palette data quality ─────────────────────────────────────────────────────
 
+
 def test_every_light_hex_is_a_pale_wash() -> None:
     """Every curated LightHex must be a low-chroma pastel, like its siblings.
 
@@ -440,10 +446,13 @@ def test_every_light_hex_is_a_pale_wash() -> None:
         if not light:
             continue
         _, chroma, _ = oklab_to_oklch(linear_to_oklab(parse_hex_linear(light)))
-        assert chroma < 0.08, f"{row['Base']}'s LightHex {light} is not a pale wash (chroma={chroma:.3f})"
+        assert chroma < 0.08, (
+            f"{row['Base']}'s LightHex {light} is not a pale wash (chroma={chroma:.3f})"
+        )
 
 
 # ── accessibility_levels.py CLI ──────────────────────────────────────────────
+
 
 def test_accessibility_levels_csv_default_resolves_to_a_real_file() -> None:
     """The ``--csv`` default must exist, in a source checkout or an install.
@@ -463,7 +472,9 @@ def test_accessibility_levels_csv_default_resolves_to_a_real_file() -> None:
     assert _PALETTE_PATH.is_file()
 
 
-def test_accessibility_levels_main_cli(capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch) -> None:
+def test_accessibility_levels_main_cli(
+    capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+) -> None:
     """The CLI entry point must print one line per color at the chosen level."""
     from accessibility_levels import main as levels_main
 
@@ -477,7 +488,10 @@ def test_accessibility_levels_main_cli(capsys: pytest.CaptureFixture[str], monke
 
 # ── audit_contrast.py CLI ────────────────────────────────────────────────────
 
-def test_audit_contrast_main_cli_json(capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch) -> None:
+
+def test_audit_contrast_main_cli_json(
+    capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+) -> None:
     """``--format json`` must emit valid, well-shaped JSON on stdout."""
     import json
 
@@ -491,7 +505,9 @@ def test_audit_contrast_main_cli_json(capsys: pytest.CaptureFixture[str], monkey
     assert all({"fg", "bg", "ratio", "passes"} <= set(p) for p in payload["pairs"])
 
 
-def test_audit_contrast_main_cli_exit_code_reflects_failures(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_audit_contrast_main_cli_exit_code_reflects_failures(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     """Exit code must be 0 when every pair passes, 1 when at least one fails."""
     from audit_contrast import main as audit_main
 
@@ -516,7 +532,9 @@ def test_audit_contrast_main_cli_all_pairs_flag(monkeypatch: pytest.MonkeyPatch)
         audit_main()
     default_pairs = len(json.loads(out.getvalue())["pairs"])
 
-    monkeypatch.setattr("sys.argv", ["sprezzature-colors-contrast", "--format", "json", "--all-pairs"])
+    monkeypatch.setattr(
+        "sys.argv", ["sprezzature-colors-contrast", "--format", "json", "--all-pairs"]
+    )
     out = io.StringIO()
     with contextlib.redirect_stdout(out):
         audit_main()
@@ -526,6 +544,7 @@ def test_audit_contrast_main_cli_all_pairs_flag(monkeypatch: pytest.MonkeyPatch)
 
 
 # ── simulate_cvd.py ──────────────────────────────────────────────────────────
+
 
 @pytest.fixture
 def sample_image():
@@ -586,7 +605,9 @@ def test_make_grid_layout_matches_cell_count() -> None:
     assert grid.size == (20, 10)
 
 
-def test_simulate_cvd_main_cli_writes_sibling_files(tmp_path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_simulate_cvd_main_cli_writes_sibling_files(
+    tmp_path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     """The CLI must write one sibling PNG per requested CVD type."""
     from PIL import Image
     from simulate_cvd import main as cvd_main
@@ -601,7 +622,9 @@ def test_simulate_cvd_main_cli_writes_sibling_files(tmp_path, monkeypatch: pytes
     assert not (tmp_path / "hero-tritanopia.png").is_file()
 
 
-def test_simulate_cvd_main_cli_grid_and_grayscale(tmp_path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_simulate_cvd_main_cli_grid_and_grayscale(
+    tmp_path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     """``--grid --grayscale`` must write a single mosaic file that includes a grayscale panel."""
     from PIL import Image
     from simulate_cvd import main as cvd_main

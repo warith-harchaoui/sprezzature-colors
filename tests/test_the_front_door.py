@@ -22,11 +22,11 @@ Author
 from __future__ import annotations
 
 import importlib.util
+import re
 import subprocess
 from pathlib import Path
 
 import pytest
-import tomllib
 from click.testing import CliRunner
 
 from sprezzature_colors._tools import TOOLS, missing_extra_message
@@ -35,8 +35,34 @@ from sprezzature_colors.cli import main
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
-def _pyproject() -> dict:
-    return tomllib.loads((REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+def _console_scripts() -> dict[str, str]:
+    """
+    ``[project.scripts]``, read with a regex rather than ``tomllib``.
+
+    ``tomllib`` is standard library only from 3.11 and this package supports
+    3.10, where the import alone fails -- in CI, while passing on every
+    developer machine. sprezzature-cli-gui's own test says exactly this in a
+    comment, and it was written there because it had already happened once.
+    """
+    text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    block = re.search(r"^\[project\.scripts\]\s*$(.*?)(?=^\[|\Z)", text, re.M | re.S)
+    if block is None:
+        return {}
+    return dict(re.findall(r'^([\w.-]+)\s*=\s*"([^"]+)"', block.group(1), re.M))
+
+
+def _base_dependencies() -> str:
+    """The ``dependencies = [...]`` block as text, comments stripped."""
+    text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    block = re.search(r"^dependencies\s*=\s*\[(.*?)\]", text, re.M | re.S)
+    return re.sub(r"#[^\n]*", "", block.group(1)) if block else ""
+
+
+def _extras() -> set[str]:
+    """The extras this package declares."""
+    text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    block = re.search(r"^\[project\.optional-dependencies\]\s*$(.*?)(?=^\[|\Z)", text, re.M | re.S)
+    return set(re.findall(r"^([\w.-]+)\s*=\s*\[", block.group(1), re.M)) if block else set()
 
 
 def _subcommands() -> set[str]:
@@ -54,7 +80,7 @@ def test_the_two_spellings_are_one_callable() -> None:
     had their own implementation is exactly how the two drifted. Two names
     pointing at one function cannot.
     """
-    scripts = _pyproject()["project"]["scripts"]
+    scripts = _console_scripts()
     assert scripts["make-colors"] == scripts["sprezzature-colors"]
     assert scripts["make-colors"] == "sprezzature_colors.cli:main"
 
@@ -64,9 +90,8 @@ def test_click_is_a_base_dependency_not_an_extra() -> None:
     With argparse gone, no parser ships with Python, so an optional click means
     a `pip install sprezzature-colors` whose own commands do not run.
     """
-    project = _pyproject()["project"]
-    assert any(dep.startswith("click") for dep in project["dependencies"])
-    extras = project.get("optional-dependencies", {})
+    assert "click" in _base_dependencies()
+    extras = _extras()
     assert "click" not in extras, "the [click] extra promises something already installed"
 
 
@@ -121,7 +146,7 @@ def test_the_help_lists_every_tool() -> None:
 
 def test_an_extra_named_in_the_table_is_an_extra_that_exists() -> None:
     """`pip install 'sprezzature-colors[cvd]'` has to be real advice."""
-    declared = set(_pyproject()["project"].get("optional-dependencies", {}))
+    declared = _extras()
     for tool, (_module, extra, _summary) in TOOLS.items():
         if extra:
             assert extra in declared, (
