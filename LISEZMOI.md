@@ -35,16 +35,20 @@ paquet, et la raison pour laquelle il est assez bon marché pour tenir dans un
 crochet de pré-commit. Tout ce qui est plus lourd est un extra, nommé d'après
 l'outil qui en a besoin, pour qu'une installation dise à quoi elle sert.
 
-### Deux portes d'entrée, quatre outils
+### Une porte d'entrée, deux orthographes, quatre outils
 
 ```bash
-make-colors contrast                  # argparse — ne demande rien
-sprezzature-colors contrast           # click    — demande [click]
+make-colors contrast                  # le nom historique
+sprezzature-colors contrast           # le nom de la suite
+sprezzature-colors tools              # quels outils tournent sur cette machine
 make-colors --help                    # les quatre outils, et ce que fait chacun
 ```
 
-Les deux lisent **une seule** table (`sprezzature_colors/cli.py`), donc un
-outil ne peut pas apparaître dans l'une et manquer dans l'autre. Chaque outil
+Les deux noms désignent **la même fonction**, donc ils ne peuvent pas diverger.
+Il y a eu deux analyseurs jusqu'au 2026-10-25 — un argparse et un click qui se
+partageaient une table — et chaque sous-commande devait s'écrire deux fois.
+Click est désormais le seul, et une dépendance de base plutôt qu'un extra :
+argparse parti, plus aucun analyseur n'est livré avec Python. Chaque outil
 reste aussi sa propre commande — `sprezzature-colors-contrast`, `-cvd`,
 `-levels`, `-palette-to-tailwind` — et c'est ce qu'un script devrait appeler.
 Les exemples ci-dessous utilisent celles-là. Depuis un dépôt cloné
@@ -113,21 +117,28 @@ sprezzature-colors-levels --level high-contrast
 ## Utilisation en bibliothèque
 
 ```python
-from scripts._colors import contrast_ratio_hex, meets_wcag, lighten, darken, simulate_pixel, CVD_MATRICES
+from scripts._colors import (
+    contrast_ratio_hex,
+    meets_wcag,
+    lighten,
+    darken,
+    simulate_pixel,
+    CVD_MATRICES,
+)
 
 # Ratio de contraste WCAG
-ratio = contrast_ratio_hex("#007AFF", "#FFFFFF")   # -> 4.55
+ratio = contrast_ratio_hex("#007AFF", "#FFFFFF")  # -> 4.55
 
 # Test WCAG AA
-ok = meets_wcag("#007AFF", "#FFFFFF", level="AA", size="normal")   # -> True
+ok = meets_wcag("#007AFF", "#FFFFFF", level="AA", size="normal")  # -> True
 
 # Éclaircir / assombrir de façon perceptuelle (axe OKLCH, teinte conservée) :
 # OKLCH est un modèle de couleur construit pour qu'un même pas numérique de
 # luminosité corresponde à un même écart de clarté perçu par l'œil, ce que
 # le RGB brut ne garantit pas (le même pas numérique peut y paraître à peine
 # visible dans une zone et brutal dans une autre).
-plus_clair = lighten("#007AFF", 0.15)   # -> "#5FA8FF" (approx.)
-plus_sombre = darken("#007AFF", 0.10)   # -> "#005DC2" (approx.)
+plus_clair = lighten("#007AFF", 0.15)  # -> "#5FA8FF" (approx.)
+plus_sombre = darken("#007AFF", 0.10)  # -> "#005DC2" (approx.)
 
 # Simulation de daltonisme pixel par pixel
 r, g, b = simulate_pixel((255, 0, 0), CVD_MATRICES["protanopia"])

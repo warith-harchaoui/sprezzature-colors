@@ -1,16 +1,20 @@
+#!/usr/bin/env python3
 """
-The argparse command line — ``make-colors``.
+``sprezzature-colors`` — the command line over this package's four tools.
 
-Four commands shipped, and until this module existed there was no way to find
-out what this package does except by reading its README: each tool had its own
-console script and nothing listed them together. One front door fixes that
-without taking anything away — every tool is still its own command, which is
-what a script should call.
+One front door. Until 2026-10-25 there were two, an argparse one and a click
+one, kept in step by sharing a table and a sentence; the click module imported
+``TOOLS`` from the argparse module, so neither could be removed without the
+other and every new sub-command had to be written twice. The catalogue now
+lives in :mod:`sprezzature_colors._tools`, and this is the only parser.
 
-The twin :mod:`sprezzature_colors.cli_click` reads the same :data:`TOOLS`
-table and shares :func:`_missing_extra_message`, so a tool cannot appear in
-one front door and be missing from the other, nor be explained differently by
-each.
+``make-colors`` and ``sprezzature-colors`` both land here. The first name is
+kept because it is what the skill, the README and years of notes tell people to
+type; they are two spellings of one command, not two commands.
+
+Each tool below is also its own console script — ``sprezzature-colors-contrast``
+and friends — which is what a script or a pre-commit hook should call. This
+front door is for a person who does not remember the exact name.
 
 Author
 ------
@@ -19,145 +23,106 @@ Author
 
 from __future__ import annotations
 
-import argparse
 import importlib
+import importlib.util
 import sys
 
-from sprezzature_colors_scripts._argparse import make_parser
+import click
 
-#: ``name -> (module, extra, summary)``, the single catalogue both front doors
-#: read. The summary is what ``--help`` prints, so a tool cannot be listed and
-#: unreachable, or reachable and undocumented.
-#:
-#: ``extra`` is the empty string for the three tools that need nothing beyond
-#: a bare install — which is most of them, and deliberately so. This package
-#: declares **no** base dependencies, and the contrast audit is the one most
-#: likely to sit in a pre-commit hook, where a colour library is the last
-#: thing anybody wants to install.
-TOOLS: dict[str, tuple[str, str, str]] = {
-    "contrast": (
-        "audit_contrast",
-        "",
-        "Audit a palette against the WCAG contrast ratios (4.5:1 body, 3:1 "
-        "large and UI, 7:1 AAA) and propose the nearest accessible "
-        "alternative for every failing pair. Standard library only.",
-    ),
-    "cvd": (
-        "simulate_cvd",
-        "cvd",
-        "Render an image as a colour-blind viewer sees it — protanopia, "
-        "deuteranopia, tritanopia — so a reviewer can look rather than "
-        "guess. Needs Pillow.",
-    ),
-    "levels": (
-        "accessibility_levels",
-        "",
-        "Print the canonical palette at one accessibility level, keeping "
-        "every colour's name so a consumer asking for 'Blue' still gets one.",
-    ),
-    "palette-to-tailwind": (
-        "palette_to_tailwind",
-        "",
-        "Emit the palette as a Tailwind config snippet, so a consuming "
-        "project generates its tokens instead of copy-pasting them.",
-    ),
-}
+from sprezzature_colors._tools import TOOLS, missing_extra_message
+
+#: Shown under the command list. Completion is click's, and worth saying out
+#: loud: a four-tool front door is exactly where tab completion pays off, and
+#: nobody discovers it by guessing.
+_EPILOG = """\
+Shell completion:
+
+  \b
+  eval "$(_SPREZZATURE_COLORS_COMPLETE=bash_source sprezzature-colors)"   # bash
+  eval "$(_SPREZZATURE_COLORS_COMPLETE=zsh_source sprezzature-colors)"    # zsh
+
+Run `sprezzature-colors tools` to see which tools are ready to run on this
+machine and which need an extra installed.
+"""
 
 
-def build_parser() -> argparse.ArgumentParser:
-    """The parser, built separately so a test can read it without running it."""
+@click.group(
+    context_settings={"help_option_names": ["-h", "--help"]},
+    epilog=_EPILOG,
+    help=(
+        "Everything this package does with a palette. Each tool below is also "
+        "its own command (sprezzature-colors-contrast and so on), which is "
+        "what a script should call."
+    ),
+)
+@click.version_option(package_name="sprezzature-colors")
+def main() -> None:
+    """Front door over the four tools this package ships."""
+
+
+@main.command(name="tools")
+def list_tools() -> None:
+    """
+    List the tools, and say which ones can run here.
+
+    The second half is the point. Three of these need nothing and one needs an
+    extra, so "it is installed" and "it will run" are different questions, and
+    a reader should not have to discover the difference from a traceback.
+    """
     width = max(len(name) for name in TOOLS)
-    catalogue = "\n".join(
-        f"  {name:<{width}}  {summary}" for name, (_, _, summary) in TOOLS.items()
-    )
-    parser = make_parser(
-        prog="make-colors",
-        description=(
-            "Everything this package does with a palette. One front door over "
-            "the four tools it ships; each is also its own command, which is "
-            "what a script should call."
-        ),
-        epilog=(
-            f"Tools:\n{catalogue}\n"
-            "\n"
-            "Examples:\n"
-            "  make-colors contrast references/palette.csv\n"
-            "  make-colors cvd screenshot.png --type deuteranopia\n"
-            "  make-colors levels --level universal\n"
-            "  make-colors palette-to-tailwind > tailwind.colors.js\n"
-            "\n"
-            "Every argument after the tool name belongs to that tool; run\n"
-            "`make-colors <tool> --help` to see them.\n"
-        ),
-    )
-    parser.add_argument(
-        "tool",
-        choices=sorted(TOOLS),
-        help="Which tool to run. See the list below.",
-    )
-    # Everything after the tool name belongs to the tool, including flags this
-    # parser also defines. Without REMAINDER, `make-colors contrast --help`
-    # would print *this* help rather than the audit's, which is the opposite
-    # of what the reader asked for.
-    parser.add_argument(
-        "rest",
-        nargs=argparse.REMAINDER,
-        help="Arguments passed through to the tool.",
-    )
-    return parser
+    for name, (module_name, extra, summary) in TOOLS.items():
+        ready = importlib.util.find_spec(f"sprezzature_colors_scripts.{module_name}") is not None
+        if ready and extra:
+            # The module is importable, but its extra may still be absent --
+            # the module is ours, the dependency is not.
+            try:
+                importlib.import_module(f"sprezzature_colors_scripts.{module_name}")
+            except ImportError:
+                ready = False
+        mark = "ready" if ready else f"needs [{extra}]" if extra else "unavailable"
+        click.echo(f"  {name:<{width}}  {mark:<14}  {summary.split('.')[0]}.")
 
 
-def main(argv: list[str] | None = None) -> int:
+def _attach(name: str, module_name: str, extra: str, summary: str) -> None:
     """
-    Dispatch to one of the four tools.
+    Register one tool as a sub-command.
 
-    Parameters
-    ----------
-    argv : list of str or None, optional
-        Argument vector without ``argv[0]``. Reads ``sys.argv`` when ``None``.
-
-    Returns
-    -------
-    int
-        Whatever the dispatched tool returns.
+    Built in a loop rather than written out four times: the catalogue lives in
+    one table, so a tool added there appears on the command line without
+    anybody remembering to add it in a second place.
     """
-    args = build_parser().parse_args(argv)
-    module_name, extra, _ = TOOLS[args.tool]
-    try:
-        module = importlib.import_module(f"sprezzature_colors_scripts.{module_name}")
-    except ImportError as exc:  # pragma: no cover - dependency guard
-        sys.stderr.write(_missing_extra_message(args.tool, extra, exc))
-        return 2
 
-    # The tools read sys.argv themselves — they were commands before they were
-    # sub-commands, and they still are. Handing them a rewritten argv is what
-    # lets both be true.
-    saved = sys.argv
-    try:
-        sys.argv = [f"make-colors {args.tool}", *args.rest]
-        return int(module.main() or 0)
-    finally:
-        sys.argv = saved
-
-
-def _missing_extra_message(tool: str, extra: str, exc: Exception) -> str:
-    """What to say when a tool's dependency is not installed.
-
-    Shared with the click twin so the two front doors cannot drift into
-    saying different things about the same missing package.
-    """
-    if extra:
-        return (
-            f"{tool}: its dependencies are an optional extra, so a bare "
-            f"install stays small. Add them with:\n"
-            f"    pip install 'sprezzature-colors[{extra}]'\n"
-            f"  ({exc})\n"
-        )
-    return (
-        f"{tool}: needs nothing optional, so this is not a missing extra — "
-        f"something else failed to import.\n  ({exc})\n"
+    @main.command(
+        name,
+        help=summary,
+        context_settings={"ignore_unknown_options": True, "allow_extra_args": True},
     )
+    @click.argument("rest", nargs=-1, type=click.UNPROCESSED)
+    def _run(
+        rest: tuple[str, ...],
+        _module: str = module_name,
+        _name: str = name,
+        _extra: str = extra,
+    ) -> None:
+        try:
+            module = importlib.import_module(f"sprezzature_colors_scripts.{_module}")
+        except ImportError as exc:  # pragma: no cover - dependency guard
+            raise SystemExit(missing_extra_message(_name, _extra, exc).rstrip()) from exc
+
+        # The tools read sys.argv themselves -- they were commands before they
+        # were sub-commands, and they still are. Handing them a rewritten argv
+        # is what lets both be true.
+        saved = sys.argv
+        try:
+            sys.argv = [f"sprezzature-colors {_name}", *rest]
+            raise SystemExit(int(module.main() or 0))
+        finally:
+            sys.argv = saved
+
+
+for _tool, (_module_name, _extra, _summary) in TOOLS.items():
+    _attach(_tool, _module_name, _extra, _summary)
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()

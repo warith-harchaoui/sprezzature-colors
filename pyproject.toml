@@ -21,7 +21,17 @@ classifiers = [
     "Topic :: Multimedia :: Graphics",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dependencies = []
+dependencies = [
+    # The command line, and the only one since 2026-10-25. This package
+    # deliberately carried **no** base dependencies, and click is the one
+    # exception bought on purpose: with argparse gone there is no parser
+    # left that ships with Python, so an optional click would mean a
+    # `pip install sprezzature-colors` whose own commands do not run.
+    #
+    # The per-tool scripts (sprezzature-colors-contrast and friends) still
+    # need nothing beyond this, so the pre-commit case stays cheap.
+    "click>=8.1",
+]
 
 [project.optional-dependencies]
 cvd = ["Pillow>=10.0"]
@@ -29,8 +39,6 @@ dev = ["pytest>=8.0", "ruff", "mypy"]
 # The click front door only. This package declares no base dependencies, and
 # that is the reason its contrast audit is cheap enough for a pre-commit hook
 # — so click, which only one of the two front doors needs, is an extra rather
-# than a dependency. `make-colors` needs nothing.
-click = ["click>=8.0"]
 # HTTP surface (sprezzature_colors/api.py): the library's functions over
 # HTTP, so a design system in another language can run the same checks.
 api = [
@@ -61,7 +69,7 @@ mcp = [
 # what this package does except by reading its README — each tool had its own
 # console script and nothing listed them together.
 make-colors = "sprezzature_colors.cli:main"
-sprezzature-colors = "sprezzature_colors.cli_click:main"
+sprezzature-colors = "sprezzature_colors.cli:main"
 sprezzature-colors-mcp = "sprezzature_colors.mcp:main"
 sprezzature-colors-contrast = "sprezzature_colors_scripts.audit_contrast:main"
 sprezzature-colors-cvd = "sprezzature_colors_scripts.simulate_cvd:main"

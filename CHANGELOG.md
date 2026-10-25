@@ -1,5 +1,33 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+- **One command line, not two.** The argparse front door is gone; click is the
+  only parser and both `make-colors` and `sprezzature-colors` resolve to the
+  same callable. Until now the click module imported `TOOLS` from the argparse
+  module, so neither could be removed without the other and every sub-command
+  had to be written twice.
+- `click` moves from an optional extra to a **base dependency**. This package
+  deliberately carried none, and this is the one bought on purpose: with
+  argparse gone there is no parser that ships with Python, so an optional click
+  would mean an install whose own commands do not run. The per-tool scripts
+  still need nothing beyond it.
+- The catalogue and the missing-extra sentence moved to
+  `sprezzature_colors/_tools.py`, so they owe nothing to whichever parser reads
+  them.
+
+### Added
+- `sprezzature-colors tools` — lists the tools and says which can actually run
+  here. "Installed" and "will run" are different questions when a tool needs an
+  extra.
+- Shell-completion instructions in the group help.
+
+### Removed
+- `sprezzature_colors/cli_click.py`, the `[click]` extra, and the mypy
+  `attr-defined` suppression the two-branch guard required.
+
+
 All notable changes to sprezzature-colors are documented here.
 
 ## [1.1.0] - 2026-10-19: two front doors over the four tools

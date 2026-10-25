@@ -35,16 +35,20 @@ package, and the reason it is cheap enough to put in a pre-commit hook. Every
 heavier thing is an extra, named after the tool that needs it, so an install
 says what it is for.
 
-### Two front doors, four tools
+### One front door, two spellings, four tools
 
 ```bash
-make-colors contrast                  # argparse — needs nothing
-sprezzature-colors contrast           # click    — needs [click]
+make-colors contrast                  # the historical name
+sprezzature-colors contrast           # the suite-wide name
+sprezzature-colors tools              # which tools can run on this machine
 make-colors --help                    # the four tools, with what each does
 ```
 
-Both read a single table (`sprezzature_colors/cli.py`), so a tool cannot
-appear in one and be missing from the other. Each tool is also still its own
+Both names resolve to the same callable, so they cannot drift. There were two
+parsers until 2026-10-25 — an argparse one and a click one sharing a table —
+and every sub-command had to be written twice; click is now the only one, and
+a base dependency rather than an extra, because with argparse gone no parser
+ships with Python. Each tool is also still its own
 command — `sprezzature-colors-contrast`, `-cvd`, `-levels`,
 `-palette-to-tailwind` — which is what a script should call. The examples
 below use those. From a source checkout (`git clone` + `pip install -e
@@ -113,20 +117,27 @@ sprezzature-colors-levels --level high-contrast
 ## Library usage
 
 ```python
-from scripts._colors import contrast_ratio_hex, meets_wcag, lighten, darken, simulate_pixel, CVD_MATRICES
+from scripts._colors import (
+    contrast_ratio_hex,
+    meets_wcag,
+    lighten,
+    darken,
+    simulate_pixel,
+    CVD_MATRICES,
+)
 
 # WCAG contrast ratio
-ratio = contrast_ratio_hex("#007AFF", "#FFFFFF")   # -> 4.55
+ratio = contrast_ratio_hex("#007AFF", "#FFFFFF")  # -> 4.55
 
 # WCAG AA test
-ok = meets_wcag("#007AFF", "#FFFFFF", level="AA", size="normal")   # -> True
+ok = meets_wcag("#007AFF", "#FFFFFF", level="AA", size="normal")  # -> True
 
 # Perceptual lighten/darken (OKLCH axis, hue preserved): OKLCH is a color
 # model built so that a fixed numeric step in lightness matches what a human
 # eye perceives as an equal step in brightness, unlike raw RGB where the same
 # numeric step can look barely different in one area and drastic in another.
-lighter = lighten("#007AFF", 0.15)   # -> "#5FA8FF" (approx.)
-darker  = darken("#007AFF", 0.10)    # -> "#005DC2" (approx.)
+lighter = lighten("#007AFF", 0.15)  # -> "#5FA8FF" (approx.)
+darker = darken("#007AFF", 0.10)  # -> "#005DC2" (approx.)
 
 # CVD pixel simulation
 r, g, b = simulate_pixel((255, 0, 0), CVD_MATRICES["protanopia"])
