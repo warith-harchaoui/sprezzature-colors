@@ -16,6 +16,10 @@ Les trois outils fonctionnent avec la seule bibliothèque standard (la simulatio
 
 ---
 
+## Comment ça marche
+
+![Schéma de flux. En haut, une palette ou une image alimente deux voies. La voie de gauche contrôle : elle compose les couleurs translucides, mesure le rapport de contraste WCAG de chaque paire, et simule les trois déficiences de la vision des couleurs, puis rend un verdict par paire. La voie de droite fabrique : elle fige la teinte et la saturation, parcourt l'axe de clarté OKLCH, et nivelle toute la palette, puis rend la couleur conforme la plus proche et une configuration Tailwind. Les deux se rejoignent en un seul résultat, une palette qui survit à un écran bon marché, au plein soleil et à une imprimante en noir et blanc.](https://raw.githubusercontent.com/warith-harchaoui/sprezzature-colors/main/assets/comment-ca-marche.svg)
+
 ## Installation
 
 ```bash
@@ -158,6 +162,35 @@ r, g, b = simulate_pixel((255, 0, 0), CVD_MATRICES["protanopia"])
 | Export palette Tailwind | Bloc `theme.extend.colors` ou configuration `module.exports` complète |
 | Niveaux d'accessibilité | universel / fort contraste / monochrome / palette adaptée à une déficience précise |
 | Dépendances | Bibliothèque standard uniquement, plus Pillow pour le rendu de la simulation |
+
+---
+
+## Le seul canal qui survit
+
+Trois outils, une seule idée dessous.
+
+Une couleur a trois composantes qu'on peut faire bouger : la teinte, la
+saturation, la clarté. Le daltonisme rouge-vert retire la teinte.
+L'impression en niveaux de gris retire la saturation. **La clarté est la
+seule qu'aucun déficit, aucune imprimante et aucun écran en plein soleil ne
+retire.** C'est donc sur elle que travaillent les trois outils.
+
+L'audit de contraste ne propose pas une autre couleur. Il fige votre teinte et
+votre saturation, parcourt l'axe de clarté par centièmes, puis s'arrête à la
+valeur la plus proche qui passe le seuil. Votre bleu de marque reste votre
+bleu de marque : il s'éclaircit ou s'assombrit jusqu'à devenir lisible.
+
+Les palettes dédiées à un déficit font la même chose un cran plus haut. Chaque
+couleur est classée selon sa clarté *telle que ce lecteur la perçoit*, d'après
+les matrices de Machado, puis les clartés sont réparties sur une plage
+lisible. La teinte et la saturation ne bougent pas. Pour ce lecteur, chaque
+catégorie se détache.
+
+C'est aussi pourquoi ces palettes sont des options plutôt que le défaut.
+Aucun jeu de couleurs n'est le meilleur pour la protanopie, la deutéranopie et
+la tritanopie à la fois : améliorer l'écart pour un œil le referme pour un
+autre. Le défaut (`universal`) est la palette déjà séparée par la clarté pour
+tout le monde, la forme, l'étiquette et la position portant le reste.
 
 ---
 

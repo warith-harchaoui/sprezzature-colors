@@ -1,0 +1,97 @@
+# How this brick works, as drawn in README.md and LISEZMOI.md.
+#
+# The renderer lives in the hub, at sprezzature/scripts/make_brick_diagram.py,
+# because the ten bricks share one drawing and ten generators would have become
+# ten dialects of it. The content lives here, because the brick is what knows
+# what is true about itself.
+#
+# Redraw after any edit:
+#   python ~/sprezzature/scripts/make_brick_diagram.py sprezzature-colors
+package: sprezzature-colors
+
+en:
+  title: How sprezzature-colors works
+  subtitle: Three tools, and one channel underneath all three.
+  alt: >-
+    Flow diagram. At the top, a palette or an image feeds two lanes. The left lane
+    audits: it composites any translucent colour, measures the WCAG contrast ratio
+    of every pair, and simulates the three colour-vision deficiencies, returning a
+    pass or fail per pair. The right lane makes: it holds hue and saturation fixed,
+    walks the OKLCH lightness axis, and levels the whole palette, returning the
+    nearest passing colour and a Tailwind configuration. Both meet in one outcome,
+    a palette that survives a cheap screen, bright sunlight and a grayscale
+    printer.
+  input:
+    label: A palette, or an image
+    note: hex codes in a JSON file, the curated house palette, or a PNG somebody is about to ship
+  lanes:
+    - title: "Audit: what a reader cannot separate"
+      steps:
+        - label: Composite first, then measure
+          note: a translucent foreground is laid over its background before the ratio is taken, because that is what the eye is given
+        - label: One WCAG ratio per pair
+          note: "AA at 4.5 to 1 for body text, AA-large at 3 to 1, AAA at 7 to 1. The scale runs from 1, identical brightness, to 21, black on white."
+        - label: Simulate the three deficiencies
+          note: the Machado, Oliveira and Fernandes (2009) matrices for protanopia, deuteranopia and tritanopia, plus a grayscale pass that catches a distinction carried by hue alone
+      result:
+        label: Pass or fail per pair, and three sibling images
+        note: text or JSON, exit 1 on any failure
+    - title: "Make: the nearest colour that still passes"
+      steps:
+        - label: Hold the hue, hold the saturation
+          note: your brand blue has to stay your brand blue, or the fix will not be taken
+        - label: Walk the lightness axis in hundredth steps
+          note: "in OKLCH, where a fixed numeric step matches what the eye calls an equal step in brightness. Plain RGB does not promise that."
+        - label: Level the whole palette at once
+          note: "universal, high-contrast, monochrome, or one tuned to a single deficiency. Each colour is ranked by how bright it looks to that viewer, then spread across a legible band."
+      result:
+        label: A passing colour, and a Tailwind block
+        note: "a theme.extend.colors snippet or a full configuration, so no project in the stack hand-copies a hex code"
+  outcome:
+    label: A palette that survives a cheap screen, bright sunlight, a grayscale printer, and one man in twelve
+    note: "No single set of colours is best for protanopia, deuteranopia and tritanopia at once: widening the spacing for one eye closes it for another. That is why universal is the default and the rest are options."
+  footer: Standard library only, and no network and no model anywhere in it. Pillow is needed to read and write an image, and nothing else is.
+
+fr:
+  title: Comment fonctionne sprezzature-colors
+  subtitle: Trois outils, et un seul canal sous les trois.
+  alt: >-
+    Schéma de flux. En haut, une palette ou une image alimente deux voies. La voie
+    de gauche contrôle : elle compose les couleurs translucides, mesure le rapport
+    de contraste WCAG de chaque paire, et simule les trois déficiences de la vision
+    des couleurs, puis rend un verdict par paire. La voie de droite fabrique : elle
+    fige la teinte et la saturation, parcourt l'axe de clarté OKLCH, et nivelle
+    toute la palette, puis rend la couleur conforme la plus proche et une
+    configuration Tailwind. Les deux se rejoignent en un seul résultat, une palette
+    qui survit à un écran bon marché, au plein soleil et à une imprimante en noir
+    et blanc.
+  input:
+    label: Une palette, ou une image
+    note: des codes hexadécimaux dans un fichier JSON, la palette de la maison, ou un PNG sur le point d'être publié
+  lanes:
+    - title: "Contrôler : ce qu'un lecteur ne peut pas séparer"
+      steps:
+        - label: Composer d'abord, mesurer ensuite
+          note: un premier plan translucide est posé sur son fond avant le calcul du rapport, puisque c'est cela que l'œil reçoit
+        - label: Un rapport WCAG par paire
+          note: "AA à 4,5 pour 1 pour le texte courant, AA-large à 3 pour 1, AAA à 7 pour 1. L'échelle va de 1, luminosités identiques, à 21, noir sur blanc."
+        - label: Simuler les trois déficiences
+          note: les matrices de Machado, Oliveira et Fernandes (2009) pour la protanopie, la deutéranopie et la tritanopie, plus un passage en niveaux de gris qui attrape les distinctions portées par la seule teinte
+      result:
+        label: Un verdict par paire, et trois images jumelles
+        note: en texte ou en JSON, code de sortie 1 au premier échec
+    - title: "Fabriquer : la couleur conforme la plus proche"
+      steps:
+        - label: Figer la teinte, figer la saturation
+          note: votre bleu de marque doit rester votre bleu de marque, sinon la correction ne sera pas retenue
+        - label: Parcourir l'axe de clarté au centième
+          note: "en OKLCH, où un pas numérique fixe correspond à ce que l'œil appelle un pas égal de luminosité. Le RVB ordinaire ne le promet pas."
+        - label: Niveler toute la palette d'un coup
+          note: "universel, contraste élevé, monochrome, ou réglé sur une déficience précise. Chaque couleur est classée par la clarté qu'elle a pour ce lecteur, puis répartie sur une bande lisible."
+      result:
+        label: Une couleur conforme, et un bloc Tailwind
+        note: "un extrait theme.extend.colors ou une configuration entière, pour qu'aucun projet de la pile ne recopie un code hexadécimal à la main"
+  outcome:
+    label: Une palette qui survit à un écran bon marché, au plein soleil, à une imprimante en noir et blanc, et à un homme sur douze
+    note: "Aucun jeu de couleurs n'est le meilleur pour la protanopie, la deutéranopie et la tritanopie à la fois : élargir l'écart pour un œil le referme pour un autre. D'où le choix d'universel par défaut, et des autres en option."
+  footer: Bibliothèque standard seule, sans réseau et sans modèle nulle part. Pillow sert à lire et écrire une image, et à rien d'autre.

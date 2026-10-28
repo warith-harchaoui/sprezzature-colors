@@ -16,6 +16,10 @@ All three run on pure stdlib (the color-blindness simulation additionally needs 
 
 ---
 
+## How it works
+
+![Flow diagram. At the top, a palette or an image feeds two lanes. The left lane audits: it composites any translucent colour, measures the WCAG contrast ratio of every pair, and simulates the three colour-vision deficiencies, returning a pass or fail per pair. The right lane makes: it holds hue and saturation fixed, walks the OKLCH lightness axis, and levels the whole palette, returning the nearest passing colour and a Tailwind configuration. Both meet in one outcome, a palette that survives a cheap screen, bright sunlight and a grayscale printer.](https://raw.githubusercontent.com/warith-harchaoui/sprezzature-colors/main/assets/how-it-works.svg)
+
 ## Install
 
 ```bash
@@ -161,6 +165,34 @@ r, g, b = simulate_pixel((255, 0, 0), CVD_MATRICES["protanopia"])
 
 ---
 
+## The one channel that survives
+
+Three tools, one idea underneath them.
+
+A colour has three parts you can move: hue, how saturated it is, and how light
+it is. Red-green colour blindness takes hue away. Grayscale printing takes
+saturation away. **Lightness is the only one that no deficiency, no printer
+and no hostile screen removes.** So lightness is what every tool here works
+on.
+
+The contrast audit does not propose a different colour. It holds your hue and
+your saturation fixed, walks the lightness axis in hundredth steps, and stops
+at the nearest value that clears the threshold. Your brand blue stays your
+brand blue; it gets lighter or darker until it is legible.
+
+The deficiency-specific palettes do the same thing one level up. Each colour
+is ranked by how bright it looks *to that viewer*, under the Machado matrices,
+and the lightnesses are then spread across a legible band. Hue and saturation
+are left alone. For that reader, every category separates.
+
+That is also why the deficiency palettes are options rather than the default.
+No single set of colours is best for protanopia, deuteranopia and tritanopia
+at once: improving the spacing for one eye closes it for another. The default
+(`universal`) is the palette that is already separated by lightness for
+everybody, with shape, label and position carrying the rest.
+
+---
+
 ## Color science
 
 Contrast ratios follow WCAG 2.x: relative luminance (how bright a color looks to the eye, not just its raw RGB numbers) uses the 2.4-gamma transfer function that the standard specifies. Perceptual adjustments use OKLab / OKLCH, a color model designed by Björn Ottosson (2020) precisely so that "move the lightness value by X" matches how much brighter the color actually looks, which plain RGB does not guarantee. Color-blindness simulation matrices come from Machado, Oliveira, and Fernandes (2009, IEEE Transactions on Visualization and Computer Graphics), a widely cited paper that measured how each type of color blindness transforms a color and published the transformation as a matrix of numbers, which is exactly what `CVD_MATRICES` stores.
@@ -171,7 +203,7 @@ Contrast ratios follow WCAG 2.x: relative luminance (how bright a color looks to
 
 | Repo | What it does |
 |---|---|
-| [sprezzature](https://github.com/warith-harchaoui/sprezzature) | Nine skill collection + web |
+| [sprezzature](https://github.com/warith-harchaoui/sprezzature) | Ten-package collection + web |
 | [sprezzature-colors](https://github.com/warith-harchaoui/sprezzature-colors) | This repo |
 | [sprezzature-figures](https://github.com/warith-harchaoui/sprezzature-figures) | Data visualization |
 | [best-engine-ai-helper](https://github.com/warith-harchaoui/best-engine-ai-helper) | Offline LLM/VLM runtime |
