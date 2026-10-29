@@ -1,0 +1,729 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1224" height="946" viewBox="0 0 1224 946" role="img" aria-labelledby="sp-title sp-desc" font-family="Roboto, -apple-system, Helvetica, Arial, sans-serif"><title id="sp-title">Outils dans le quadrant</title><desc id="sp-desc">A 2D positioning map of 26 outils, Fiabilité to Créativité on the horizontal axis, Stabilité to Accessibilité on the vertical axis.</desc><style>.sp-dot{cursor:pointer}.sp-dot:hover circle,.sp-dot:focus circle{stroke-width:2.4}.sp-dot:hover,.sp-dot:focus{filter:brightness(1.08);outline:none}</style><line x1="184.8" y1="484.0" x2="1026.4" y2="484.0" stroke="#C7C7CC" stroke-width="1.2" stroke-dasharray="2,4"/><line x1="612.0" y1="866.0" x2="612.0" y2="102.0" stroke="#C7C7CC" stroke-width="1.2" stroke-dasharray="2,4"/><text data-pole="right" x="1164.0" y="491.7" font-size="22" font-style="italic" fill="#6E6E73" text-anchor="end">Créativité</text><text data-pole="left" x="60.0" y="491.7" font-size="22" font-style="italic" fill="#6E6E73" text-anchor="start">Fiabilité</text><text data-pole="top" x="612.0" y="65.4" font-size="22" font-style="italic" fill="#6E6E73" text-anchor="middle">Accessibilité</text><text data-pole="bottom" x="612.0" y="915.6" font-size="22" font-style="italic" fill="#6E6E73" text-anchor="middle">Stabilité</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: sprezzature-colors
+Couverture du contraste: 3
+Simulation des déficiences de la vision des couleurs: 4
+Correction fidèle à la couleur d'origine: 5
+Export de jetons de conception: 2
+Génération de palette: 3
+Local et hors ligne: 5
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 5
+Utilisable sans écrire de code: 2
+Espace de couleur perceptuel: 4
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 3
+Maturité et écosystème: 1
+Soutien commercial et support: 1"><circle cx="912.0" cy="259.0" r="7.05" fill="#FF3B30" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: sprezzature-colors
+Couverture du contraste: 3
+Simulation des déficiences de la vision des couleurs: 4
+Correction fidèle à la couleur d'origine: 5
+Export de jetons de conception: 2
+Génération de palette: 3
+Local et hors ligne: 5
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 5
+Utilisable sans écrire de code: 2
+Espace de couleur perceptuel: 4
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 3
+Maturité et écosystème: 1
+Soutien commercial et support: 1</title></g><text x="912.0" y="243.0" font-size="14" fill="#1C1C1E" text-anchor="middle">sprezzature-colors</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: WebAIM Contrast Checker
+Couverture du contraste: 4
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 3
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 2
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 2
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 5
+Soutien commercial et support: 4"><circle cx="529.2" cy="401.1" r="7.05" fill="#5CD0FF" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: WebAIM Contrast Checker
+Couverture du contraste: 4
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 3
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 2
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 2
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 5
+Soutien commercial et support: 4</title></g><text x="541.7" y="406.0" font-size="14" fill="#1C1C1E" text-anchor="start">WebAIM Contrast Checker</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: Colour Contrast Analyser
+Couverture du contraste: 5
+Simulation des déficiences de la vision des couleurs: 3
+Correction fidèle à la couleur d'origine: 3
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 5
+Installation sans dépendance: 3
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 2
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 5
+Maturité et écosystème: 5
+Soutien commercial et support: 4"><circle cx="322.8" cy="442.7" r="7.05" fill="#FDA3D9" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Colour Contrast Analyser
+Couverture du contraste: 5
+Simulation des déficiences de la vision des couleurs: 3
+Correction fidèle à la couleur d'origine: 3
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 5
+Installation sans dépendance: 3
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 2
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 5
+Maturité et écosystème: 5
+Soutien commercial et support: 4</title></g><text x="335.3" y="447.6" font-size="14" fill="#1C1C1E" text-anchor="start">Colour Contrast Analyser</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: axe-core
+Couverture du contraste: 4
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 4
+Installation sans dépendance: 2
+Adapté à l'intégration continue: 5
+Utilisable sans écrire de code: 2
+Espace de couleur perceptuel: 1
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 5
+Maturité et écosystème: 5
+Soutien commercial et support: 5"><circle cx="347.2" cy="647.0" r="7.05" fill="#A52A2A" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: axe-core
+Couverture du contraste: 4
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 4
+Installation sans dépendance: 2
+Adapté à l'intégration continue: 5
+Utilisable sans écrire de code: 2
+Espace de couleur perceptuel: 1
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 5
+Maturité et écosystème: 5
+Soutien commercial et support: 5</title></g><text x="359.7" y="651.9" font-size="14" fill="#1C1C1E" text-anchor="start">axe-core</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: Lighthouse
+Couverture du contraste: 3
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 4
+Installation sans dépendance: 4
+Adapté à l'intégration continue: 4
+Utilisable sans écrire de code: 4
+Espace de couleur perceptuel: 1
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 5
+Maturité et écosystème: 5
+Soutien commercial et support: 4"><circle cx="384.1" cy="559.2" r="7.05" fill="#E583A3" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Lighthouse
+Couverture du contraste: 3
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 4
+Installation sans dépendance: 4
+Adapté à l'intégration continue: 4
+Utilisable sans écrire de code: 4
+Espace de couleur perceptuel: 1
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 5
+Maturité et écosystème: 5
+Soutien commercial et support: 4</title></g><text x="396.6" y="564.1" font-size="14" fill="#1C1C1E" text-anchor="start">Lighthouse</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: Polypane
+Couverture du contraste: 5
+Simulation des déficiences de la vision des couleurs: 4
+Correction fidèle à la couleur d'origine: 3
+Export de jetons de conception: 1
+Génération de palette: 2
+Local et hors ligne: 3
+Installation sans dépendance: 3
+Adapté à l'intégration continue: 2
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 3
+Fondé sur une source publiée: 4
+Agit sur ce qui est réellement affiché: 5
+Maturité et écosystème: 4
+Soutien commercial et support: 4"><circle cx="379.6" cy="391.7" r="7.05" fill="#9781D6" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Polypane
+Couverture du contraste: 5
+Simulation des déficiences de la vision des couleurs: 4
+Correction fidèle à la couleur d'origine: 3
+Export de jetons de conception: 1
+Génération de palette: 2
+Local et hors ligne: 3
+Installation sans dépendance: 3
+Adapté à l'intégration continue: 2
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 3
+Fondé sur une source publiée: 4
+Agit sur ce qui est réellement affiché: 5
+Maturité et écosystème: 4
+Soutien commercial et support: 4</title></g><text x="367.1" y="396.6" font-size="14" fill="#1C1C1E" text-anchor="end">Polypane</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: Stark
+Couverture du contraste: 4
+Simulation des déficiences de la vision des couleurs: 4
+Correction fidèle à la couleur d'origine: 4
+Export de jetons de conception: 2
+Génération de palette: 3
+Local et hors ligne: 2
+Installation sans dépendance: 3
+Adapté à l'intégration continue: 2
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 3
+Fondé sur une source publiée: 4
+Agit sur ce qui est réellement affiché: 4
+Maturité et écosystème: 5
+Soutien commercial et support: 5"><circle cx="437.0" cy="423.1" r="7.05" fill="#9E6FBD" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Stark
+Couverture du contraste: 4
+Simulation des déficiences de la vision des couleurs: 4
+Correction fidèle à la couleur d'origine: 4
+Export de jetons de conception: 2
+Génération de palette: 3
+Local et hors ligne: 2
+Installation sans dépendance: 3
+Adapté à l'intégration continue: 2
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 3
+Fondé sur une source publiée: 4
+Agit sur ce qui est réellement affiché: 4
+Maturité et écosystème: 5
+Soutien commercial et support: 5</title></g><text x="466.3" y="475.5" font-size="14" fill="#1C1C1E" text-anchor="start">Stark</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: Polychrom
+Couverture du contraste: 4
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 2
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 2
+Installation sans dépendance: 4
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 5
+Fondé sur une source publiée: 4
+Agit sur ce qui est réellement affiché: 4
+Maturité et écosystème: 3
+Soutien commercial et support: 2"><circle cx="552.1" cy="329.4" r="7.05" fill="#00AEC8" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Polychrom
+Couverture du contraste: 4
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 2
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 2
+Installation sans dépendance: 4
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 5
+Fondé sur une source publiée: 4
+Agit sur ce qui est réellement affiché: 4
+Maturité et écosystème: 3
+Soutien commercial et support: 2</title></g><text x="564.6" y="334.3" font-size="14" fill="#1C1C1E" text-anchor="start">Polychrom</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: Who Can Use
+Couverture du contraste: 4
+Simulation des déficiences de la vision des couleurs: 3
+Correction fidèle à la couleur d'origine: 2
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 2
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 2
+Fondé sur une source publiée: 4
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 3
+Soutien commercial et support: 1"><circle cx="582.2" cy="297.8" r="7.05" fill="#00ABAE" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Who Can Use
+Couverture du contraste: 4
+Simulation des déficiences de la vision des couleurs: 3
+Correction fidèle à la couleur d'origine: 2
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 2
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 2
+Fondé sur une source publiée: 4
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 3
+Soutien commercial et support: 1</title></g><text x="569.7" y="302.7" font-size="14" fill="#1C1C1E" text-anchor="end">Who Can Use</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: Color Oracle
+Couverture du contraste: 1
+Simulation des déficiences de la vision des couleurs: 5
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 5
+Installation sans dépendance: 3
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 2
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 5
+Maturité et écosystème: 4
+Soutien commercial et support: 2"><circle cx="312.0" cy="418.1" r="7.05" fill="#D68FD5" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Color Oracle
+Couverture du contraste: 1
+Simulation des déficiences de la vision des couleurs: 5
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 5
+Installation sans dépendance: 3
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 2
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 5
+Maturité et écosystème: 4
+Soutien commercial et support: 2</title></g><text x="324.5" y="423.0" font-size="14" fill="#1C1C1E" text-anchor="start">Color Oracle</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: Coblis
+Couverture du contraste: 1
+Simulation des déficiences de la vision des couleurs: 4
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 1
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 1
+Fondé sur une source publiée: 2
+Agit sur ce qui est réellement affiché: 3
+Maturité et écosystème: 4
+Soutien commercial et support: 2"><circle cx="425.7" cy="364.6" r="7.05" fill="#3D8FCF" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Coblis
+Couverture du contraste: 1
+Simulation des déficiences de la vision des couleurs: 4
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 1
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 1
+Fondé sur une source publiée: 2
+Agit sur ce qui est réellement affiché: 3
+Maturité et écosystème: 4
+Soutien commercial et support: 2</title></g><text x="438.2" y="369.5" font-size="14" fill="#1C1C1E" text-anchor="start">Coblis</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: Sim Daltonism
+Couverture du contraste: 1
+Simulation des déficiences de la vision des couleurs: 4
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 5
+Installation sans dépendance: 4
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 1
+Fondé sur une source publiée: 2
+Agit sur ce qui est réellement affiché: 5
+Maturité et écosystème: 3
+Soutien commercial et support: 1"><circle cx="400.5" cy="388.3" r="7.05" fill="#A3ACFF" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Sim Daltonism
+Couverture du contraste: 1
+Simulation des déficiences de la vision des couleurs: 4
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 5
+Installation sans dépendance: 4
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 1
+Fondé sur une source publiée: 2
+Agit sur ce qui est réellement affiché: 5
+Maturité et écosystème: 3
+Soutien commercial et support: 1</title></g><text x="413.0" y="393.2" font-size="14" fill="#1C1C1E" text-anchor="start">Sim Daltonism</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: DaltonLens
+Couverture du contraste: 1
+Simulation des déficiences de la vision des couleurs: 5
+Correction fidèle à la couleur d'origine: 2
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 5
+Installation sans dépendance: 3
+Adapté à l'intégration continue: 3
+Utilisable sans écrire de code: 3
+Espace de couleur perceptuel: 3
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 4
+Maturité et écosystème: 3
+Soutien commercial et support: 1"><circle cx="482.6" cy="410.4" r="7.05" fill="#749FEE" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: DaltonLens
+Couverture du contraste: 1
+Simulation des déficiences de la vision des couleurs: 5
+Correction fidèle à la couleur d'origine: 2
+Export de jetons de conception: 1
+Génération de palette: 1
+Local et hors ligne: 5
+Installation sans dépendance: 3
+Adapté à l'intégration continue: 3
+Utilisable sans écrire de code: 3
+Espace de couleur perceptuel: 3
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 4
+Maturité et écosystème: 3
+Soutien commercial et support: 1</title></g><text x="520.3" y="471.2" font-size="14" fill="#1C1C1E" text-anchor="start">DaltonLens</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: Adobe Leonardo
+Couverture du contraste: 4
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 3
+Export de jetons de conception: 3
+Génération de palette: 5
+Local et hors ligne: 3
+Installation sans dépendance: 3
+Adapté à l'intégration continue: 3
+Utilisable sans écrire de code: 4
+Espace de couleur perceptuel: 5
+Fondé sur une source publiée: 4
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 4
+Soutien commercial et support: 3"><circle cx="836.0" cy="453.6" r="7.05" fill="#B9C461" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Adobe Leonardo
+Couverture du contraste: 4
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 3
+Export de jetons de conception: 3
+Génération de palette: 5
+Local et hors ligne: 3
+Installation sans dépendance: 3
+Adapté à l'intégration continue: 3
+Utilisable sans écrire de code: 4
+Espace de couleur perceptuel: 5
+Fondé sur une source publiée: 4
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 4
+Soutien commercial et support: 3</title></g><text x="836.0" y="478.0" font-size="14" fill="#1C1C1E" text-anchor="middle">Adobe Leonardo</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: Huetone
+Couverture du contraste: 4
+Simulation des déficiences de la vision des couleurs: 3
+Correction fidèle à la couleur d'origine: 3
+Export de jetons de conception: 2
+Génération de palette: 5
+Local et hors ligne: 3
+Installation sans dépendance: 4
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 5
+Fondé sur une source publiée: 4
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 3
+Soutien commercial et support: 1"><circle cx="819.5" cy="289.3" r="7.05" fill="#55A361" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Huetone
+Couverture du contraste: 4
+Simulation des déficiences de la vision des couleurs: 3
+Correction fidèle à la couleur d'origine: 3
+Export de jetons de conception: 2
+Génération de palette: 5
+Local et hors ligne: 3
+Installation sans dépendance: 4
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 5
+Fondé sur une source publiée: 4
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 3
+Soutien commercial et support: 1</title></g><text x="832.0" y="281.7" font-size="14" fill="#1C1C1E" text-anchor="start">Huetone</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: Accessible Palette
+Couverture du contraste: 4
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 3
+Export de jetons de conception: 2
+Génération de palette: 5
+Local et hors ligne: 2
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 5
+Fondé sur une source publiée: 4
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 2
+Soutien commercial et support: 1"><circle cx="895.1" cy="259.0" r="7.05" fill="#AF52DE" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Accessible Palette
+Couverture du contraste: 4
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 3
+Export de jetons de conception: 2
+Génération de palette: 5
+Local et hors ligne: 2
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 5
+Fondé sur une source publiée: 4
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 2
+Soutien commercial et support: 1</title></g><text x="865.8" y="311.4" font-size="14" fill="#1C1C1E" text-anchor="end">Accessible Palette</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: Radix Colors
+Couverture du contraste: 3
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 4
+Génération de palette: 4
+Local et hors ligne: 5
+Installation sans dépendance: 4
+Adapté à l'intégration continue: 2
+Utilisable sans écrire de code: 3
+Espace de couleur perceptuel: 4
+Fondé sur une source publiée: 3
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 5
+Soutien commercial et support: 3"><circle cx="847.8" cy="551.6" r="7.05" fill="#F29968" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Radix Colors
+Couverture du contraste: 3
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 4
+Génération de palette: 4
+Local et hors ligne: 5
+Installation sans dépendance: 4
+Adapté à l'intégration continue: 2
+Utilisable sans écrire de code: 3
+Espace de couleur perceptuel: 4
+Fondé sur une source publiée: 3
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 5
+Soutien commercial et support: 3</title></g><text x="860.3" y="556.5" font-size="14" fill="#1C1C1E" text-anchor="start">Radix Colors</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: Open Props
+Couverture du contraste: 2
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 4
+Génération de palette: 4
+Local et hors ligne: 5
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 2
+Utilisable sans écrire de code: 3
+Espace de couleur perceptuel: 3
+Fondé sur une source publiée: 2
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 4
+Soutien commercial et support: 2"><circle cx="895.7" cy="509.9" r="7.05" fill="#D28C3F" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Open Props
+Couverture du contraste: 2
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 4
+Génération de palette: 4
+Local et hors ligne: 5
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 2
+Utilisable sans écrire de code: 3
+Espace de couleur perceptuel: 3
+Fondé sur une source publiée: 2
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 4
+Soutien commercial et support: 2</title></g><text x="883.2" y="514.8" font-size="14" fill="#1C1C1E" text-anchor="end">Open Props</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: Style Dictionary
+Couverture du contraste: 1
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 5
+Génération de palette: 1
+Local et hors ligne: 5
+Installation sans dépendance: 3
+Adapté à l'intégration continue: 5
+Utilisable sans écrire de code: 1
+Espace de couleur perceptuel: 1
+Fondé sur une source publiée: 3
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 5
+Soutien commercial et support: 3"><circle cx="718.4" cy="709.0" r="7.05" fill="#FF9F8A" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Style Dictionary
+Couverture du contraste: 1
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 5
+Génération de palette: 1
+Local et hors ligne: 5
+Installation sans dépendance: 3
+Adapté à l'intégration continue: 5
+Utilisable sans écrire de code: 1
+Espace de couleur perceptuel: 1
+Fondé sur une source publiée: 3
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 5
+Soutien commercial et support: 3</title></g><text x="730.9" y="713.9" font-size="14" fill="#1C1C1E" text-anchor="start">Style Dictionary</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: Tokens Studio
+Couverture du contraste: 2
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 5
+Génération de palette: 3
+Local et hors ligne: 2
+Installation sans dépendance: 3
+Adapté à l'intégration continue: 3
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 2
+Fondé sur une source publiée: 3
+Agit sur ce qui est réellement affiché: 3
+Maturité et écosystème: 4
+Soutien commercial et support: 4"><circle cx="603.3" cy="560.8" r="7.05" fill="#FD969C" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Tokens Studio
+Couverture du contraste: 2
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 5
+Génération de palette: 3
+Local et hors ligne: 2
+Installation sans dépendance: 3
+Adapté à l'intégration continue: 3
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 2
+Fondé sur une source publiée: 3
+Agit sur ce qui est réellement affiché: 3
+Maturité et écosystème: 4
+Soutien commercial et support: 4</title></g><text x="590.8" y="565.7" font-size="14" fill="#1C1C1E" text-anchor="end">Tokens Studio</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: chroma.js
+Couverture du contraste: 2
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 2
+Export de jetons de conception: 2
+Génération de palette: 5
+Local et hors ligne: 5
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 3
+Utilisable sans écrire de code: 1
+Espace de couleur perceptuel: 3
+Fondé sur une source publiée: 3
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 5
+Soutien commercial et support: 2"><circle cx="912.0" cy="520.7" r="7.05" fill="#007AFF" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: chroma.js
+Couverture du contraste: 2
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 2
+Export de jetons de conception: 2
+Génération de palette: 5
+Local et hors ligne: 5
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 3
+Utilisable sans écrire de code: 1
+Espace de couleur perceptuel: 3
+Fondé sur une source publiée: 3
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 5
+Soutien commercial et support: 2</title></g><text x="924.5" y="525.6" font-size="14" fill="#1C1C1E" text-anchor="start">chroma.js</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: culori
+Couverture du contraste: 3
+Simulation des déficiences de la vision des couleurs: 3
+Correction fidèle à la couleur d'origine: 2
+Export de jetons de conception: 2
+Génération de palette: 4
+Local et hors ligne: 5
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 3
+Utilisable sans écrire de code: 1
+Espace de couleur perceptuel: 5
+Fondé sur une source publiée: 4
+Agit sur ce qui est réellement affiché: 2
+Maturité et écosystème: 4
+Soutien commercial et support: 2"><circle cx="874.7" cy="449.3" r="7.05" fill="#A08C1A" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: culori
+Couverture du contraste: 3
+Simulation des déficiences de la vision des couleurs: 3
+Correction fidèle à la couleur d'origine: 2
+Export de jetons de conception: 2
+Génération de palette: 4
+Local et hors ligne: 5
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 3
+Utilisable sans écrire de code: 1
+Espace de couleur perceptuel: 5
+Fondé sur une source publiée: 4
+Agit sur ce qui est réellement affiché: 2
+Maturité et écosystème: 4
+Soutien commercial et support: 2</title></g><text x="887.2" y="441.7" font-size="14" fill="#1C1C1E" text-anchor="start">culori</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: colorjs.io
+Couverture du contraste: 5
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 2
+Export de jetons de conception: 2
+Génération de palette: 3
+Local et hors ligne: 5
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 3
+Utilisable sans écrire de code: 1
+Espace de couleur perceptuel: 5
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 4
+Soutien commercial et support: 2"><circle cx="906.0" cy="461.4" r="7.05" fill="#CA9A39" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: colorjs.io
+Couverture du contraste: 5
+Simulation des déficiences de la vision des couleurs: 1
+Correction fidèle à la couleur d'origine: 2
+Export de jetons de conception: 2
+Génération de palette: 3
+Local et hors ligne: 5
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 3
+Utilisable sans écrire de code: 1
+Espace de couleur perceptuel: 5
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 4
+Soutien commercial et support: 2</title></g><text x="918.5" y="466.3" font-size="14" fill="#1C1C1E" text-anchor="start">colorjs.io</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: coloraide
+Couverture du contraste: 3
+Simulation des déficiences de la vision des couleurs: 4
+Correction fidèle à la couleur d'origine: 2
+Export de jetons de conception: 2
+Génération de palette: 4
+Local et hors ligne: 5
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 3
+Utilisable sans écrire de code: 1
+Espace de couleur perceptuel: 5
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 2
+Maturité et écosystème: 4
+Soutien commercial et support: 2"><circle cx="846.7" cy="434.7" r="7.05" fill="#7CA751" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: coloraide
+Couverture du contraste: 3
+Simulation des déficiences de la vision des couleurs: 4
+Correction fidèle à la couleur d'origine: 2
+Export de jetons de conception: 2
+Génération de palette: 4
+Local et hors ligne: 5
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 3
+Utilisable sans écrire de code: 1
+Espace de couleur perceptuel: 5
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 2
+Maturité et écosystème: 4
+Soutien commercial et support: 2</title></g><text x="834.2" y="439.6" font-size="14" fill="#1C1C1E" text-anchor="end">coloraide</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: ColorBrewer
+Couverture du contraste: 1
+Simulation des déficiences de la vision des couleurs: 2
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 2
+Génération de palette: 4
+Local et hors ligne: 3
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 2
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 5
+Soutien commercial et support: 2"><circle cx="667.6" cy="428.7" r="7.05" fill="#4FC193" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: ColorBrewer
+Couverture du contraste: 1
+Simulation des déficiences de la vision des couleurs: 2
+Correction fidèle à la couleur d'origine: 1
+Export de jetons de conception: 2
+Génération de palette: 4
+Local et hors ligne: 3
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 2
+Fondé sur une source publiée: 5
+Agit sur ce qui est réellement affiché: 1
+Maturité et écosystème: 5
+Soutien commercial et support: 2</title></g><text x="655.1" y="433.6" font-size="14" fill="#1C1C1E" text-anchor="end">ColorBrewer</text><g class="sp-dot" tabindex="0" role="img" aria-label="Outils: viz-palette
+Couverture du contraste: 2
+Simulation des déficiences de la vision des couleurs: 3
+Correction fidèle à la couleur d'origine: 2
+Export de jetons de conception: 1
+Génération de palette: 3
+Local et hors ligne: 2
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 2
+Fondé sur une source publiée: 3
+Agit sur ce qui est réellement affiché: 3
+Maturité et écosystème: 3
+Soutien commercial et support: 1"><circle cx="588.3" cy="306.8" r="7.05" fill="#34C8B2" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: viz-palette
+Couverture du contraste: 2
+Simulation des déficiences de la vision des couleurs: 3
+Correction fidèle à la couleur d'origine: 2
+Export de jetons de conception: 1
+Génération de palette: 3
+Local et hors ligne: 2
+Installation sans dépendance: 5
+Adapté à l'intégration continue: 1
+Utilisable sans écrire de code: 5
+Espace de couleur perceptuel: 2
+Fondé sur une source publiée: 3
+Agit sur ce qui est réellement affiché: 3
+Maturité et écosystème: 3
+Soutien commercial et support: 1</title></g><text x="600.8" y="311.7" font-size="14" fill="#1C1C1E" text-anchor="start">viz-palette</text><text x="612.0" y="26" font-size="18" font-weight="bold" fill="#000" text-anchor="middle">Outils dans le quadrant</text></svg>

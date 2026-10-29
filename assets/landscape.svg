@@ -1,0 +1,729 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1224" height="946" viewBox="0 0 1224 946" role="img" aria-labelledby="sp-title sp-desc" font-family="Roboto, -apple-system, Helvetica, Arial, sans-serif"><title id="sp-title">Tools in the Quadrant</title><desc id="sp-desc">A 2D positioning map of 26 tools, Practicality to Innovation on the horizontal axis, Stability to Accessibility on the vertical axis.</desc><style>.sp-dot{cursor:pointer}.sp-dot:hover circle,.sp-dot:focus circle{stroke-width:2.4}.sp-dot:hover,.sp-dot:focus{filter:brightness(1.08);outline:none}</style><line x1="223.1" y1="484.0" x2="1026.4" y2="484.0" stroke="#C7C7CC" stroke-width="1.2" stroke-dasharray="2,4"/><line x1="612.0" y1="866.0" x2="612.0" y2="102.0" stroke="#C7C7CC" stroke-width="1.2" stroke-dasharray="2,4"/><text data-pole="right" x="1164.0" y="491.7" font-size="22" font-style="italic" fill="#6E6E73" text-anchor="end">Innovation</text><text data-pole="left" x="60.0" y="491.7" font-size="22" font-style="italic" fill="#6E6E73" text-anchor="start">Practicality</text><text data-pole="top" x="612.0" y="65.4" font-size="22" font-style="italic" fill="#6E6E73" text-anchor="middle">Accessibility</text><text data-pole="bottom" x="612.0" y="915.6" font-size="22" font-style="italic" fill="#6E6E73" text-anchor="middle">Stability</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: sprezzature-colors
+Contrast coverage: 3
+Colour-vision-deficiency simulation: 4
+Fix close to the original colour: 5
+Design-token export: 2
+Palette generation: 3
+Local and offline: 5
+Dependency-free install: 5
+Fits continuous integration: 5
+Usable without writing code: 2
+Perceptual colour space: 4
+Grounded in a published source: 5
+Works on what is actually rendered: 3
+Maturity and ecosystem: 1
+Commercial backing and support: 1"><circle cx="912.0" cy="259.0" r="7.05" fill="#FF3B30" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: sprezzature-colors
+Contrast coverage: 3
+Colour-vision-deficiency simulation: 4
+Fix close to the original colour: 5
+Design-token export: 2
+Palette generation: 3
+Local and offline: 5
+Dependency-free install: 5
+Fits continuous integration: 5
+Usable without writing code: 2
+Perceptual colour space: 4
+Grounded in a published source: 5
+Works on what is actually rendered: 3
+Maturity and ecosystem: 1
+Commercial backing and support: 1</title></g><text x="912.0" y="243.0" font-size="14" fill="#1C1C1E" text-anchor="middle">sprezzature-colors</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: WebAIM Contrast Checker
+Contrast coverage: 4
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 3
+Design-token export: 1
+Palette generation: 1
+Local and offline: 2
+Dependency-free install: 5
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 2
+Grounded in a published source: 5
+Works on what is actually rendered: 1
+Maturity and ecosystem: 5
+Commercial backing and support: 4"><circle cx="529.2" cy="401.1" r="7.05" fill="#5CD0FF" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: WebAIM Contrast Checker
+Contrast coverage: 4
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 3
+Design-token export: 1
+Palette generation: 1
+Local and offline: 2
+Dependency-free install: 5
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 2
+Grounded in a published source: 5
+Works on what is actually rendered: 1
+Maturity and ecosystem: 5
+Commercial backing and support: 4</title></g><text x="541.7" y="406.0" font-size="14" fill="#1C1C1E" text-anchor="start">WebAIM Contrast Checker</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: Colour Contrast Analyser
+Contrast coverage: 5
+Colour-vision-deficiency simulation: 3
+Fix close to the original colour: 3
+Design-token export: 1
+Palette generation: 1
+Local and offline: 5
+Dependency-free install: 3
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 2
+Grounded in a published source: 5
+Works on what is actually rendered: 5
+Maturity and ecosystem: 5
+Commercial backing and support: 4"><circle cx="322.8" cy="442.7" r="7.05" fill="#FDA3D9" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: Colour Contrast Analyser
+Contrast coverage: 5
+Colour-vision-deficiency simulation: 3
+Fix close to the original colour: 3
+Design-token export: 1
+Palette generation: 1
+Local and offline: 5
+Dependency-free install: 3
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 2
+Grounded in a published source: 5
+Works on what is actually rendered: 5
+Maturity and ecosystem: 5
+Commercial backing and support: 4</title></g><text x="335.3" y="447.6" font-size="14" fill="#1C1C1E" text-anchor="start">Colour Contrast Analyser</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: axe-core
+Contrast coverage: 4
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 1
+Design-token export: 1
+Palette generation: 1
+Local and offline: 4
+Dependency-free install: 2
+Fits continuous integration: 5
+Usable without writing code: 2
+Perceptual colour space: 1
+Grounded in a published source: 5
+Works on what is actually rendered: 5
+Maturity and ecosystem: 5
+Commercial backing and support: 5"><circle cx="347.2" cy="647.0" r="7.05" fill="#A52A2A" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: axe-core
+Contrast coverage: 4
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 1
+Design-token export: 1
+Palette generation: 1
+Local and offline: 4
+Dependency-free install: 2
+Fits continuous integration: 5
+Usable without writing code: 2
+Perceptual colour space: 1
+Grounded in a published source: 5
+Works on what is actually rendered: 5
+Maturity and ecosystem: 5
+Commercial backing and support: 5</title></g><text x="359.7" y="651.9" font-size="14" fill="#1C1C1E" text-anchor="start">axe-core</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: Lighthouse
+Contrast coverage: 3
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 1
+Design-token export: 1
+Palette generation: 1
+Local and offline: 4
+Dependency-free install: 4
+Fits continuous integration: 4
+Usable without writing code: 4
+Perceptual colour space: 1
+Grounded in a published source: 5
+Works on what is actually rendered: 5
+Maturity and ecosystem: 5
+Commercial backing and support: 4"><circle cx="384.1" cy="559.2" r="7.05" fill="#E583A3" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: Lighthouse
+Contrast coverage: 3
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 1
+Design-token export: 1
+Palette generation: 1
+Local and offline: 4
+Dependency-free install: 4
+Fits continuous integration: 4
+Usable without writing code: 4
+Perceptual colour space: 1
+Grounded in a published source: 5
+Works on what is actually rendered: 5
+Maturity and ecosystem: 5
+Commercial backing and support: 4</title></g><text x="396.6" y="564.1" font-size="14" fill="#1C1C1E" text-anchor="start">Lighthouse</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: Polypane
+Contrast coverage: 5
+Colour-vision-deficiency simulation: 4
+Fix close to the original colour: 3
+Design-token export: 1
+Palette generation: 2
+Local and offline: 3
+Dependency-free install: 3
+Fits continuous integration: 2
+Usable without writing code: 5
+Perceptual colour space: 3
+Grounded in a published source: 4
+Works on what is actually rendered: 5
+Maturity and ecosystem: 4
+Commercial backing and support: 4"><circle cx="379.6" cy="391.7" r="7.05" fill="#9781D6" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: Polypane
+Contrast coverage: 5
+Colour-vision-deficiency simulation: 4
+Fix close to the original colour: 3
+Design-token export: 1
+Palette generation: 2
+Local and offline: 3
+Dependency-free install: 3
+Fits continuous integration: 2
+Usable without writing code: 5
+Perceptual colour space: 3
+Grounded in a published source: 4
+Works on what is actually rendered: 5
+Maturity and ecosystem: 4
+Commercial backing and support: 4</title></g><text x="367.1" y="396.6" font-size="14" fill="#1C1C1E" text-anchor="end">Polypane</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: Stark
+Contrast coverage: 4
+Colour-vision-deficiency simulation: 4
+Fix close to the original colour: 4
+Design-token export: 2
+Palette generation: 3
+Local and offline: 2
+Dependency-free install: 3
+Fits continuous integration: 2
+Usable without writing code: 5
+Perceptual colour space: 3
+Grounded in a published source: 4
+Works on what is actually rendered: 4
+Maturity and ecosystem: 5
+Commercial backing and support: 5"><circle cx="437.0" cy="423.1" r="7.05" fill="#9E6FBD" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: Stark
+Contrast coverage: 4
+Colour-vision-deficiency simulation: 4
+Fix close to the original colour: 4
+Design-token export: 2
+Palette generation: 3
+Local and offline: 2
+Dependency-free install: 3
+Fits continuous integration: 2
+Usable without writing code: 5
+Perceptual colour space: 3
+Grounded in a published source: 4
+Works on what is actually rendered: 4
+Maturity and ecosystem: 5
+Commercial backing and support: 5</title></g><text x="466.3" y="475.5" font-size="14" fill="#1C1C1E" text-anchor="start">Stark</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: Polychrom
+Contrast coverage: 4
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 2
+Design-token export: 1
+Palette generation: 1
+Local and offline: 2
+Dependency-free install: 4
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 5
+Grounded in a published source: 4
+Works on what is actually rendered: 4
+Maturity and ecosystem: 3
+Commercial backing and support: 2"><circle cx="552.1" cy="329.4" r="7.05" fill="#00AEC8" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: Polychrom
+Contrast coverage: 4
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 2
+Design-token export: 1
+Palette generation: 1
+Local and offline: 2
+Dependency-free install: 4
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 5
+Grounded in a published source: 4
+Works on what is actually rendered: 4
+Maturity and ecosystem: 3
+Commercial backing and support: 2</title></g><text x="564.6" y="334.3" font-size="14" fill="#1C1C1E" text-anchor="start">Polychrom</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: Who Can Use
+Contrast coverage: 4
+Colour-vision-deficiency simulation: 3
+Fix close to the original colour: 2
+Design-token export: 1
+Palette generation: 1
+Local and offline: 2
+Dependency-free install: 5
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 2
+Grounded in a published source: 4
+Works on what is actually rendered: 1
+Maturity and ecosystem: 3
+Commercial backing and support: 1"><circle cx="582.2" cy="297.8" r="7.05" fill="#00ABAE" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: Who Can Use
+Contrast coverage: 4
+Colour-vision-deficiency simulation: 3
+Fix close to the original colour: 2
+Design-token export: 1
+Palette generation: 1
+Local and offline: 2
+Dependency-free install: 5
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 2
+Grounded in a published source: 4
+Works on what is actually rendered: 1
+Maturity and ecosystem: 3
+Commercial backing and support: 1</title></g><text x="569.7" y="302.7" font-size="14" fill="#1C1C1E" text-anchor="end">Who Can Use</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: Color Oracle
+Contrast coverage: 1
+Colour-vision-deficiency simulation: 5
+Fix close to the original colour: 1
+Design-token export: 1
+Palette generation: 1
+Local and offline: 5
+Dependency-free install: 3
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 2
+Grounded in a published source: 5
+Works on what is actually rendered: 5
+Maturity and ecosystem: 4
+Commercial backing and support: 2"><circle cx="312.0" cy="418.1" r="7.05" fill="#D68FD5" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: Color Oracle
+Contrast coverage: 1
+Colour-vision-deficiency simulation: 5
+Fix close to the original colour: 1
+Design-token export: 1
+Palette generation: 1
+Local and offline: 5
+Dependency-free install: 3
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 2
+Grounded in a published source: 5
+Works on what is actually rendered: 5
+Maturity and ecosystem: 4
+Commercial backing and support: 2</title></g><text x="324.5" y="423.0" font-size="14" fill="#1C1C1E" text-anchor="start">Color Oracle</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: Coblis
+Contrast coverage: 1
+Colour-vision-deficiency simulation: 4
+Fix close to the original colour: 1
+Design-token export: 1
+Palette generation: 1
+Local and offline: 1
+Dependency-free install: 5
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 1
+Grounded in a published source: 2
+Works on what is actually rendered: 3
+Maturity and ecosystem: 4
+Commercial backing and support: 2"><circle cx="425.7" cy="364.6" r="7.05" fill="#3D8FCF" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: Coblis
+Contrast coverage: 1
+Colour-vision-deficiency simulation: 4
+Fix close to the original colour: 1
+Design-token export: 1
+Palette generation: 1
+Local and offline: 1
+Dependency-free install: 5
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 1
+Grounded in a published source: 2
+Works on what is actually rendered: 3
+Maturity and ecosystem: 4
+Commercial backing and support: 2</title></g><text x="438.2" y="369.5" font-size="14" fill="#1C1C1E" text-anchor="start">Coblis</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: Sim Daltonism
+Contrast coverage: 1
+Colour-vision-deficiency simulation: 4
+Fix close to the original colour: 1
+Design-token export: 1
+Palette generation: 1
+Local and offline: 5
+Dependency-free install: 4
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 1
+Grounded in a published source: 2
+Works on what is actually rendered: 5
+Maturity and ecosystem: 3
+Commercial backing and support: 1"><circle cx="400.5" cy="388.3" r="7.05" fill="#A3ACFF" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: Sim Daltonism
+Contrast coverage: 1
+Colour-vision-deficiency simulation: 4
+Fix close to the original colour: 1
+Design-token export: 1
+Palette generation: 1
+Local and offline: 5
+Dependency-free install: 4
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 1
+Grounded in a published source: 2
+Works on what is actually rendered: 5
+Maturity and ecosystem: 3
+Commercial backing and support: 1</title></g><text x="413.0" y="393.2" font-size="14" fill="#1C1C1E" text-anchor="start">Sim Daltonism</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: DaltonLens
+Contrast coverage: 1
+Colour-vision-deficiency simulation: 5
+Fix close to the original colour: 2
+Design-token export: 1
+Palette generation: 1
+Local and offline: 5
+Dependency-free install: 3
+Fits continuous integration: 3
+Usable without writing code: 3
+Perceptual colour space: 3
+Grounded in a published source: 5
+Works on what is actually rendered: 4
+Maturity and ecosystem: 3
+Commercial backing and support: 1"><circle cx="482.6" cy="410.4" r="7.05" fill="#749FEE" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: DaltonLens
+Contrast coverage: 1
+Colour-vision-deficiency simulation: 5
+Fix close to the original colour: 2
+Design-token export: 1
+Palette generation: 1
+Local and offline: 5
+Dependency-free install: 3
+Fits continuous integration: 3
+Usable without writing code: 3
+Perceptual colour space: 3
+Grounded in a published source: 5
+Works on what is actually rendered: 4
+Maturity and ecosystem: 3
+Commercial backing and support: 1</title></g><text x="520.3" y="471.2" font-size="14" fill="#1C1C1E" text-anchor="start">DaltonLens</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: Adobe Leonardo
+Contrast coverage: 4
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 3
+Design-token export: 3
+Palette generation: 5
+Local and offline: 3
+Dependency-free install: 3
+Fits continuous integration: 3
+Usable without writing code: 4
+Perceptual colour space: 5
+Grounded in a published source: 4
+Works on what is actually rendered: 1
+Maturity and ecosystem: 4
+Commercial backing and support: 3"><circle cx="836.0" cy="453.6" r="7.05" fill="#B9C461" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: Adobe Leonardo
+Contrast coverage: 4
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 3
+Design-token export: 3
+Palette generation: 5
+Local and offline: 3
+Dependency-free install: 3
+Fits continuous integration: 3
+Usable without writing code: 4
+Perceptual colour space: 5
+Grounded in a published source: 4
+Works on what is actually rendered: 1
+Maturity and ecosystem: 4
+Commercial backing and support: 3</title></g><text x="836.0" y="478.0" font-size="14" fill="#1C1C1E" text-anchor="middle">Adobe Leonardo</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: Huetone
+Contrast coverage: 4
+Colour-vision-deficiency simulation: 3
+Fix close to the original colour: 3
+Design-token export: 2
+Palette generation: 5
+Local and offline: 3
+Dependency-free install: 4
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 5
+Grounded in a published source: 4
+Works on what is actually rendered: 1
+Maturity and ecosystem: 3
+Commercial backing and support: 1"><circle cx="819.5" cy="289.3" r="7.05" fill="#55A361" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: Huetone
+Contrast coverage: 4
+Colour-vision-deficiency simulation: 3
+Fix close to the original colour: 3
+Design-token export: 2
+Palette generation: 5
+Local and offline: 3
+Dependency-free install: 4
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 5
+Grounded in a published source: 4
+Works on what is actually rendered: 1
+Maturity and ecosystem: 3
+Commercial backing and support: 1</title></g><text x="832.0" y="281.7" font-size="14" fill="#1C1C1E" text-anchor="start">Huetone</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: Accessible Palette
+Contrast coverage: 4
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 3
+Design-token export: 2
+Palette generation: 5
+Local and offline: 2
+Dependency-free install: 5
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 5
+Grounded in a published source: 4
+Works on what is actually rendered: 1
+Maturity and ecosystem: 2
+Commercial backing and support: 1"><circle cx="895.1" cy="259.0" r="7.05" fill="#AF52DE" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: Accessible Palette
+Contrast coverage: 4
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 3
+Design-token export: 2
+Palette generation: 5
+Local and offline: 2
+Dependency-free install: 5
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 5
+Grounded in a published source: 4
+Works on what is actually rendered: 1
+Maturity and ecosystem: 2
+Commercial backing and support: 1</title></g><text x="865.8" y="311.4" font-size="14" fill="#1C1C1E" text-anchor="end">Accessible Palette</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: Radix Colors
+Contrast coverage: 3
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 1
+Design-token export: 4
+Palette generation: 4
+Local and offline: 5
+Dependency-free install: 4
+Fits continuous integration: 2
+Usable without writing code: 3
+Perceptual colour space: 4
+Grounded in a published source: 3
+Works on what is actually rendered: 1
+Maturity and ecosystem: 5
+Commercial backing and support: 3"><circle cx="847.8" cy="551.6" r="7.05" fill="#F29968" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: Radix Colors
+Contrast coverage: 3
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 1
+Design-token export: 4
+Palette generation: 4
+Local and offline: 5
+Dependency-free install: 4
+Fits continuous integration: 2
+Usable without writing code: 3
+Perceptual colour space: 4
+Grounded in a published source: 3
+Works on what is actually rendered: 1
+Maturity and ecosystem: 5
+Commercial backing and support: 3</title></g><text x="860.3" y="556.5" font-size="14" fill="#1C1C1E" text-anchor="start">Radix Colors</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: Open Props
+Contrast coverage: 2
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 1
+Design-token export: 4
+Palette generation: 4
+Local and offline: 5
+Dependency-free install: 5
+Fits continuous integration: 2
+Usable without writing code: 3
+Perceptual colour space: 3
+Grounded in a published source: 2
+Works on what is actually rendered: 1
+Maturity and ecosystem: 4
+Commercial backing and support: 2"><circle cx="895.7" cy="509.9" r="7.05" fill="#D28C3F" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: Open Props
+Contrast coverage: 2
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 1
+Design-token export: 4
+Palette generation: 4
+Local and offline: 5
+Dependency-free install: 5
+Fits continuous integration: 2
+Usable without writing code: 3
+Perceptual colour space: 3
+Grounded in a published source: 2
+Works on what is actually rendered: 1
+Maturity and ecosystem: 4
+Commercial backing and support: 2</title></g><text x="883.2" y="514.8" font-size="14" fill="#1C1C1E" text-anchor="end">Open Props</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: Style Dictionary
+Contrast coverage: 1
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 1
+Design-token export: 5
+Palette generation: 1
+Local and offline: 5
+Dependency-free install: 3
+Fits continuous integration: 5
+Usable without writing code: 1
+Perceptual colour space: 1
+Grounded in a published source: 3
+Works on what is actually rendered: 1
+Maturity and ecosystem: 5
+Commercial backing and support: 3"><circle cx="718.4" cy="709.0" r="7.05" fill="#FF9F8A" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: Style Dictionary
+Contrast coverage: 1
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 1
+Design-token export: 5
+Palette generation: 1
+Local and offline: 5
+Dependency-free install: 3
+Fits continuous integration: 5
+Usable without writing code: 1
+Perceptual colour space: 1
+Grounded in a published source: 3
+Works on what is actually rendered: 1
+Maturity and ecosystem: 5
+Commercial backing and support: 3</title></g><text x="730.9" y="713.9" font-size="14" fill="#1C1C1E" text-anchor="start">Style Dictionary</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: Tokens Studio
+Contrast coverage: 2
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 1
+Design-token export: 5
+Palette generation: 3
+Local and offline: 2
+Dependency-free install: 3
+Fits continuous integration: 3
+Usable without writing code: 5
+Perceptual colour space: 2
+Grounded in a published source: 3
+Works on what is actually rendered: 3
+Maturity and ecosystem: 4
+Commercial backing and support: 4"><circle cx="603.3" cy="560.8" r="7.05" fill="#FD969C" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: Tokens Studio
+Contrast coverage: 2
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 1
+Design-token export: 5
+Palette generation: 3
+Local and offline: 2
+Dependency-free install: 3
+Fits continuous integration: 3
+Usable without writing code: 5
+Perceptual colour space: 2
+Grounded in a published source: 3
+Works on what is actually rendered: 3
+Maturity and ecosystem: 4
+Commercial backing and support: 4</title></g><text x="590.8" y="565.7" font-size="14" fill="#1C1C1E" text-anchor="end">Tokens Studio</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: chroma.js
+Contrast coverage: 2
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 2
+Design-token export: 2
+Palette generation: 5
+Local and offline: 5
+Dependency-free install: 5
+Fits continuous integration: 3
+Usable without writing code: 1
+Perceptual colour space: 3
+Grounded in a published source: 3
+Works on what is actually rendered: 1
+Maturity and ecosystem: 5
+Commercial backing and support: 2"><circle cx="912.0" cy="520.7" r="7.05" fill="#007AFF" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: chroma.js
+Contrast coverage: 2
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 2
+Design-token export: 2
+Palette generation: 5
+Local and offline: 5
+Dependency-free install: 5
+Fits continuous integration: 3
+Usable without writing code: 1
+Perceptual colour space: 3
+Grounded in a published source: 3
+Works on what is actually rendered: 1
+Maturity and ecosystem: 5
+Commercial backing and support: 2</title></g><text x="924.5" y="525.6" font-size="14" fill="#1C1C1E" text-anchor="start">chroma.js</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: culori
+Contrast coverage: 3
+Colour-vision-deficiency simulation: 3
+Fix close to the original colour: 2
+Design-token export: 2
+Palette generation: 4
+Local and offline: 5
+Dependency-free install: 5
+Fits continuous integration: 3
+Usable without writing code: 1
+Perceptual colour space: 5
+Grounded in a published source: 4
+Works on what is actually rendered: 2
+Maturity and ecosystem: 4
+Commercial backing and support: 2"><circle cx="874.7" cy="449.3" r="7.05" fill="#A08C1A" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: culori
+Contrast coverage: 3
+Colour-vision-deficiency simulation: 3
+Fix close to the original colour: 2
+Design-token export: 2
+Palette generation: 4
+Local and offline: 5
+Dependency-free install: 5
+Fits continuous integration: 3
+Usable without writing code: 1
+Perceptual colour space: 5
+Grounded in a published source: 4
+Works on what is actually rendered: 2
+Maturity and ecosystem: 4
+Commercial backing and support: 2</title></g><text x="887.2" y="441.7" font-size="14" fill="#1C1C1E" text-anchor="start">culori</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: colorjs.io
+Contrast coverage: 5
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 2
+Design-token export: 2
+Palette generation: 3
+Local and offline: 5
+Dependency-free install: 5
+Fits continuous integration: 3
+Usable without writing code: 1
+Perceptual colour space: 5
+Grounded in a published source: 5
+Works on what is actually rendered: 1
+Maturity and ecosystem: 4
+Commercial backing and support: 2"><circle cx="906.0" cy="461.4" r="7.05" fill="#CA9A39" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: colorjs.io
+Contrast coverage: 5
+Colour-vision-deficiency simulation: 1
+Fix close to the original colour: 2
+Design-token export: 2
+Palette generation: 3
+Local and offline: 5
+Dependency-free install: 5
+Fits continuous integration: 3
+Usable without writing code: 1
+Perceptual colour space: 5
+Grounded in a published source: 5
+Works on what is actually rendered: 1
+Maturity and ecosystem: 4
+Commercial backing and support: 2</title></g><text x="918.5" y="466.3" font-size="14" fill="#1C1C1E" text-anchor="start">colorjs.io</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: coloraide
+Contrast coverage: 3
+Colour-vision-deficiency simulation: 4
+Fix close to the original colour: 2
+Design-token export: 2
+Palette generation: 4
+Local and offline: 5
+Dependency-free install: 5
+Fits continuous integration: 3
+Usable without writing code: 1
+Perceptual colour space: 5
+Grounded in a published source: 5
+Works on what is actually rendered: 2
+Maturity and ecosystem: 4
+Commercial backing and support: 2"><circle cx="846.7" cy="434.7" r="7.05" fill="#7CA751" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: coloraide
+Contrast coverage: 3
+Colour-vision-deficiency simulation: 4
+Fix close to the original colour: 2
+Design-token export: 2
+Palette generation: 4
+Local and offline: 5
+Dependency-free install: 5
+Fits continuous integration: 3
+Usable without writing code: 1
+Perceptual colour space: 5
+Grounded in a published source: 5
+Works on what is actually rendered: 2
+Maturity and ecosystem: 4
+Commercial backing and support: 2</title></g><text x="834.2" y="439.6" font-size="14" fill="#1C1C1E" text-anchor="end">coloraide</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: ColorBrewer
+Contrast coverage: 1
+Colour-vision-deficiency simulation: 2
+Fix close to the original colour: 1
+Design-token export: 2
+Palette generation: 4
+Local and offline: 3
+Dependency-free install: 5
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 2
+Grounded in a published source: 5
+Works on what is actually rendered: 1
+Maturity and ecosystem: 5
+Commercial backing and support: 2"><circle cx="667.6" cy="428.7" r="7.05" fill="#4FC193" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: ColorBrewer
+Contrast coverage: 1
+Colour-vision-deficiency simulation: 2
+Fix close to the original colour: 1
+Design-token export: 2
+Palette generation: 4
+Local and offline: 3
+Dependency-free install: 5
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 2
+Grounded in a published source: 5
+Works on what is actually rendered: 1
+Maturity and ecosystem: 5
+Commercial backing and support: 2</title></g><text x="655.1" y="433.6" font-size="14" fill="#1C1C1E" text-anchor="end">ColorBrewer</text><g class="sp-dot" tabindex="0" role="img" aria-label="Tools: viz-palette
+Contrast coverage: 2
+Colour-vision-deficiency simulation: 3
+Fix close to the original colour: 2
+Design-token export: 1
+Palette generation: 3
+Local and offline: 2
+Dependency-free install: 5
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 2
+Grounded in a published source: 3
+Works on what is actually rendered: 3
+Maturity and ecosystem: 3
+Commercial backing and support: 1"><circle cx="588.3" cy="306.8" r="7.05" fill="#34C8B2" stroke="white" stroke-width="1" opacity="0.95"/><title>Tools: viz-palette
+Contrast coverage: 2
+Colour-vision-deficiency simulation: 3
+Fix close to the original colour: 2
+Design-token export: 1
+Palette generation: 3
+Local and offline: 2
+Dependency-free install: 5
+Fits continuous integration: 1
+Usable without writing code: 5
+Perceptual colour space: 2
+Grounded in a published source: 3
+Works on what is actually rendered: 3
+Maturity and ecosystem: 3
+Commercial backing and support: 1</title></g><text x="600.8" y="311.7" font-size="14" fill="#1C1C1E" text-anchor="start">viz-palette</text><text x="612.0" y="26" font-size="18" font-weight="bold" fill="#000" text-anchor="middle">Tools in the Quadrant</text></svg>

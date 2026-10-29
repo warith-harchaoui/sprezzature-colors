@@ -1,0 +1,637 @@
+meta:
+  reference: sprezzature-colors
+  rotation_deg: 191.942
+  explained_variance_ratio:
+  - 0.234
+  - 0.2076
+  cumulative_variance: 0.4416
+  n_approaches: 26
+  attributes:
+  - Contrast coverage
+  - Colour-vision-deficiency simulation
+  - Fix close to the original colour
+  - Design-token export
+  - Palette generation
+  - Local and offline
+  - Dependency-free install
+  - Fits continuous integration
+  - Usable without writing code
+  - Perceptual colour space
+  - Grounded in a published source
+  - Works on what is actually rendered
+  - Maturity and ecosystem
+  - Commercial backing and support
+  lower_is_better: []
+  imputed_cells: []
+axes:
+  axis_1:
+    name: Practicality ↔ Innovation
+    pole_left: Practicality
+    pole_right: Innovation
+    loadings:
+      Contrast coverage: 0.0319
+      Colour-vision-deficiency simulation: -0.2262
+      Fix close to the original colour: 0.0823
+      Design-token export: 0.3059
+      Palette generation: 0.4481
+      Local and offline: 0.1286
+      Dependency-free install: 0.3015
+      Fits continuous integration: 0.1157
+      Usable without writing code: -0.3086
+      Perceptual colour space: 0.3791
+      Grounded in a published source: -0.0853
+      Works on what is actually rendered: -0.4625
+      Maturity and ecosystem: -0.1171
+      Commercial backing and support: -0.2281
+  axis_2:
+    name: Stability ↔ Accessibility
+    pole_bottom: Stability
+    pole_top: Accessibility
+    loadings:
+      Contrast coverage: 0.1183
+      Colour-vision-deficiency simulation: 0.2705
+      Fix close to the original colour: 0.2977
+      Design-token export: -0.3264
+      Palette generation: 0.0627
+      Local and offline: -0.2647
+      Dependency-free install: 0.2577
+      Fits continuous integration: -0.3876
+      Usable without writing code: 0.3132
+      Perceptual colour space: 0.2059
+      Grounded in a published source: 0.0454
+      Works on what is actually rendered: -0.005
+      Maturity and ecosystem: -0.4089
+      Commercial backing and support: -0.3423
+approaches:
+- name: sprezzature-colors
+  coordinates:
+    axis_1: 2.5714
+    axis_2: 3.5754
+  role: best
+  color: '#FF3B30'
+  attributes:
+    Contrast coverage: 3.0
+    Colour-vision-deficiency simulation: 4.0
+    Fix close to the original colour: 5.0
+    Design-token export: 2.0
+    Palette generation: 3.0
+    Local and offline: 5.0
+    Dependency-free install: 5.0
+    Fits continuous integration: 5.0
+    Usable without writing code: 2.0
+    Perceptual colour space: 4.0
+    Grounded in a published source: 5.0
+    Works on what is actually rendered: 3.0
+    Maturity and ecosystem: 1.0
+    Commercial backing and support: 1.0
+  imputed_attributes: []
+- name: WebAIM Contrast Checker
+  coordinates:
+    axis_1: -0.7098
+    axis_2: 1.3181
+  role: competitor
+  color: '#5CD0FF'
+  attributes:
+    Contrast coverage: 4.0
+    Colour-vision-deficiency simulation: 1.0
+    Fix close to the original colour: 3.0
+    Design-token export: 1.0
+    Palette generation: 1.0
+    Local and offline: 2.0
+    Dependency-free install: 5.0
+    Fits continuous integration: 1.0
+    Usable without writing code: 5.0
+    Perceptual colour space: 2.0
+    Grounded in a published source: 5.0
+    Works on what is actually rendered: 1.0
+    Maturity and ecosystem: 5.0
+    Commercial backing and support: 4.0
+  imputed_attributes: []
+- name: Colour Contrast Analyser
+  coordinates:
+    axis_1: -2.4787
+    axis_2: 0.6557
+  role: competitor
+  color: '#FDA3D9'
+  attributes:
+    Contrast coverage: 5.0
+    Colour-vision-deficiency simulation: 3.0
+    Fix close to the original colour: 3.0
+    Design-token export: 1.0
+    Palette generation: 1.0
+    Local and offline: 5.0
+    Dependency-free install: 3.0
+    Fits continuous integration: 1.0
+    Usable without writing code: 5.0
+    Perceptual colour space: 2.0
+    Grounded in a published source: 5.0
+    Works on what is actually rendered: 5.0
+    Maturity and ecosystem: 5.0
+    Commercial backing and support: 4.0
+  imputed_attributes: []
+- name: axe-core
+  coordinates:
+    axis_1: -2.2693
+    axis_2: -2.5898
+  role: worst
+  color: '#A52A2A'
+  attributes:
+    Contrast coverage: 4.0
+    Colour-vision-deficiency simulation: 1.0
+    Fix close to the original colour: 1.0
+    Design-token export: 1.0
+    Palette generation: 1.0
+    Local and offline: 4.0
+    Dependency-free install: 2.0
+    Fits continuous integration: 5.0
+    Usable without writing code: 2.0
+    Perceptual colour space: 1.0
+    Grounded in a published source: 5.0
+    Works on what is actually rendered: 5.0
+    Maturity and ecosystem: 5.0
+    Commercial backing and support: 5.0
+  imputed_attributes: []
+- name: Lighthouse
+  coordinates:
+    axis_1: -1.9535
+    axis_2: -1.1942
+  role: competitor
+  color: '#E583A3'
+  attributes:
+    Contrast coverage: 3.0
+    Colour-vision-deficiency simulation: 1.0
+    Fix close to the original colour: 1.0
+    Design-token export: 1.0
+    Palette generation: 1.0
+    Local and offline: 4.0
+    Dependency-free install: 4.0
+    Fits continuous integration: 4.0
+    Usable without writing code: 4.0
+    Perceptual colour space: 1.0
+    Grounded in a published source: 5.0
+    Works on what is actually rendered: 5.0
+    Maturity and ecosystem: 5.0
+    Commercial backing and support: 4.0
+  imputed_attributes: []
+- name: Polypane
+  coordinates:
+    axis_1: -1.9918
+    axis_2: 1.4673
+  role: competitor
+  color: '#9781D6'
+  attributes:
+    Contrast coverage: 5.0
+    Colour-vision-deficiency simulation: 4.0
+    Fix close to the original colour: 3.0
+    Design-token export: 1.0
+    Palette generation: 2.0
+    Local and offline: 3.0
+    Dependency-free install: 3.0
+    Fits continuous integration: 2.0
+    Usable without writing code: 5.0
+    Perceptual colour space: 3.0
+    Grounded in a published source: 4.0
+    Works on what is actually rendered: 5.0
+    Maturity and ecosystem: 4.0
+    Commercial backing and support: 4.0
+  imputed_attributes: []
+- name: Stark
+  coordinates:
+    axis_1: -1.5001
+    axis_2: 0.9673
+  role: competitor
+  color: '#9E6FBD'
+  attributes:
+    Contrast coverage: 4.0
+    Colour-vision-deficiency simulation: 4.0
+    Fix close to the original colour: 4.0
+    Design-token export: 2.0
+    Palette generation: 3.0
+    Local and offline: 2.0
+    Dependency-free install: 3.0
+    Fits continuous integration: 2.0
+    Usable without writing code: 5.0
+    Perceptual colour space: 3.0
+    Grounded in a published source: 4.0
+    Works on what is actually rendered: 4.0
+    Maturity and ecosystem: 5.0
+    Commercial backing and support: 5.0
+  imputed_attributes: []
+- name: Polychrom
+  coordinates:
+    axis_1: -0.5133
+    axis_2: 2.4564
+  role: competitor
+  color: '#00AEC8'
+  attributes:
+    Contrast coverage: 4.0
+    Colour-vision-deficiency simulation: 1.0
+    Fix close to the original colour: 2.0
+    Design-token export: 1.0
+    Palette generation: 1.0
+    Local and offline: 2.0
+    Dependency-free install: 4.0
+    Fits continuous integration: 1.0
+    Usable without writing code: 5.0
+    Perceptual colour space: 5.0
+    Grounded in a published source: 4.0
+    Works on what is actually rendered: 4.0
+    Maturity and ecosystem: 3.0
+    Commercial backing and support: 2.0
+  imputed_attributes: []
+- name: Who Can Use
+  coordinates:
+    axis_1: -0.255
+    axis_2: 2.9595
+  role: competitor
+  color: '#00ABAE'
+  attributes:
+    Contrast coverage: 4.0
+    Colour-vision-deficiency simulation: 3.0
+    Fix close to the original colour: 2.0
+    Design-token export: 1.0
+    Palette generation: 1.0
+    Local and offline: 2.0
+    Dependency-free install: 5.0
+    Fits continuous integration: 1.0
+    Usable without writing code: 5.0
+    Perceptual colour space: 2.0
+    Grounded in a published source: 4.0
+    Works on what is actually rendered: 1.0
+    Maturity and ecosystem: 3.0
+    Commercial backing and support: 1.0
+  imputed_attributes: []
+- name: Color Oracle
+  coordinates:
+    axis_1: -2.5714
+    axis_2: 1.0477
+  role: competitor
+  color: '#D68FD5'
+  attributes:
+    Contrast coverage: 1.0
+    Colour-vision-deficiency simulation: 5.0
+    Fix close to the original colour: 1.0
+    Design-token export: 1.0
+    Palette generation: 1.0
+    Local and offline: 5.0
+    Dependency-free install: 3.0
+    Fits continuous integration: 1.0
+    Usable without writing code: 5.0
+    Perceptual colour space: 2.0
+    Grounded in a published source: 5.0
+    Works on what is actually rendered: 5.0
+    Maturity and ecosystem: 4.0
+    Commercial backing and support: 2.0
+  imputed_attributes: []
+- name: Coblis
+  coordinates:
+    axis_1: -1.5971
+    axis_2: 1.8967
+  role: competitor
+  color: '#3D8FCF'
+  attributes:
+    Contrast coverage: 1.0
+    Colour-vision-deficiency simulation: 4.0
+    Fix close to the original colour: 1.0
+    Design-token export: 1.0
+    Palette generation: 1.0
+    Local and offline: 1.0
+    Dependency-free install: 5.0
+    Fits continuous integration: 1.0
+    Usable without writing code: 5.0
+    Perceptual colour space: 1.0
+    Grounded in a published source: 2.0
+    Works on what is actually rendered: 3.0
+    Maturity and ecosystem: 4.0
+    Commercial backing and support: 2.0
+  imputed_attributes: []
+- name: Sim Daltonism
+  coordinates:
+    axis_1: -1.8131
+    axis_2: 1.5199
+  role: competitor
+  color: '#A3ACFF'
+  attributes:
+    Contrast coverage: 1.0
+    Colour-vision-deficiency simulation: 4.0
+    Fix close to the original colour: 1.0
+    Design-token export: 1.0
+    Palette generation: 1.0
+    Local and offline: 5.0
+    Dependency-free install: 4.0
+    Fits continuous integration: 1.0
+    Usable without writing code: 5.0
+    Perceptual colour space: 1.0
+    Grounded in a published source: 2.0
+    Works on what is actually rendered: 5.0
+    Maturity and ecosystem: 3.0
+    Commercial backing and support: 1.0
+  imputed_attributes: []
+- name: DaltonLens
+  coordinates:
+    axis_1: -1.1087
+    axis_2: 1.1703
+  role: competitor
+  color: '#749FEE'
+  attributes:
+    Contrast coverage: 1.0
+    Colour-vision-deficiency simulation: 5.0
+    Fix close to the original colour: 2.0
+    Design-token export: 1.0
+    Palette generation: 1.0
+    Local and offline: 5.0
+    Dependency-free install: 3.0
+    Fits continuous integration: 3.0
+    Usable without writing code: 3.0
+    Perceptual colour space: 3.0
+    Grounded in a published source: 5.0
+    Works on what is actually rendered: 4.0
+    Maturity and ecosystem: 3.0
+    Commercial backing and support: 1.0
+  imputed_attributes: []
+- name: Adobe Leonardo
+  coordinates:
+    axis_1: 1.9197
+    axis_2: 0.4832
+  role: competitor
+  color: '#B9C461'
+  attributes:
+    Contrast coverage: 4.0
+    Colour-vision-deficiency simulation: 1.0
+    Fix close to the original colour: 3.0
+    Design-token export: 3.0
+    Palette generation: 5.0
+    Local and offline: 3.0
+    Dependency-free install: 3.0
+    Fits continuous integration: 3.0
+    Usable without writing code: 4.0
+    Perceptual colour space: 5.0
+    Grounded in a published source: 4.0
+    Works on what is actually rendered: 1.0
+    Maturity and ecosystem: 4.0
+    Commercial backing and support: 3.0
+  imputed_attributes: []
+- name: Huetone
+  coordinates:
+    axis_1: 1.7786
+    axis_2: 3.0943
+  role: competitor
+  color: '#55A361'
+  attributes:
+    Contrast coverage: 4.0
+    Colour-vision-deficiency simulation: 3.0
+    Fix close to the original colour: 3.0
+    Design-token export: 2.0
+    Palette generation: 5.0
+    Local and offline: 3.0
+    Dependency-free install: 4.0
+    Fits continuous integration: 1.0
+    Usable without writing code: 5.0
+    Perceptual colour space: 5.0
+    Grounded in a published source: 4.0
+    Works on what is actually rendered: 1.0
+    Maturity and ecosystem: 3.0
+    Commercial backing and support: 1.0
+  imputed_attributes: []
+- name: Accessible Palette
+  coordinates:
+    axis_1: 2.4266
+    axis_2: 3.5754
+  role: top
+  color: '#AF52DE'
+  attributes:
+    Contrast coverage: 4.0
+    Colour-vision-deficiency simulation: 1.0
+    Fix close to the original colour: 3.0
+    Design-token export: 2.0
+    Palette generation: 5.0
+    Local and offline: 2.0
+    Dependency-free install: 5.0
+    Fits continuous integration: 1.0
+    Usable without writing code: 5.0
+    Perceptual colour space: 5.0
+    Grounded in a published source: 4.0
+    Works on what is actually rendered: 1.0
+    Maturity and ecosystem: 2.0
+    Commercial backing and support: 1.0
+  imputed_attributes: []
+- name: Radix Colors
+  coordinates:
+    axis_1: 2.0208
+    axis_2: -1.0735
+  role: competitor
+  color: '#F29968'
+  attributes:
+    Contrast coverage: 3.0
+    Colour-vision-deficiency simulation: 1.0
+    Fix close to the original colour: 1.0
+    Design-token export: 4.0
+    Palette generation: 4.0
+    Local and offline: 5.0
+    Dependency-free install: 4.0
+    Fits continuous integration: 2.0
+    Usable without writing code: 3.0
+    Perceptual colour space: 4.0
+    Grounded in a published source: 3.0
+    Works on what is actually rendered: 1.0
+    Maturity and ecosystem: 5.0
+    Commercial backing and support: 3.0
+  imputed_attributes: []
+- name: Open Props
+  coordinates:
+    axis_1: 2.4315
+    axis_2: -0.4123
+  role: competitor
+  color: '#D28C3F'
+  attributes:
+    Contrast coverage: 2.0
+    Colour-vision-deficiency simulation: 1.0
+    Fix close to the original colour: 1.0
+    Design-token export: 4.0
+    Palette generation: 4.0
+    Local and offline: 5.0
+    Dependency-free install: 5.0
+    Fits continuous integration: 2.0
+    Usable without writing code: 3.0
+    Perceptual colour space: 3.0
+    Grounded in a published source: 2.0
+    Works on what is actually rendered: 1.0
+    Maturity and ecosystem: 4.0
+    Commercial backing and support: 2.0
+  imputed_attributes: []
+- name: Style Dictionary
+  coordinates:
+    axis_1: 0.9118
+    axis_2: -3.5754
+  role: competitor
+  color: '#FF9F8A'
+  attributes:
+    Contrast coverage: 1.0
+    Colour-vision-deficiency simulation: 1.0
+    Fix close to the original colour: 1.0
+    Design-token export: 5.0
+    Palette generation: 1.0
+    Local and offline: 5.0
+    Dependency-free install: 3.0
+    Fits continuous integration: 5.0
+    Usable without writing code: 1.0
+    Perceptual colour space: 1.0
+    Grounded in a published source: 3.0
+    Works on what is actually rendered: 1.0
+    Maturity and ecosystem: 5.0
+    Commercial backing and support: 3.0
+  imputed_attributes: []
+- name: Tokens Studio
+  coordinates:
+    axis_1: -0.0746
+    axis_2: -1.2202
+  role: competitor
+  color: '#FD969C'
+  attributes:
+    Contrast coverage: 2.0
+    Colour-vision-deficiency simulation: 1.0
+    Fix close to the original colour: 1.0
+    Design-token export: 5.0
+    Palette generation: 3.0
+    Local and offline: 2.0
+    Dependency-free install: 3.0
+    Fits continuous integration: 3.0
+    Usable without writing code: 5.0
+    Perceptual colour space: 2.0
+    Grounded in a published source: 3.0
+    Works on what is actually rendered: 3.0
+    Maturity and ecosystem: 4.0
+    Commercial backing and support: 4.0
+  imputed_attributes: []
+- name: chroma.js
+  coordinates:
+    axis_1: 2.5714
+    axis_2: -0.5837
+  role: right
+  color: '#007AFF'
+  attributes:
+    Contrast coverage: 2.0
+    Colour-vision-deficiency simulation: 1.0
+    Fix close to the original colour: 2.0
+    Design-token export: 2.0
+    Palette generation: 5.0
+    Local and offline: 5.0
+    Dependency-free install: 5.0
+    Fits continuous integration: 3.0
+    Usable without writing code: 1.0
+    Perceptual colour space: 3.0
+    Grounded in a published source: 3.0
+    Works on what is actually rendered: 1.0
+    Maturity and ecosystem: 5.0
+    Commercial backing and support: 2.0
+  imputed_attributes: []
+- name: culori
+  coordinates:
+    axis_1: 2.2517
+    axis_2: 0.552
+  role: competitor
+  color: '#A08C1A'
+  attributes:
+    Contrast coverage: 3.0
+    Colour-vision-deficiency simulation: 3.0
+    Fix close to the original colour: 2.0
+    Design-token export: 2.0
+    Palette generation: 4.0
+    Local and offline: 5.0
+    Dependency-free install: 5.0
+    Fits continuous integration: 3.0
+    Usable without writing code: 1.0
+    Perceptual colour space: 5.0
+    Grounded in a published source: 4.0
+    Works on what is actually rendered: 2.0
+    Maturity and ecosystem: 4.0
+    Commercial backing and support: 2.0
+  imputed_attributes: []
+- name: colorjs.io
+  coordinates:
+    axis_1: 2.5201
+    axis_2: 0.3593
+  role: competitor
+  color: '#CA9A39'
+  attributes:
+    Contrast coverage: 5.0
+    Colour-vision-deficiency simulation: 1.0
+    Fix close to the original colour: 2.0
+    Design-token export: 2.0
+    Palette generation: 3.0
+    Local and offline: 5.0
+    Dependency-free install: 5.0
+    Fits continuous integration: 3.0
+    Usable without writing code: 1.0
+    Perceptual colour space: 5.0
+    Grounded in a published source: 5.0
+    Works on what is actually rendered: 1.0
+    Maturity and ecosystem: 4.0
+    Commercial backing and support: 2.0
+  imputed_attributes: []
+- name: coloraide
+  coordinates:
+    axis_1: 2.0115
+    axis_2: 0.7837
+  role: competitor
+  color: '#7CA751'
+  attributes:
+    Contrast coverage: 3.0
+    Colour-vision-deficiency simulation: 4.0
+    Fix close to the original colour: 2.0
+    Design-token export: 2.0
+    Palette generation: 4.0
+    Local and offline: 5.0
+    Dependency-free install: 5.0
+    Fits continuous integration: 3.0
+    Usable without writing code: 1.0
+    Perceptual colour space: 5.0
+    Grounded in a published source: 5.0
+    Works on what is actually rendered: 2.0
+    Maturity and ecosystem: 4.0
+    Commercial backing and support: 2.0
+  imputed_attributes: []
+- name: ColorBrewer
+  coordinates:
+    axis_1: 0.4765
+    axis_2: 0.8791
+  role: competitor
+  color: '#4FC193'
+  attributes:
+    Contrast coverage: 1.0
+    Colour-vision-deficiency simulation: 2.0
+    Fix close to the original colour: 1.0
+    Design-token export: 2.0
+    Palette generation: 4.0
+    Local and offline: 3.0
+    Dependency-free install: 5.0
+    Fits continuous integration: 1.0
+    Usable without writing code: 5.0
+    Perceptual colour space: 2.0
+    Grounded in a published source: 5.0
+    Works on what is actually rendered: 1.0
+    Maturity and ecosystem: 5.0
+    Commercial backing and support: 2.0
+  imputed_attributes: []
+- name: viz-palette
+  coordinates:
+    axis_1: -0.2027
+    axis_2: 2.8155
+  role: competitor
+  color: '#34C8B2'
+  attributes:
+    Contrast coverage: 2.0
+    Colour-vision-deficiency simulation: 3.0
+    Fix close to the original colour: 2.0
+    Design-token export: 1.0
+    Palette generation: 3.0
+    Local and offline: 2.0
+    Dependency-free install: 5.0
+    Fits continuous integration: 1.0
+    Usable without writing code: 5.0
+    Perceptual colour space: 2.0
+    Grounded in a published source: 3.0
+    Works on what is actually rendered: 3.0
+    Maturity and ecosystem: 3.0
+    Commercial backing and support: 1.0
+  imputed_attributes: []

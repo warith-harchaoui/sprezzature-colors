@@ -1,71 +1,134 @@
 # Paysage
 
-Les outils d'accessibilité des couleurs se répartissent en deux familles
-selon ce qu'ils vérifient. Un **contrôleur de contraste et de daltonisme**
-regarde les pixels affichés ou une couleur hexadécimale résolue, et se
-demande si deux couleurs sont assez éloignées, pour un œil ordinaire ou pour
-une personne atteinte d'une déficience de la vision des couleurs. Un
-**pipeline de jetons de design** regarde la source de vérité d'une palette
-(un CSV, un fichier JSON, une bibliothèque Figma) et se demande comment
-l'amener dans un système de build sans recopier des codes hexadécimaux à la
-main. `sprezzature-colors` fait les deux à dessein, parce que les deux
-problèmes partagent la même science des couleurs sous-jacente (transfert
-sRGB, luminance WCAG, OKLab/OKLCH), et que la garder dans un seul petit
-paquet évite de l'écrire deux fois.
+`sprezzature-colors` est la brique couleur de la suite [sprezzature](https://sprezzature.ai/), dix paquets Python pour fabriquer du contenu web qui tient. Elle fait trois choses déterministes sur la bibliothèque standard : elle audite une palette contre les seuils de contraste des Web Content Accessibility Guidelines (WCAG, les règles de référence pour rendre le web utilisable par les personnes handicapées) et propose une correction qui reste visuellement proche de la couleur choisie, elle redessine une vraie image telle que la voit une personne atteinte de l'une des trois déficiences de la vision des couleurs (CVD, de l'anglais color vision deficiency), et elle exporte la palette en configuration Tailwind pour que tous les projets de la suite tirent de la même source.
 
-## Comparaison des outils
+## Sa place dans l'écosystème
 
-| Outil | Type | Navigateur requis | Suggestions de correction | Compatible CI | Python |
-|---|---|---|---|---|---|
-| **sprezzature-colors** | Audit de contraste + simulation CVD + export de jetons | Non | Oui (voisin OKLCH) | Oui | Oui |
-| axe-core / Lighthouse | Contrôle de contraste sur le DOM en direct | Oui | Non | Oui (via CLI) | Non |
-| Stark (plugin Figma/Sketch) | Contraste + simulation CVD dans l'outil de design | Non (plugin) | Non | Non | Non |
-| Coblis / Color Oracle | Simulateur CVD autonome | Non | Non | Non | Non (Color Oracle : appli native) |
-| Style Dictionary | Pipeline de jetons de design | Non | Sans objet | Oui | Non (Node) |
+```
+suite sprezzature
+├── sprezzature-colors          ← ce paquet (contraste, CVD, export de palette)
+├── sprezzature-ui              (composants et jetons de design ; consommateur de l'export Tailwind)
+├── sprezzature-accessibility   (audit HTML statique, 20 règles ; la brique sœur)
+├── sprezzature-figures         (167 types de graphiques ; applique les niveaux d'accessibilité)
+├── sprezzature-maps            (choroplèthes et plaques de situation)
+├── sprezzature-ux-laws         (audit des lois de l'UX)
+├── sprezzature-publish         (du Markdown au site, balises méta, narration)
+├── sprezzature-audio           (sous-titres et parole)
+├── sprezzature-cli-gui         (une ligne de commande habillée en page)
+└── sprezzature-video           (ce qu'un film affirme, vérifié contre le code)
+```
 
-### Notes par dimension
+Ce qui vient avant : une palette, qu'elle soit un CSV de marque, une bibliothèque Figma ou un `tailwind.config.js` déjà écrit par quelqu'un. Ce qui vient après : `sprezzature-ui` consomme le bloc Tailwind émis, et `sprezzature-figures` appelle les niveaux d'accessibilité pour recolorer un graphique en fonction d'une déficience sans qu'un seul nom de couleur change.
 
-| Dimension | sprezzature-colors | axe-core | Stark | Style Dictionary |
-|---|---|---|---|---|
-| Couverture du contraste | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | Sans objet |
-| Simulation CVD | ⭐⭐⭐⭐ | Sans objet | ⭐⭐⭐⭐ | Sans objet |
-| Export de jetons | ⭐⭐⭐ | Sans objet | Sans objet | ⭐⭐⭐⭐⭐ |
-| Installation sans dépendance | ⭐⭐⭐⭐⭐ | ⭐⭐ | Sans objet (plugin) | ⭐⭐⭐ |
-| Suggestions de correction | ⭐⭐⭐⭐ | ⭐ | ⭐ | Sans objet |
+La brique sœur est `sprezzature-accessibility`. Elle lit du HTML et rapporte vingt règles ; l'une d'elles, `color-only-state`, attrape un état porté par la teinte seule. Elle s'arrête là, exprès. Savoir si une paire de codes hexadécimaux passe 4,5:1, et quelle est la couleur la plus proche qui passe, c'est ici.
 
-D'autres fichiers PAYSAGE de cette suite passent leur table dans
-[`standpoint`](https://github.com/warith-harchaoui/standpoint) et montrent une carte de
-positionnement. Celui-ci non, et la raison tient à la taille de la table : quatre options
-ne portent au plus que trois directions indépendantes, donc deux axes en gardent deux sur
-trois. La projection a été faite pour vérifier : elle annonce **84 % de la variance**, ce
-qui tient moins du résumé de la table que de sa redite. Il y a une seconde raison qui
-vaut d'être dite : tant d'outils ici ne sont pas notés sur une colonne donnée que `N/A`
-fait un vrai travail, et une carte est obligée de le coder par un nombre. La table
-ci-dessus est assez petite pour être lue directement, et elle peut dire « sans objet »
-sans faire semblant que c'en soit une note.
+## Quand la choisir
 
-## Quand utiliser quoi
+- Vous voulez un contrôle de contraste dans un crochet de pre-commit ou dans l'intégration continue. L'audit n'utilise que la bibliothèque standard, sort en 1 dès qu'une paire échoue, et imprime du JSON sur demande. Aucun navigateur à démarrer, aucun Node à installer.
+- Vous avez une capture d'écran, un graphique ou une image d'en-tête et vous voulez la voir en protanopie, en deutéranopie et en tritanopie, plus un gris de luminance relative, écrits en fichiers que vous attachez à une revue.
+- Vous voulez la correction, pas seulement le verdict. L'audit garde votre teinte et votre chroma fixes et parcourt l'axe de clarté OKLCH par pas de un centième jusqu'à ce que la paire passe le seuil ; la proposition se lit donc comme votre couleur, plus claire ou plus foncée, et non comme une autre couleur.
+- Vous avez plusieurs projets et une seule palette, et vous en avez assez de voir les codes hexadécimaux diverger entre eux. Un CSV en entrée, un bloc Tailwind en sortie, avec le fichier source nommé en commentaire en tête du code généré.
 
-Utilisez `sprezzature-colors` comme **porte CI** pour les deux problèmes à
-la fois : `audit_contrast.py` fait échouer le build sur une vraie
-régression de contraste, `simulate_cvd.py --grid` produit une image qu'un
-relecteur peut juger d'un coup d'œil, et `palette_to_tailwind.py` garde le
-`tailwind.config.js` de chaque projet consommateur généré depuis le même
-`palette.csv`, plutôt que de laisser chaque projet dériver de son côté.
+## Quand prendre autre chose
 
-axe-core (ou l'audit d'accessibilité de Lighthouse) est le bon outil pour
-le contraste sur un DOM en direct, puisqu'il lit les styles calculés d'une
-page réellement affichée et attrape les cas où une cascade CSS ou une
-opacité changent la couleur rendue d'une façon qu'un contrôle statique de
-palette ne peut pas voir.
+- **axe-core** ou **Lighthouse** quand la question porte sur la page telle qu'elle est rendue. Ils lisent les styles calculés d'un DOM vivant, attrapent la cascade, les couleurs héritées et l'opacité, et rattachent l'échec à l'élément. `sprezzature-colors` juge une palette et une image ; il n'ouvre jamais une page. axe-core est d'ailleurs honnête sur sa propre limite : un texte sur un dégradé CSS revient en `incomplete` plutôt qu'en réussite ou en échec, parce qu'il n'existe aucune couleur de fond unique à mesurer.
+- **Colour Contrast Analyser** de TPGi quand il vous faut une pipette. Il échantillonne n'importe quel pixel de l'écran, y compris dans une application native ou un PDF qu'aucun script n'analysera jamais, et il est gratuit et maintenu depuis des années.
+- **Stark** ou **Polychrom** quand le travail est encore dans Figma. Rien dans un paquet Python n'aide une designer qui n'a encore rien exporté, et Polychrom en particulier résout le vrai fond derrière une sélection à travers l'opacité, les remplissages multiples et les modes de fusion, c'est-à-dire exactement le cas qu'une liste plate de codes hexadécimaux ne sait pas décrire. Polychrom est libre et gratuit ; Stark est la suite commerciale plus large, avec une équipe et un support derrière.
+- **Adobe Leonardo**, **Huetone** ou **Accessible Palette** quand vous générez une gamme au lieu d'en vérifier une. Ils construisent une rampe à partir de ratios de contraste cibles dans un espace perceptuel, ce qui est un travail différent et plus large que de corriger une paire en échec.
+- **Style Dictionary** ou **Tokens Studio** quand les jetons doivent atteindre plus d'une plateforme. L'export ici vise une seule cible, Tailwind, parce que c'est la seule dont cette suite a besoin ; Style Dictionary émet vers iOS, Android, CSS, Swift et tout ce pour quoi vous écrivez une transformation, et lit nativement le format W3C Design Tokens.
+- **colorjs.io** ou **coloraide** quand vous voulez la science des couleurs elle-même. colorjs.io implémente les spécifications CSS Color 4 et 5 et six algorithmes de contraste ; coloraide couvre CAM16, HCT et les trois modèles CVD publiés avec un paramètre de sévérité. Les deux sont bien plus larges que ce paquet, et aucun ne cherche à être un verrou en ligne de commande.
+- **Color Oracle** ou **Sim Daltonism** quand la chose à vérifier ne peut pas être exportée en image : une application qui tourne, une vidéo, une carte que vous faites glisser. Un filtre plein écran voit tout ce qu'une capture manquerait.
 
-Stark et Color Oracle conviennent à un designer qui travaille dans Figma ou
-Sketch, pour prévisualiser une déficience de la vision des couleurs en
-direct pendant qu'une maquette est encore en train de se dessiner, avant
-même qu'aucun code n'existe pour lancer `simulate_cvd.py`.
+## Les idées à prendre
 
-Style Dictionary convient une fois qu'un système de jetons de design doit
-publier vers de nombreuses plateformes à la fois (iOS, Android, web,
-plusieurs frameworks CSS) ; `palette_to_tailwind.py` reste volontairement
-plus étroit, un CSV en entrée, un bloc Tailwind en sortie, parce que c'est
-le seul export dont cette suite a besoin aujourd'hui.
+Étudier un concurrent sans rien en rapporter, c'est de la lecture perdue. Huit choses que les outils ci-dessus font mieux, classées par ce qu'elles rapportent rapporté à ce qu'elles coûtent, dont deux que ce paquet ne prendra pas.
+
+**1. Style Dictionary, une deuxième cible d'export qui achète toutes les autres.** [Style Dictionary](https://styledictionary.com/) lit nativement le format JSON [W3C Design Tokens](https://www.designtokens.org/) et le transforme en CSS, Swift, Kotlin, XML Android et tout ce pour quoi une transformation existe. Ici, `scripts/palette_to_tailwind.py` gagnerait un `--emit dtcg` écrivant `{"brand": {"blue": {"$type": "color", "$value": "#007AFF"}}}` à côté des modes `theme` et `config` existants. Ce seul drapeau transforme la cible d'export unique du paquet en toutes les cibles que Style Dictionary sait servir, sans que ce paquet apprenne à quoi ressemble un littéral de couleur en Swift. Coût : une heure ou deux, aucune dépendance nouvelle, le rendu parcourt déjà les mêmes lignes. Le seul coût durable est le suivi de la version du format.
+
+**2. DaltonLens, la sévérité et un modèle nommé.** La [revue DaltonLens](https://daltonlens.org/opensource-cvd-simulation/) compare BRETTEL 1997, VIÉNOT 1999, MACHADO 2009 et la fonction HCIRN contre des données de référence, et conclut que BRETTEL reste le seul choix solide pour la tritanopie. `_colors.CVD_MATRICES` fige MACHADO à la sévérité 1,0 et la docstring le dit, ce qui veut dire que le paquet nomme déjà la limite qu'il n'a pas encore corrigée. MACHADO, OLIVEIRA et FERNANDES publient leurs matrices à onze paliers de sévérité par déficience ; `simulate_cvd.py` pourrait donc accepter `--severity 0.0..1.0` sur des données purement tabulées : trente-trois matrices de neuf flottants, toujours en bibliothèque standard, toujours déterministe. La plupart des CVD sont des trichromaties anormales et non des dichromaties complètes, donc la sévérité est le cas réaliste, pas le cas limite. Coût : une demi-journée pour la table de sévérité ; ajouter BRETTEL pour la tritanopie est une autre demi-journée, parce qu'il demande la projection sur un plan LMS et non une simple table. Meilleur rapport technique de la liste.
+
+**3. ColorBrewer, un verdict en un mot sur toute une gamme.** [ColorBrewer](https://colorbrewer2.org/), le sélecteur de gammes de Cynthia BREWER, étiquette chaque gamme comme sûre pour le daltonisme, adaptée à l'impression ou résistante à la photocopie, si bien qu'un cartographe choisit sans rien exécuter. `scripts/accessibility_levels.py` calcule déjà tout ce dont ce verdict a besoin (`_cvd_luminance`, `_relative_luminance_hex`, `contrast_ratio_hex`) et n'en émet aucun. Un `sprezzature-colors-levels --check` imprimerait trois booléens pour une palette : chaque catégorie séparable sous chacune des trois simulations, séparable en niveaux de gris, chaque marque passant 3:1 contre le fond. C'est la ligne sur laquelle `sprezzature-figures` pourrait conditionner une figure. Coût : une après-midi. La seule vraie décision est l'écart minimal de clarté qui compte comme séparable, et il faut l'écrire plutôt que le régler à l'oreille.
+
+**4. axe-core, un troisième verdict et plus de réussite silencieuse.** axe-core renvoie `incomplete` au lieu de réussite ou d'échec quand il ne peut pas lire une couleur de fond unique, et la raison est qu'une réussite silencieuse est pire qu'un honnête « je n'ai pas pu savoir ». `audit_contrast.py` a exactement le défaut qu'axe-core évite : `is_foreground()` et `is_background()` filtrent sur les préfixes `label-`, `brand-` et `surface-`, donc une palette externe nommée `{"text": ..., "bg": ...}` produit zéro paire, imprime `0 pass, 0 fail.` et sort en 0. Une palette qui n'a jamais été vérifiée ressemble aujourd'hui exactement à une palette qui a réussi. Le correctif tient en deux lignes et un test : sortir en non-zéro avec « aucune paire vérifiée, voir --pairs » quand la liste de paires est vide. Coût : une après-midi, et c'est l'entrée où la distance entre lire un concurrent et trouver un défaut chez soi est la plus courte.
+
+**5. Adobe Leonardo, la génération par ratio cible.** [Leonardo](https://leonardocolor.io/) prend des couleurs clés et une liste de ratios de contraste cibles, et rend la gamme qui les atteint, ce qui est l'inverse de la vérification et strictement plus utile dès qu'un système de design existe. La mécanique est déjà à moitié construite ici : `accessibility_levels._darken_to_contrast` parcourt aujourd'hui l'axe L jusqu'à un ratio cible. Ce qui manque est le point d'entrée qui le fait N fois. Un `sprezzature-colors-levels --ratios 1.2,1.5,3,4.5,7,12` émettrait une rampe de 50 à 900 au format Tailwind par teinte, alimentant directement `palette_to_tailwind.py`. Coût : environ un jour. La moitié part dans le nommage des paliers, parce qu'une rampe dont les noms ne correspondent pas à ceux de Tailwind est une rampe que personne ne colle.
+
+**6. Polychrom, le fond sur lequel on est réellement posé.** [Polychrom](https://evilmartians.com/opensource/polychrom) parcourt l'arbre de nœuds Figma pour trouver le vrai fond derrière une sélection, à travers l'opacité, les remplissages multiples et les modes de fusion, au lieu de se fier au cadre dans lequel elle se trouve nominalement. La moitié transposable est un fichier `--pairs pairs.json` nommant explicitement les paires (premier plan, fond), pour qu'un projet dont les jetons ne portent pas le nommage de la suite soit auditable tout court. Il y a une raison plus tranchante de le faire : `palette_to_tailwind.py` émet `'rgba(60,60,67,0.6)'` pour `label.secondary` dans sa propre sortie `--emit config`, et redonner cette même chaîne à `audit_contrast.py` lève `ValueError: Bad hex color`. Le paquet ne sait pas relire ce qu'il écrit. Coût : un jour, en comptant un analyseur `rgba()` dans `_colors.py` à côté de `parse_hex_rgba` et le test qui fait l'aller-retour de la configuration émise vers l'audit.
+
+**7. colorjs.io et APCA, pris comme un chiffre et refusés comme un verrou.** [colorjs.io](https://colorjs.io/) expose six algorithmes de contraste derrière un seul appel, dont WCAG 2.1 et APCA, et plusieurs outils de la table ci-dessus rapportent déjà une valeur Lc APCA : Polypane, Polychrom, Huetone. L'algorithme est le travail d'Andrew SOMERS et son [introduction](https://git.apcacontrast.com/documentation/APCAeasyIntro.html) se lit bien ; la formule tient en une soixantaine de lignes de bibliothèque standard. Elle doit être rapportée ici comme un second chiffre indicatif et ne doit pas devenir ce à quoi `--target` se compare, parce qu'APCA a été retiré du brouillon de travail WCAG 3 en juillet 2023 et que le brouillon de septembre 2026 dit toujours que l'algorithme de contraste reste à déterminer. Un verrou qui fait échouer une compilation sur une méthode candidate est un verrou qui fait échouer une compilation sur une supposition. Coût : une demi-journée pour le chiffre, plus le coût permanent de suivre une cible mouvante, et c'est cette part qui plaide pour l'indicatif seul.
+
+**8. Color Oracle, refusé.** [Color Oracle](https://colororacle.org/) applique un filtre de couleur plein écran à tout ce qui est affiché, et c'est ainsi qu'on vérifie une application qui tourne, une vidéo ou une carte que l'on fait glisser, choses qu'aucun simulateur travaillant sur un fichier image n'atteint. Il ne sera pas pris. Un filtre d'écran est une application graphique native par plateforme, avec un serveur d'affichage derrière ; ce paquet est un outil sans interface, déterministe, en bibliothèque standard, qu'un exécuteur d'intégration continue invoque sans le moindre écran. La bonne réponse est de dire dans le README que Color Oracle est l'outil pour ce cas, ce qui ne coûte rien et sert plus qu'une imitation à moitié construite.
+
+## Les familles du domaine
+
+La première coupure est **statique contre runtime**. Un outil statique reçoit des couleurs, ou une image, et répond à partir d'elles seules : le vérificateur de WebAIM, Who Can Use, Coblis, tous les générateurs de palettes, et ce paquet. Un outil runtime reçoit une page et lit ce que le navigateur a réellement calculé : axe-core, Lighthouse, Polypane. La famille runtime attrape ce qu'aucun fichier de palette ne peut prévoir, une couleur qui arrive au bout de trois niveaux de cascade et d'une opacité de 60 % ; la famille statique s'exécute avant tout rendu, ce qui lui permet de tenir dans un crochet de pre-commit et dans un travail d'intégration continue. Le résumé honnête est qu'elles se complètent, et qu'un projet qui n'a que l'une des deux a un trou.
+
+La deuxième coupure est **vérifier contre fabriquer**. Vérifier est la moitié la plus ancienne et la plus encombrée : WebAIM, Colour Contrast Analyser, Who Can Use, Stark, Polychrom, toute la famille des simulateurs. Fabriquer est la moitié plus récente, et elle est née d'une frustration vis-à-vis de la première : Adobe Leonardo génère par ratio de contraste cible plutôt qu'à l'œil, Huetone et Accessible Palette construisent des gammes dont les pas de clarté sont prévisibles, Radix Colors et Open Props livrent les gammes déjà construites. Un outil qui ne fait que vérifier vous tend un échec ; un outil qui fabrique vous tend une palette qui ne peut pas échouer deux fois de la même façon. `sprezzature-colors` est à cheval sur la ligne, ce qui est délibéré et explique aussi pourquoi il n'est le meilleur à aucune des deux extrémités : l'audit de contraste propose une retouche minimale au lieu de régénérer la gamme.
+
+La troisième coupure est **produit contre bibliothèque**. Un produit a une interface et une designer peut l'ouvrir : Stark, les greffons Figma, les vérificateurs web, Color Oracle. Une bibliothèque a une interface de programmation et une étape de construction peut l'appeler : chroma.js, culori, colorjs.io, coloraide, Style Dictionary. C'est dans les produits que le travail d'accessibilité se fait réellement dans la plupart des équipes, parce que la personne qui choisit la couleur est celle qui devrait voir le chiffre. C'est dans les bibliothèques que ce travail devient reproductible. Ce paquet est une bibliothèque avec une ligne de commande posée dessus, ce qui le place nettement du côté ingénierie de cette ligne, et une designer qui n'ouvrira pas un terminal n'en tire rien.
+
+Une quatrième distinction traverse les trois autres et pèse plus que sa taille ne le laisse croire : **quel modèle CVD un simulateur utilise**. Les candidats publiés sont BRETTEL (1997), VIÉNOT (1999), MACHADO, OLIVEIRA et FERNANDES (2009), et l'ancienne fonction HCIRN. La [revue DaltonLens](https://daltonlens.org/opensource-cvd-simulation/) les compare à des données de référence et mérite d'être lue avant de faire confiance à un simulateur : BRETTEL reste le seul choix solide pour la tritanopie, VIÉNOT, BRETTEL et MACHADO sont tous défendables pour les déficiences du rouge et du vert, et la fonction HCIRN utilisée par Sim Daltonism et par le Coblis d'origine est la plus faible du lot. Ce paquet utilise MACHADO à sévérité pleine, choix défendable pour la protanopie et la deutéranopie et le moins exact pour la tritanopie. C'est une limite réelle, et c'est pourquoi la table ci-dessous ne lui donne pas cinq étoiles en simulation.
+
+## Comparaison
+
+Chaque outil est noté de 1 à 5 sur chaque critère, plus c'est haut mieux c'est (⭐ faible à ⭐⭐⭐⭐⭐ le plus fort). Les notes sont un jugement raisonné, tiré de la lecture des documentations et des sources, pas un banc d'essai, et chaque axe est orienté de sorte que plus d'étoiles signifie plus fort sur ce trait. Une ⭐ veut dire que l'outil ne fait pas du tout la chose, ce qui sur une échelle de capacité est le bas de l'échelle et non une valeur manquante. `sprezzature-colors` est la première ligne parce que `standpoint` oriente toute la carte autour de la première ligne et la place en haut à droite ; c'est une convention de dessin, pas une prétention de qualité, et les quatre colonnes où ce paquet est à 1 ou 2 sont celles à lire en premier.
+
+Un critère qu'on pourrait attendre est absent. Presque tous les outils ici sont gratuits, et la plupart sont libres, si bien qu'une colonne d'ouverture aurait donné la même note à 22 des 26 lignes et n'aurait rien appris à la projection. Ce qui les sépare vraiment, c'est l'existence d'une entreprise qui répond aux demandes de support, et c'est la dernière colonne.
+
+| Outil de couleur | Couverture du contraste | Simulation des déficiences de la vision des couleurs | Correction fidèle à la couleur d'origine | Export de jetons de conception | Génération de palette | Local et hors ligne | Installation sans dépendance | Adapté à l'intégration continue | Utilisable sans écrire de code | Espace de couleur perceptuel | Fondé sur une source publiée | Agit sur ce qui est réellement affiché | Maturité et écosystème | Soutien commercial et support |
+| --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| sprezzature-colors | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ | ⭐ |
+| WebAIM Contrast Checker | ⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐ | ⭐ | ⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| Colour Contrast Analyser | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| axe-core | ⭐⭐⭐⭐ | ⭐ | ⭐ | ⭐ | ⭐ | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Lighthouse | ⭐⭐⭐ | ⭐ | ⭐ | ⭐ | ⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| Polypane | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| Stark | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Polychrom | ⭐⭐⭐⭐ | ⭐ | ⭐⭐ | ⭐ | ⭐ | ⭐⭐ | ⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
+| Who Can Use | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐ | ⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐ | ⭐ |
+| Color Oracle | ⭐ | ⭐⭐⭐⭐⭐ | ⭐ | ⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
+| Coblis | ⭐ | ⭐⭐⭐⭐ | ⭐ | ⭐ | ⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
+| Sim Daltonism | ⭐ | ⭐⭐⭐⭐ | ⭐ | ⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ |
+| DaltonLens | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ |
+| Adobe Leonardo | ⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
+| Huetone | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐ | ⭐ |
+| Accessible Palette | ⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐ | ⭐⭐ | ⭐ |
+| Radix Colors | ⭐⭐⭐ | ⭐ | ⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
+| Open Props | ⭐⭐ | ⭐ | ⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
+| Style Dictionary | ⭐ | ⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐ | ⭐ | ⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
+| Tokens Studio | ⭐⭐ | ⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| chroma.js | ⭐⭐ | ⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ |
+| culori | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
+| colorjs.io | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
+| coloraide | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
+| ColorBrewer | ⭐ | ⭐⭐ | ⭐ | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ |
+| viz-palette | ⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐ |
+
+![Carte de positionnement de sprezzature-colors face à 25 autres outils de couleur, sur deux axes issus d'une analyse en composantes principales. L'axe horizontal sépare, à gauche, les outils qu'on pointe vers quelque chose de déjà affiché (Color Oracle, Colour Contrast Analyser, axe-core, Polypane, Sim Daltonism) et, à droite, les outils qui fabriquent des couleurs et que du code appelle (chroma.js, colorjs.io, Accessible Palette, Open Props). L'axe vertical sépare, en bas, l'infrastructure de construction installée, avec Style Dictionary au point le plus bas de la carte et axe-core et Tokens Studio au-dessus, et, en haut, l'outil d'accessibilité à usage unique. sprezzature-colors est en haut à droite, au niveau d'Accessible Palette et juste au-dessus de Huetone, là où standpoint ancre la ligne de référence.](assets/paysage.svg)
+
+La source est [`assets/paysage.csv`](assets/paysage.csv), la table en étoiles ci-dessus et rien de plus, et la carte se régénère depuis le hub sprezzature avec :
+
+```sh
+python scripts/landscape_to_csv.py ~/sprezzature-colors/PAYSAGE.md --out ~/sprezzature-colors/assets/paysage.csv
+standpoint ~/sprezzature-colors/assets/paysage.csv --outdir ~/sprezzature-colors/assets --stem paysage --check
+```
+
+La géométrie est une analyse en composantes principales (ACP) sur corrélations, et elle est déterministe : la même table donne la même carte à chaque exécution, sans qu'aucun modèle intervienne. Les quatre mots des bords auraient dû être nommés par un modèle local et ne l'ont pas été. Ollama répondait mais était saturé, trois tentatives ont expiré au bout de 120 secondes chacune, si bien que les pôles portent les noms de repli intégrés à standpoint (Fiabilité contre Créativité, Stabilité contre Accessibilité) et que l'interprétation en prose qu'il écrit d'ordinaire manque dans [`assets/paysage.md`](assets/paysage.md). Ces quatre mots sont la seule partie de cette carte qui ne soit pas une preuve. Les charges, elles, en sont une, et voici de quoi les deux axes sont faits.
+
+**Horizontal.** Agit sur ce qui est réellement affiché (−0,46), utilisable sans écrire de code (−0,31), soutien commercial et support (−0,23) et simulation des déficiences de la vision des couleurs (−0,23) tirent d'un côté ; génération de palette (+0,45), espace de couleur perceptuel (+0,38), export de jetons de conception (+0,31) et installation sans dépendance (+0,30) tirent de l'autre. L'axe oppose l'outil qu'on pointe vers quelque chose de déjà affiché à la chose qui fabrique des couleurs et que du code appelle. Color Oracle (−2,57), Colour Contrast Analyser (−2,48) et axe-core (−2,27) tiennent l'extrémité gauche ; chroma.js et ce paquet (+2,57) et colorjs.io (+2,52) tiennent la droite. `sprezzature-colors` est à droite par construction : c'est la ligne de référence, et `standpoint` ancre la référence en haut à droite.
+
+**Vertical.** Maturité et écosystème (−0,41), adapté à l'intégration continue (−0,39), soutien commercial et support (−0,34), export de jetons de conception (−0,33) et local et hors ligne (−0,27) chargent ensemble vers le bas ; utilisable sans écrire de code (+0,31), correction fidèle à la couleur d'origine (+0,30), simulation des déficiences de la vision des couleurs (+0,27) et installation sans dépendance (+0,26) chargent vers le haut. Le pôle bas est une seule chose cohérente, l'infrastructure de construction installée : Style Dictionary est le point le plus bas de la carte à −3,58, avec axe-core (−2,59), Tokens Studio (−1,22) et Lighthouse (−1,19) au-dessus. Le haut est l'outil d'accessibilité à usage unique, et la lecture honnête de cette position est qu'une partie de ce qui hisse un outil vers le haut, c'est de n'avoir ni écosystème ni entreprise derrière soi. Accessible Palette partage exactement la valeur haute de ce paquet, et Huetone (+3,09) et Who Can Use (+2,96) sont juste en dessous.
+
+**Deux axes portent 44,2 % de la table**, 23,4 % à l'horizontale et 20,8 % à la verticale. C'est le chiffre à retenir : plus de la moitié de ce que disent ces 14 critères n'est pas sur cette page. Avec 14 critères sur 26 outils, un chiffre aussi bas est attendu, et cela veut dire que la carte est une première orientation tandis que la table est la preuve.
+
+`standpoint --check` confirme le meneur en haut à droite et les étiquettes d'axes visibles, et il échoue au test de lisibilité : quatre paires d'étiquettes risquent de se chevaucher (`sprezzature-colors` avec Accessible Palette, Polypane avec Sim Daltonism, Who Can Use avec viz-palette, Open Props avec chroma.js). Deux de ces quatre sont les vrais cas serrés de la table, c'est-à-dire la carte qui dit vrai plutôt qu'un défaut du dessin, mais les étiquettes se touchent et c'est le SVG qu'il faut lire, parce que ses points portent leurs valeurs au survol.
+
+## Sources
+
+- [DaltonLens, « Review of Open Source Color Blindness Simulations »](https://daltonlens.org/opensource-cvd-simulation/), la comparaison de BRETTEL, VIÉNOT, MACHADO et HCIRN contre des données de référence.
+- [Polychrom](https://evilmartians.com/opensource/polychrom), le greffon Figma libre d'Evil Martians, et leur [panorama de l'écosystème OKLCH](https://evilmartians.com/chronicles/exploring-the-oklch-ecosystem-and-its-tools).
+- [Ticket 4628 d'axe-core](https://github.com/dequelabs/axe-core/issues/4628), sur les raisons pour lesquelles le contraste sur un dégradé CSS revient en `incomplete`.
+- [The Easy Intro to the APCA Contrast Method](https://git.apcacontrast.com/documentation/APCAeasyIntro.html), l'introduction d'Andrew SOMERS à l'algorithme que plusieurs outils de cette table rapportent déjà.
+- [Accessible color for design systems just got easier](https://medium.com/@NateBaldwin/accessible-color-for-design-systems-just-got-easier-40e8420a8371), Nate BALDWIN sur la pensée derrière Adobe Leonardo.
+- [npm trends : chroma-js contre colorjs.io contre culori](https://npmtrends.com/chroma-js-vs-color.js-vs-colord-vs-colorjs.io-vs-culori), pour les tailles relatives des bibliothèques JavaScript.
+- [Style Dictionary](https://styledictionary.com/) et le [format W3C Design Tokens](https://www.designtokens.org/), la chaîne de jetons que ce paquet ne cherche délibérément pas à être.

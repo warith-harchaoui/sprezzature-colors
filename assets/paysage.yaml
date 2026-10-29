@@ -1,0 +1,637 @@
+meta:
+  reference: sprezzature-colors
+  rotation_deg: 191.942
+  explained_variance_ratio:
+  - 0.234
+  - 0.2076
+  cumulative_variance: 0.4416
+  n_approaches: 26
+  attributes:
+  - Couverture du contraste
+  - Simulation des déficiences de la vision des couleurs
+  - Correction fidèle à la couleur d'origine
+  - Export de jetons de conception
+  - Génération de palette
+  - Local et hors ligne
+  - Installation sans dépendance
+  - Adapté à l'intégration continue
+  - Utilisable sans écrire de code
+  - Espace de couleur perceptuel
+  - Fondé sur une source publiée
+  - Agit sur ce qui est réellement affiché
+  - Maturité et écosystème
+  - Soutien commercial et support
+  lower_is_better: []
+  imputed_cells: []
+axes:
+  axis_1:
+    name: Fiabilité ↔ Créativité
+    pole_left: Fiabilité
+    pole_right: Créativité
+    loadings:
+      Couverture du contraste: 0.0319
+      Simulation des déficiences de la vision des couleurs: -0.2262
+      Correction fidèle à la couleur d'origine: 0.0823
+      Export de jetons de conception: 0.3059
+      Génération de palette: 0.4481
+      Local et hors ligne: 0.1286
+      Installation sans dépendance: 0.3015
+      Adapté à l'intégration continue: 0.1157
+      Utilisable sans écrire de code: -0.3086
+      Espace de couleur perceptuel: 0.3791
+      Fondé sur une source publiée: -0.0853
+      Agit sur ce qui est réellement affiché: -0.4625
+      Maturité et écosystème: -0.1171
+      Soutien commercial et support: -0.2281
+  axis_2:
+    name: Stabilité ↔ Accessibilité
+    pole_bottom: Stabilité
+    pole_top: Accessibilité
+    loadings:
+      Couverture du contraste: 0.1183
+      Simulation des déficiences de la vision des couleurs: 0.2705
+      Correction fidèle à la couleur d'origine: 0.2977
+      Export de jetons de conception: -0.3264
+      Génération de palette: 0.0627
+      Local et hors ligne: -0.2647
+      Installation sans dépendance: 0.2577
+      Adapté à l'intégration continue: -0.3876
+      Utilisable sans écrire de code: 0.3132
+      Espace de couleur perceptuel: 0.2059
+      Fondé sur une source publiée: 0.0454
+      Agit sur ce qui est réellement affiché: -0.005
+      Maturité et écosystème: -0.4089
+      Soutien commercial et support: -0.3423
+approaches:
+- name: sprezzature-colors
+  coordinates:
+    axis_1: 2.5714
+    axis_2: 3.5754
+  role: best
+  color: '#FF3B30'
+  attributes:
+    Couverture du contraste: 3.0
+    Simulation des déficiences de la vision des couleurs: 4.0
+    Correction fidèle à la couleur d'origine: 5.0
+    Export de jetons de conception: 2.0
+    Génération de palette: 3.0
+    Local et hors ligne: 5.0
+    Installation sans dépendance: 5.0
+    Adapté à l'intégration continue: 5.0
+    Utilisable sans écrire de code: 2.0
+    Espace de couleur perceptuel: 4.0
+    Fondé sur une source publiée: 5.0
+    Agit sur ce qui est réellement affiché: 3.0
+    Maturité et écosystème: 1.0
+    Soutien commercial et support: 1.0
+  imputed_attributes: []
+- name: WebAIM Contrast Checker
+  coordinates:
+    axis_1: -0.7098
+    axis_2: 1.3181
+  role: competitor
+  color: '#5CD0FF'
+  attributes:
+    Couverture du contraste: 4.0
+    Simulation des déficiences de la vision des couleurs: 1.0
+    Correction fidèle à la couleur d'origine: 3.0
+    Export de jetons de conception: 1.0
+    Génération de palette: 1.0
+    Local et hors ligne: 2.0
+    Installation sans dépendance: 5.0
+    Adapté à l'intégration continue: 1.0
+    Utilisable sans écrire de code: 5.0
+    Espace de couleur perceptuel: 2.0
+    Fondé sur une source publiée: 5.0
+    Agit sur ce qui est réellement affiché: 1.0
+    Maturité et écosystème: 5.0
+    Soutien commercial et support: 4.0
+  imputed_attributes: []
+- name: Colour Contrast Analyser
+  coordinates:
+    axis_1: -2.4787
+    axis_2: 0.6557
+  role: competitor
+  color: '#FDA3D9'
+  attributes:
+    Couverture du contraste: 5.0
+    Simulation des déficiences de la vision des couleurs: 3.0
+    Correction fidèle à la couleur d'origine: 3.0
+    Export de jetons de conception: 1.0
+    Génération de palette: 1.0
+    Local et hors ligne: 5.0
+    Installation sans dépendance: 3.0
+    Adapté à l'intégration continue: 1.0
+    Utilisable sans écrire de code: 5.0
+    Espace de couleur perceptuel: 2.0
+    Fondé sur une source publiée: 5.0
+    Agit sur ce qui est réellement affiché: 5.0
+    Maturité et écosystème: 5.0
+    Soutien commercial et support: 4.0
+  imputed_attributes: []
+- name: axe-core
+  coordinates:
+    axis_1: -2.2693
+    axis_2: -2.5898
+  role: worst
+  color: '#A52A2A'
+  attributes:
+    Couverture du contraste: 4.0
+    Simulation des déficiences de la vision des couleurs: 1.0
+    Correction fidèle à la couleur d'origine: 1.0
+    Export de jetons de conception: 1.0
+    Génération de palette: 1.0
+    Local et hors ligne: 4.0
+    Installation sans dépendance: 2.0
+    Adapté à l'intégration continue: 5.0
+    Utilisable sans écrire de code: 2.0
+    Espace de couleur perceptuel: 1.0
+    Fondé sur une source publiée: 5.0
+    Agit sur ce qui est réellement affiché: 5.0
+    Maturité et écosystème: 5.0
+    Soutien commercial et support: 5.0
+  imputed_attributes: []
+- name: Lighthouse
+  coordinates:
+    axis_1: -1.9535
+    axis_2: -1.1942
+  role: competitor
+  color: '#E583A3'
+  attributes:
+    Couverture du contraste: 3.0
+    Simulation des déficiences de la vision des couleurs: 1.0
+    Correction fidèle à la couleur d'origine: 1.0
+    Export de jetons de conception: 1.0
+    Génération de palette: 1.0
+    Local et hors ligne: 4.0
+    Installation sans dépendance: 4.0
+    Adapté à l'intégration continue: 4.0
+    Utilisable sans écrire de code: 4.0
+    Espace de couleur perceptuel: 1.0
+    Fondé sur une source publiée: 5.0
+    Agit sur ce qui est réellement affiché: 5.0
+    Maturité et écosystème: 5.0
+    Soutien commercial et support: 4.0
+  imputed_attributes: []
+- name: Polypane
+  coordinates:
+    axis_1: -1.9918
+    axis_2: 1.4673
+  role: competitor
+  color: '#9781D6'
+  attributes:
+    Couverture du contraste: 5.0
+    Simulation des déficiences de la vision des couleurs: 4.0
+    Correction fidèle à la couleur d'origine: 3.0
+    Export de jetons de conception: 1.0
+    Génération de palette: 2.0
+    Local et hors ligne: 3.0
+    Installation sans dépendance: 3.0
+    Adapté à l'intégration continue: 2.0
+    Utilisable sans écrire de code: 5.0
+    Espace de couleur perceptuel: 3.0
+    Fondé sur une source publiée: 4.0
+    Agit sur ce qui est réellement affiché: 5.0
+    Maturité et écosystème: 4.0
+    Soutien commercial et support: 4.0
+  imputed_attributes: []
+- name: Stark
+  coordinates:
+    axis_1: -1.5001
+    axis_2: 0.9673
+  role: competitor
+  color: '#9E6FBD'
+  attributes:
+    Couverture du contraste: 4.0
+    Simulation des déficiences de la vision des couleurs: 4.0
+    Correction fidèle à la couleur d'origine: 4.0
+    Export de jetons de conception: 2.0
+    Génération de palette: 3.0
+    Local et hors ligne: 2.0
+    Installation sans dépendance: 3.0
+    Adapté à l'intégration continue: 2.0
+    Utilisable sans écrire de code: 5.0
+    Espace de couleur perceptuel: 3.0
+    Fondé sur une source publiée: 4.0
+    Agit sur ce qui est réellement affiché: 4.0
+    Maturité et écosystème: 5.0
+    Soutien commercial et support: 5.0
+  imputed_attributes: []
+- name: Polychrom
+  coordinates:
+    axis_1: -0.5133
+    axis_2: 2.4564
+  role: competitor
+  color: '#00AEC8'
+  attributes:
+    Couverture du contraste: 4.0
+    Simulation des déficiences de la vision des couleurs: 1.0
+    Correction fidèle à la couleur d'origine: 2.0
+    Export de jetons de conception: 1.0
+    Génération de palette: 1.0
+    Local et hors ligne: 2.0
+    Installation sans dépendance: 4.0
+    Adapté à l'intégration continue: 1.0
+    Utilisable sans écrire de code: 5.0
+    Espace de couleur perceptuel: 5.0
+    Fondé sur une source publiée: 4.0
+    Agit sur ce qui est réellement affiché: 4.0
+    Maturité et écosystème: 3.0
+    Soutien commercial et support: 2.0
+  imputed_attributes: []
+- name: Who Can Use
+  coordinates:
+    axis_1: -0.255
+    axis_2: 2.9595
+  role: competitor
+  color: '#00ABAE'
+  attributes:
+    Couverture du contraste: 4.0
+    Simulation des déficiences de la vision des couleurs: 3.0
+    Correction fidèle à la couleur d'origine: 2.0
+    Export de jetons de conception: 1.0
+    Génération de palette: 1.0
+    Local et hors ligne: 2.0
+    Installation sans dépendance: 5.0
+    Adapté à l'intégration continue: 1.0
+    Utilisable sans écrire de code: 5.0
+    Espace de couleur perceptuel: 2.0
+    Fondé sur une source publiée: 4.0
+    Agit sur ce qui est réellement affiché: 1.0
+    Maturité et écosystème: 3.0
+    Soutien commercial et support: 1.0
+  imputed_attributes: []
+- name: Color Oracle
+  coordinates:
+    axis_1: -2.5714
+    axis_2: 1.0477
+  role: competitor
+  color: '#D68FD5'
+  attributes:
+    Couverture du contraste: 1.0
+    Simulation des déficiences de la vision des couleurs: 5.0
+    Correction fidèle à la couleur d'origine: 1.0
+    Export de jetons de conception: 1.0
+    Génération de palette: 1.0
+    Local et hors ligne: 5.0
+    Installation sans dépendance: 3.0
+    Adapté à l'intégration continue: 1.0
+    Utilisable sans écrire de code: 5.0
+    Espace de couleur perceptuel: 2.0
+    Fondé sur une source publiée: 5.0
+    Agit sur ce qui est réellement affiché: 5.0
+    Maturité et écosystème: 4.0
+    Soutien commercial et support: 2.0
+  imputed_attributes: []
+- name: Coblis
+  coordinates:
+    axis_1: -1.5971
+    axis_2: 1.8967
+  role: competitor
+  color: '#3D8FCF'
+  attributes:
+    Couverture du contraste: 1.0
+    Simulation des déficiences de la vision des couleurs: 4.0
+    Correction fidèle à la couleur d'origine: 1.0
+    Export de jetons de conception: 1.0
+    Génération de palette: 1.0
+    Local et hors ligne: 1.0
+    Installation sans dépendance: 5.0
+    Adapté à l'intégration continue: 1.0
+    Utilisable sans écrire de code: 5.0
+    Espace de couleur perceptuel: 1.0
+    Fondé sur une source publiée: 2.0
+    Agit sur ce qui est réellement affiché: 3.0
+    Maturité et écosystème: 4.0
+    Soutien commercial et support: 2.0
+  imputed_attributes: []
+- name: Sim Daltonism
+  coordinates:
+    axis_1: -1.8131
+    axis_2: 1.5199
+  role: competitor
+  color: '#A3ACFF'
+  attributes:
+    Couverture du contraste: 1.0
+    Simulation des déficiences de la vision des couleurs: 4.0
+    Correction fidèle à la couleur d'origine: 1.0
+    Export de jetons de conception: 1.0
+    Génération de palette: 1.0
+    Local et hors ligne: 5.0
+    Installation sans dépendance: 4.0
+    Adapté à l'intégration continue: 1.0
+    Utilisable sans écrire de code: 5.0
+    Espace de couleur perceptuel: 1.0
+    Fondé sur une source publiée: 2.0
+    Agit sur ce qui est réellement affiché: 5.0
+    Maturité et écosystème: 3.0
+    Soutien commercial et support: 1.0
+  imputed_attributes: []
+- name: DaltonLens
+  coordinates:
+    axis_1: -1.1087
+    axis_2: 1.1703
+  role: competitor
+  color: '#749FEE'
+  attributes:
+    Couverture du contraste: 1.0
+    Simulation des déficiences de la vision des couleurs: 5.0
+    Correction fidèle à la couleur d'origine: 2.0
+    Export de jetons de conception: 1.0
+    Génération de palette: 1.0
+    Local et hors ligne: 5.0
+    Installation sans dépendance: 3.0
+    Adapté à l'intégration continue: 3.0
+    Utilisable sans écrire de code: 3.0
+    Espace de couleur perceptuel: 3.0
+    Fondé sur une source publiée: 5.0
+    Agit sur ce qui est réellement affiché: 4.0
+    Maturité et écosystème: 3.0
+    Soutien commercial et support: 1.0
+  imputed_attributes: []
+- name: Adobe Leonardo
+  coordinates:
+    axis_1: 1.9197
+    axis_2: 0.4832
+  role: competitor
+  color: '#B9C461'
+  attributes:
+    Couverture du contraste: 4.0
+    Simulation des déficiences de la vision des couleurs: 1.0
+    Correction fidèle à la couleur d'origine: 3.0
+    Export de jetons de conception: 3.0
+    Génération de palette: 5.0
+    Local et hors ligne: 3.0
+    Installation sans dépendance: 3.0
+    Adapté à l'intégration continue: 3.0
+    Utilisable sans écrire de code: 4.0
+    Espace de couleur perceptuel: 5.0
+    Fondé sur une source publiée: 4.0
+    Agit sur ce qui est réellement affiché: 1.0
+    Maturité et écosystème: 4.0
+    Soutien commercial et support: 3.0
+  imputed_attributes: []
+- name: Huetone
+  coordinates:
+    axis_1: 1.7786
+    axis_2: 3.0943
+  role: competitor
+  color: '#55A361'
+  attributes:
+    Couverture du contraste: 4.0
+    Simulation des déficiences de la vision des couleurs: 3.0
+    Correction fidèle à la couleur d'origine: 3.0
+    Export de jetons de conception: 2.0
+    Génération de palette: 5.0
+    Local et hors ligne: 3.0
+    Installation sans dépendance: 4.0
+    Adapté à l'intégration continue: 1.0
+    Utilisable sans écrire de code: 5.0
+    Espace de couleur perceptuel: 5.0
+    Fondé sur une source publiée: 4.0
+    Agit sur ce qui est réellement affiché: 1.0
+    Maturité et écosystème: 3.0
+    Soutien commercial et support: 1.0
+  imputed_attributes: []
+- name: Accessible Palette
+  coordinates:
+    axis_1: 2.4266
+    axis_2: 3.5754
+  role: top
+  color: '#AF52DE'
+  attributes:
+    Couverture du contraste: 4.0
+    Simulation des déficiences de la vision des couleurs: 1.0
+    Correction fidèle à la couleur d'origine: 3.0
+    Export de jetons de conception: 2.0
+    Génération de palette: 5.0
+    Local et hors ligne: 2.0
+    Installation sans dépendance: 5.0
+    Adapté à l'intégration continue: 1.0
+    Utilisable sans écrire de code: 5.0
+    Espace de couleur perceptuel: 5.0
+    Fondé sur une source publiée: 4.0
+    Agit sur ce qui est réellement affiché: 1.0
+    Maturité et écosystème: 2.0
+    Soutien commercial et support: 1.0
+  imputed_attributes: []
+- name: Radix Colors
+  coordinates:
+    axis_1: 2.0208
+    axis_2: -1.0735
+  role: competitor
+  color: '#F29968'
+  attributes:
+    Couverture du contraste: 3.0
+    Simulation des déficiences de la vision des couleurs: 1.0
+    Correction fidèle à la couleur d'origine: 1.0
+    Export de jetons de conception: 4.0
+    Génération de palette: 4.0
+    Local et hors ligne: 5.0
+    Installation sans dépendance: 4.0
+    Adapté à l'intégration continue: 2.0
+    Utilisable sans écrire de code: 3.0
+    Espace de couleur perceptuel: 4.0
+    Fondé sur une source publiée: 3.0
+    Agit sur ce qui est réellement affiché: 1.0
+    Maturité et écosystème: 5.0
+    Soutien commercial et support: 3.0
+  imputed_attributes: []
+- name: Open Props
+  coordinates:
+    axis_1: 2.4315
+    axis_2: -0.4123
+  role: competitor
+  color: '#D28C3F'
+  attributes:
+    Couverture du contraste: 2.0
+    Simulation des déficiences de la vision des couleurs: 1.0
+    Correction fidèle à la couleur d'origine: 1.0
+    Export de jetons de conception: 4.0
+    Génération de palette: 4.0
+    Local et hors ligne: 5.0
+    Installation sans dépendance: 5.0
+    Adapté à l'intégration continue: 2.0
+    Utilisable sans écrire de code: 3.0
+    Espace de couleur perceptuel: 3.0
+    Fondé sur une source publiée: 2.0
+    Agit sur ce qui est réellement affiché: 1.0
+    Maturité et écosystème: 4.0
+    Soutien commercial et support: 2.0
+  imputed_attributes: []
+- name: Style Dictionary
+  coordinates:
+    axis_1: 0.9118
+    axis_2: -3.5754
+  role: competitor
+  color: '#FF9F8A'
+  attributes:
+    Couverture du contraste: 1.0
+    Simulation des déficiences de la vision des couleurs: 1.0
+    Correction fidèle à la couleur d'origine: 1.0
+    Export de jetons de conception: 5.0
+    Génération de palette: 1.0
+    Local et hors ligne: 5.0
+    Installation sans dépendance: 3.0
+    Adapté à l'intégration continue: 5.0
+    Utilisable sans écrire de code: 1.0
+    Espace de couleur perceptuel: 1.0
+    Fondé sur une source publiée: 3.0
+    Agit sur ce qui est réellement affiché: 1.0
+    Maturité et écosystème: 5.0
+    Soutien commercial et support: 3.0
+  imputed_attributes: []
+- name: Tokens Studio
+  coordinates:
+    axis_1: -0.0746
+    axis_2: -1.2202
+  role: competitor
+  color: '#FD969C'
+  attributes:
+    Couverture du contraste: 2.0
+    Simulation des déficiences de la vision des couleurs: 1.0
+    Correction fidèle à la couleur d'origine: 1.0
+    Export de jetons de conception: 5.0
+    Génération de palette: 3.0
+    Local et hors ligne: 2.0
+    Installation sans dépendance: 3.0
+    Adapté à l'intégration continue: 3.0
+    Utilisable sans écrire de code: 5.0
+    Espace de couleur perceptuel: 2.0
+    Fondé sur une source publiée: 3.0
+    Agit sur ce qui est réellement affiché: 3.0
+    Maturité et écosystème: 4.0
+    Soutien commercial et support: 4.0
+  imputed_attributes: []
+- name: chroma.js
+  coordinates:
+    axis_1: 2.5714
+    axis_2: -0.5837
+  role: right
+  color: '#007AFF'
+  attributes:
+    Couverture du contraste: 2.0
+    Simulation des déficiences de la vision des couleurs: 1.0
+    Correction fidèle à la couleur d'origine: 2.0
+    Export de jetons de conception: 2.0
+    Génération de palette: 5.0
+    Local et hors ligne: 5.0
+    Installation sans dépendance: 5.0
+    Adapté à l'intégration continue: 3.0
+    Utilisable sans écrire de code: 1.0
+    Espace de couleur perceptuel: 3.0
+    Fondé sur une source publiée: 3.0
+    Agit sur ce qui est réellement affiché: 1.0
+    Maturité et écosystème: 5.0
+    Soutien commercial et support: 2.0
+  imputed_attributes: []
+- name: culori
+  coordinates:
+    axis_1: 2.2517
+    axis_2: 0.552
+  role: competitor
+  color: '#A08C1A'
+  attributes:
+    Couverture du contraste: 3.0
+    Simulation des déficiences de la vision des couleurs: 3.0
+    Correction fidèle à la couleur d'origine: 2.0
+    Export de jetons de conception: 2.0
+    Génération de palette: 4.0
+    Local et hors ligne: 5.0
+    Installation sans dépendance: 5.0
+    Adapté à l'intégration continue: 3.0
+    Utilisable sans écrire de code: 1.0
+    Espace de couleur perceptuel: 5.0
+    Fondé sur une source publiée: 4.0
+    Agit sur ce qui est réellement affiché: 2.0
+    Maturité et écosystème: 4.0
+    Soutien commercial et support: 2.0
+  imputed_attributes: []
+- name: colorjs.io
+  coordinates:
+    axis_1: 2.5201
+    axis_2: 0.3593
+  role: competitor
+  color: '#CA9A39'
+  attributes:
+    Couverture du contraste: 5.0
+    Simulation des déficiences de la vision des couleurs: 1.0
+    Correction fidèle à la couleur d'origine: 2.0
+    Export de jetons de conception: 2.0
+    Génération de palette: 3.0
+    Local et hors ligne: 5.0
+    Installation sans dépendance: 5.0
+    Adapté à l'intégration continue: 3.0
+    Utilisable sans écrire de code: 1.0
+    Espace de couleur perceptuel: 5.0
+    Fondé sur une source publiée: 5.0
+    Agit sur ce qui est réellement affiché: 1.0
+    Maturité et écosystème: 4.0
+    Soutien commercial et support: 2.0
+  imputed_attributes: []
+- name: coloraide
+  coordinates:
+    axis_1: 2.0115
+    axis_2: 0.7837
+  role: competitor
+  color: '#7CA751'
+  attributes:
+    Couverture du contraste: 3.0
+    Simulation des déficiences de la vision des couleurs: 4.0
+    Correction fidèle à la couleur d'origine: 2.0
+    Export de jetons de conception: 2.0
+    Génération de palette: 4.0
+    Local et hors ligne: 5.0
+    Installation sans dépendance: 5.0
+    Adapté à l'intégration continue: 3.0
+    Utilisable sans écrire de code: 1.0
+    Espace de couleur perceptuel: 5.0
+    Fondé sur une source publiée: 5.0
+    Agit sur ce qui est réellement affiché: 2.0
+    Maturité et écosystème: 4.0
+    Soutien commercial et support: 2.0
+  imputed_attributes: []
+- name: ColorBrewer
+  coordinates:
+    axis_1: 0.4765
+    axis_2: 0.8791
+  role: competitor
+  color: '#4FC193'
+  attributes:
+    Couverture du contraste: 1.0
+    Simulation des déficiences de la vision des couleurs: 2.0
+    Correction fidèle à la couleur d'origine: 1.0
+    Export de jetons de conception: 2.0
+    Génération de palette: 4.0
+    Local et hors ligne: 3.0
+    Installation sans dépendance: 5.0
+    Adapté à l'intégration continue: 1.0
+    Utilisable sans écrire de code: 5.0
+    Espace de couleur perceptuel: 2.0
+    Fondé sur une source publiée: 5.0
+    Agit sur ce qui est réellement affiché: 1.0
+    Maturité et écosystème: 5.0
+    Soutien commercial et support: 2.0
+  imputed_attributes: []
+- name: viz-palette
+  coordinates:
+    axis_1: -0.2027
+    axis_2: 2.8155
+  role: competitor
+  color: '#34C8B2'
+  attributes:
+    Couverture du contraste: 2.0
+    Simulation des déficiences de la vision des couleurs: 3.0
+    Correction fidèle à la couleur d'origine: 2.0
+    Export de jetons de conception: 1.0
+    Génération de palette: 3.0
+    Local et hors ligne: 2.0
+    Installation sans dépendance: 5.0
+    Adapté à l'intégration continue: 1.0
+    Utilisable sans écrire de code: 5.0
+    Espace de couleur perceptuel: 2.0
+    Fondé sur une source publiée: 3.0
+    Agit sur ce qui est réellement affiché: 3.0
+    Maturité et écosystème: 3.0
+    Soutien commercial et support: 1.0
+  imputed_attributes: []

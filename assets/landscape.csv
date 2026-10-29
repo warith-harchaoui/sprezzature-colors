@@ -1,0 +1,27 @@
+Tool,Contrast coverage,Colour-vision-deficiency simulation,Fix close to the original colour,Design-token export,Palette generation,Local and offline,Dependency-free install,Fits continuous integration,Usable without writing code,Perceptual colour space,Grounded in a published source,Works on what is actually rendered,Maturity and ecosystem,Commercial backing and support
+sprezzature-colors,3,4,5,2,3,5,5,5,2,4,5,3,1,1
+WebAIM Contrast Checker,4,1,3,1,1,2,5,1,5,2,5,1,5,4
+Colour Contrast Analyser,5,3,3,1,1,5,3,1,5,2,5,5,5,4
+axe-core,4,1,1,1,1,4,2,5,2,1,5,5,5,5
+Lighthouse,3,1,1,1,1,4,4,4,4,1,5,5,5,4
+Polypane,5,4,3,1,2,3,3,2,5,3,4,5,4,4
+Stark,4,4,4,2,3,2,3,2,5,3,4,4,5,5
+Polychrom,4,1,2,1,1,2,4,1,5,5,4,4,3,2
+Who Can Use,4,3,2,1,1,2,5,1,5,2,4,1,3,1
+Color Oracle,1,5,1,1,1,5,3,1,5,2,5,5,4,2
+Coblis,1,4,1,1,1,1,5,1,5,1,2,3,4,2
+Sim Daltonism,1,4,1,1,1,5,4,1,5,1,2,5,3,1
+DaltonLens,1,5,2,1,1,5,3,3,3,3,5,4,3,1
+Adobe Leonardo,4,1,3,3,5,3,3,3,4,5,4,1,4,3
+Huetone,4,3,3,2,5,3,4,1,5,5,4,1,3,1
+Accessible Palette,4,1,3,2,5,2,5,1,5,5,4,1,2,1
+Radix Colors,3,1,1,4,4,5,4,2,3,4,3,1,5,3
+Open Props,2,1,1,4,4,5,5,2,3,3,2,1,4,2
+Style Dictionary,1,1,1,5,1,5,3,5,1,1,3,1,5,3
+Tokens Studio,2,1,1,5,3,2,3,3,5,2,3,3,4,4
+chroma.js,2,1,2,2,5,5,5,3,1,3,3,1,5,2
+culori,3,3,2,2,4,5,5,3,1,5,4,2,4,2
+colorjs.io,5,1,2,2,3,5,5,3,1,5,5,1,4,2
+coloraide,3,4,2,2,4,5,5,3,1,5,5,2,4,2
+ColorBrewer,1,2,1,2,4,3,5,1,5,2,5,1,5,2
+viz-palette,2,3,2,1,3,2,5,1,5,2,3,3,3,1
