@@ -30,14 +30,15 @@ Pour la simulation de daltonisme sur des images :
 
 ```bash
 pip install sprezzature-colors[cvd]       # + Pillow
-pip install "sprezzature-colors[click]"   # + la porte click
 pip install "sprezzature-colors[api,mcp]" # + les surfaces HTTP et agent
 ```
 
-Que l'audit lui-même n'ait **aucune dépendance** est tout l'intérêt de ce
-paquet, et la raison pour laquelle il est assez bon marché pour tenir dans un
-crochet de pré-commit. Tout ce qui est plus lourd est un extra, nommé d'après
-l'outil qui en a besoin, pour qu'une installation dise à quoi elle sert.
+Que l'audit lui-même tienne dans la **bibliothèque standard** est tout
+l'intérêt de ce paquet, et la raison pour laquelle il est assez bon marché
+pour tenir dans un crochet de pré-commit. L'unique dépendance de base est
+click, pour la ligne de commande. Tout ce qui est plus lourd est un extra,
+nommé d'après l'outil qui en a besoin, pour qu'une installation dise à quoi
+elle sert.
 
 ### Une porte d'entrée, deux orthographes, quatre outils
 

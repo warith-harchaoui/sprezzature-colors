@@ -30,14 +30,14 @@ For color-blindness image simulation:
 
 ```bash
 pip install sprezzature-colors[cvd]       # + Pillow
-pip install "sprezzature-colors[click]"   # + the click front door
 pip install "sprezzature-colors[api,mcp]" # + the HTTP and agent surfaces
 ```
 
-That the audit itself has **no dependencies at all** is the point of this
-package, and the reason it is cheap enough to put in a pre-commit hook. Every
-heavier thing is an extra, named after the tool that needs it, so an install
-says what it is for.
+That the audit itself is **standard library only** is the point of this
+package, and the reason it is cheap enough to put in a pre-commit hook. The
+one base dependency is click, for the command line. Every heavier thing is an
+extra, named after the tool that needs it, so an install says what it is
+for.
 
 ### One front door, two spellings, four tools
 
