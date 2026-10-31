@@ -25,7 +25,7 @@ Why a refusal is no longer an outcome
 ------------------------------------
 Until 2026-10-25 this package shipped two parsers over one table, and ``click``
 was an extra: ``sprezzature-colors`` — the Click front door — refused with exit
-1 and the line ``pip install 'sprezzature-colors[click]'`` when it was absent,
+1 and the line an install line naming a ``[click]`` extra when it was absent,
 while the argparse twin ``make-colors`` needed nothing. So this file accepted a
 non-zero exit as long as the output named an install that would fix it.
 
@@ -33,7 +33,7 @@ argparse is gone and click is a **base** dependency now, so there is nothing
 left for a front door to be missing — and the tolerance had stopped protecting
 anything. Worse, it was blind in a shape nobody would guess. Measured on
 2026-10-31, against a front door made to exit 1 printing exactly what the
-tolerance asked for, ``pip install 'sprezzature-colors[click]'`` and no
+tolerance asked for, an install line naming a ``[click]`` extra and no
 traceback: the old case **passed** for ``sprezzature-colors``. A refusal has to
 name the distribution to be useful, this command is named after the
 distribution, so the one assertion left standing — the help names the command —
