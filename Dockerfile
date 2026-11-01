@@ -7,9 +7,9 @@ COPY . .
 # `cvd` carries Pillow, which the colour-vision simulation needs to open a
 # screenshot; `api` and `mcp` carry fastapi and uvicorn, which live behind an
 # extra so that nobody installing the library pays for a web server. An image
-# that serves has to ask for all three — the previous `.[cvd]` build could not
+# that serves has to ask for all three — the previous `.` build could not
 # run the command its own CMD named.
-RUN pip install --no-cache-dir ".[cvd,api,mcp]"
+RUN pip install --no-cache-dir "."
 
 EXPOSE 8000
 

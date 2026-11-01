@@ -27,9 +27,10 @@ WCAG standard defines, a CVD simulation is a published matrix, and the
 palette is a file. Anything that would need taste rather than arithmetic
 belongs in the skill, not here.
 
-Install the extra to get the runtime dependencies::
+FastAPI and uvicorn are base dependencies since 2026-11-01, so there
+is no extra to ask for::
 
-    pip install 'sprezzature-colors[api]'
+    pip install 'sprezzature-colors'
 
 Then run the app with any ASGI server::
 
@@ -59,8 +60,10 @@ try:
     from fastapi.responses import RedirectResponse
 except ImportError as exc:  # pragma: no cover - dependency guard
     raise ImportError(
-        "The FastAPI HTTP surface requires the [api] extra. "
-        "Install with: pip install 'sprezzature-colors[api]'"
+        "The FastAPI HTTP surface could not import fastapi, which is a base "
+        "dependency since 2026-11-01 -- so this is a broken install rather "
+        "than a missing extra. Reinstall with: "
+        "pip install 'sprezzature-colors'"
     ) from exc
 
 from pydantic import BaseModel, Field

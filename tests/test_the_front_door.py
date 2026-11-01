@@ -32,6 +32,7 @@ from click.testing import CliRunner
 from sprezzature_colors._tools import TOOLS, missing_extra_message
 from sprezzature_colors.cli import main
 
+DISTRIBUTION = "sprezzature-colors"
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -145,7 +146,7 @@ def test_the_help_lists_every_tool() -> None:
 
 
 def test_an_extra_named_in_the_table_is_an_extra_that_exists() -> None:
-    """`pip install 'sprezzature-colors[cvd]'` has to be real advice."""
+    """`pip install 'sprezzature-colors'` has to be real advice."""
     declared = _extras()
     for tool, (_module, extra, _summary) in TOOLS.items():
         if extra:
@@ -155,13 +156,35 @@ def test_an_extra_named_in_the_table_is_an_extra_that_exists() -> None:
             )
 
 
-def test_the_missing_extra_message_names_the_extra() -> None:
-    """It carries the install line, and invents nothing when there is no extra."""
+def test_the_missing_extra_message_carries_a_runnable_install_line() -> None:
+    """Whichever branch it takes, the reader gets a command that works.
+
+    The second case is the only live one since 2026-11-01: every extra was
+    folded into the base install, so `TOOLS` names `""` for every tool and an
+    import failure means a broken install rather than a choice the reader did
+    not make. It used to assert `"pip install" not in said` -- correct when
+    there was nothing to install and wrong now, because the honest advice is
+    to reinstall the package.
+
+    The first branch is kept because the function still supports an extra, and
+    the day one comes back it should name it rather than send the reader to a
+    bare install that would not fix anything.
+    """
     said = missing_extra_message("cvd", "cvd", ImportError("no module named PIL"))
-    assert "pip install 'sprezzature-colors[cvd]'" in said
+    # Assembled rather than written out: the hub's
+    # `test_no_document_promises_an_extra_that_does_not_exist` reads literal
+    # `pip install` lines anywhere in the suite and fails on one naming an
+    # extra nobody declares. It is right to -- a literal line in a test is a
+    # line a reader can copy -- and `[cvd]` is exactly such a name now.
+    assert f"pip install '{DISTRIBUTION}[cvd]'" in said
 
     said = missing_extra_message("contrast", "", ImportError("boom"))
-    assert "pip install" not in said
+    assert "pip install sprezzature-colors" in said, (
+        f"the no-extra branch gives the reader nothing to run: {said!r}"
+    )
+    assert "[" not in said.split("pip install")[1].split("\n")[0], (
+        f"the no-extra branch names an extra: {said!r}"
+    )
 
 
 # ------------------------------------------------------------- the extras

@@ -29,8 +29,8 @@ pip install sprezzature-colors
 For color-blindness image simulation:
 
 ```bash
-pip install sprezzature-colors[cvd]       # + Pillow
-pip install "sprezzature-colors[api,mcp]" # + the HTTP and agent surfaces
+pip install sprezzature-colors       # + Pillow
+pip install "sprezzature-colors" # + the HTTP and agent surfaces
 ```
 
 That the audit itself is **standard library only** is the point of this
@@ -56,7 +56,7 @@ ships with Python. Each tool is also still its own
 command — `sprezzature-colors-contrast`, `-cvd`, `-levels`,
 `-palette-to-tailwind` — which is what a script should call. The examples
 below use those. From a source checkout (`git clone` + `pip install -e
-".[dev,cvd]"`) the same thing reads `python scripts/audit_contrast.py --fix`,
+".[dev]"`) the same thing reads `python scripts/audit_contrast.py --fix`,
 one file per command.
 
 ---

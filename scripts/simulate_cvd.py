@@ -91,7 +91,7 @@ except ImportError:  # pragma: no cover - dependency guard
     # one-line fix, not a stack trace.
     print(
         "sprezzature-colors CVD simulation requires Pillow. "
-        "Install with: pip install 'sprezzature-colors[cvd]'",
+        "pip install 'sprezzature-colors'",
         file=sys.stderr,
     )
     sys.exit(1)

@@ -5,7 +5,7 @@
 ```bash
 git clone https://github.com/warith-harchaoui/sprezzature-colors
 cd sprezzature-colors
-pip install -e ".[dev,cvd]"
+pip install -e ".[dev]"
 ```
 
 ## Tests

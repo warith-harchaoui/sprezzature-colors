@@ -36,7 +36,7 @@ TOOLS: dict[str, tuple[str, str, str]] = {
     ),
     "cvd": (
         "simulate_cvd",
-        "cvd",
+        "",
         "Render an image as a colour-blind viewer sees it — protanopia, "
         "deuteranopia, tritanopia — so a reviewer can look rather than "
         "guess. Needs Pillow.",
@@ -70,6 +70,9 @@ def missing_extra_message(tool: str, extra: str, exc: Exception) -> str:
             f"  ({exc})\n"
         )
     return (
-        f"{tool}: needs nothing optional, so this is not a missing extra — "
-        f"something else failed to import.\n  ({exc})\n"
+        f"{tool}: everything it needs is in the base install, so this is not "
+        f"a missing extra — something failed to import on a complete install. "
+        f"Reinstall with:\n"
+        f"    pip install sprezzature-colors\n"
+        f"  ({exc})\n"
     )

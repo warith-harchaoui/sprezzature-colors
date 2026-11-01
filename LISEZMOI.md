@@ -29,8 +29,8 @@ pip install sprezzature-colors
 Pour la simulation de daltonisme sur des images :
 
 ```bash
-pip install sprezzature-colors[cvd]       # + Pillow
-pip install "sprezzature-colors[api,mcp]" # + les surfaces HTTP et agent
+pip install sprezzature-colors       # + Pillow
+pip install "sprezzature-colors" # + les surfaces HTTP et agent
 ```
 
 Que l'audit lui-même tienne dans la **bibliothèque standard** est tout
@@ -57,7 +57,7 @@ argparse parti, plus aucun analyseur n'est livré avec Python. Chaque outil
 reste aussi sa propre commande — `sprezzature-colors-contrast`, `-cvd`,
 `-levels`, `-palette-to-tailwind` — et c'est ce qu'un script devrait appeler.
 Les exemples ci-dessous utilisent celles-là. Depuis un dépôt cloné
-(`git clone` puis `pip install -e ".[dev,cvd]"`), la même chose s'écrit
+(`git clone` puis `pip install -e ".[dev]"`), la même chose s'écrit
 `python scripts/audit_contrast.py --fix`, un fichier par commande.
 
 ---
