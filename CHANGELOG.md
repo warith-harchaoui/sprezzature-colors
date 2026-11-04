@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-04: click everywhere, and an audit that cannot pass on nothing
+
 ### Changed
 
 - The last argparse command lines are click now: `sprezzature-colors-contrast`,
