@@ -1,6 +1,7 @@
-# Core — stdlib only (audit_contrast, palette_to_tailwind, accessibility_levels)
-# No runtime dependencies required for the base install.
-# For CVD image simulation (simulate_cvd.py), install the optional extra:
+# The runtime dependencies are declared in pyproject.toml, not here. Since
+# 2026-11-01 they are all in the base install (click, fastapi, uvicorn,
+# Pillow, fastapi-mcp, mcp):
 #   pip install sprezzature-colors
-# or directly:
-#   pip install Pillow>=10.0
+# The colour arithmetic itself (audit_contrast, palette_to_tailwind,
+# accessibility_levels) uses the standard library only; simulate_cvd.py
+# needs Pillow, which requirements-cvd.txt installs alone.

@@ -649,10 +649,12 @@ class Color:
 
     >>> blue = Color("#007AFF")
     >>> blue.lighten(0.15).hex
-    '#5FA8FF'  # doctest: +SKIP
-    >>> blue.contrast_with("#FFFFFF")  # doctest: +SKIP
-    4.55
+    '#47ABFF'
+    >>> round(blue.contrast_with("#FFFFFF"), 2)
+    4.02
     >>> blue.meets_wcag("#FFFFFF")
+    False
+    >>> blue.meets_wcag("#FFFFFF", size="large")
     True
     """
 

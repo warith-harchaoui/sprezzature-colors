@@ -627,3 +627,32 @@ def test_simulate_cvd_main_cli_missing_source_returns_1(monkeypatch: pytest.Monk
 
     monkeypatch.setattr("sys.argv", ["sprezzature-colors-cvd", "/no/such/file.png"])
     assert cvd_main() == 1
+
+
+def test_audit_with_no_matching_role_is_not_a_pass(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """A palette whose keys match no role checks nothing, and must not exit 0.
+
+    It used to print ``0 pass, 0 fail.`` and exit 0, which a CI job reads as
+    a palette that passed.
+    """
+    import audit_contrast
+
+    palette = tmp_path / "palette.json"
+    palette.write_text('{"text": "#777777", "bg": "#FFFFFF"}', encoding="utf-8")
+    monkeypatch.setattr(sys, "argv", ["sprezzature-colors-contrast", "--palette", str(palette)])
+    assert audit_contrast.main() == audit_contrast.EXIT_NO_PAIRS == 2
+    assert "no (foreground, background) pair" in capsys.readouterr().err
+
+
+def test_audit_with_matching_roles_still_exits_0_or_1(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The new exit code is only for the empty case: a pass is still 0."""
+    import audit_contrast
+
+    palette = tmp_path / "palette.json"
+    palette.write_text('{"label-primary": "#000000", "surface-primary": "#FFFFFF"}', encoding="utf-8")
+    monkeypatch.setattr(sys, "argv", ["sprezzature-colors-contrast", "--palette", str(palette)])
+    assert audit_contrast.main() == 0

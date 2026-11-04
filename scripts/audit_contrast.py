@@ -259,8 +259,13 @@ def audit(
 
 # ── CLI entry point ────────────────────────────────────────────────────────
 
+#: Exit code when the palette yields no pair at all: distinct from 0 (every
+#: pair passes) and 1 (a pair fails), because nothing was checked.
+EXIT_NO_PAIRS: int = 2
+
 def main() -> int:
-    """Run the audit. Exit code 0 when every checked pair passes, 1 otherwise."""
+    """Run the audit. Exit 0 when every checked pair passes, 1 when one fails,
+    2 when the palette yields no pair to check."""
     p = make_parser(
         prog="sprezzature-colors-contrast",
         description="Audit a palette's foreground/background contrast against WCAG. "
@@ -302,6 +307,17 @@ def main() -> int:
     flat = normalize_palette(raw)
 
     result = audit(flat, args.target, args.fix, all_pairs=args.all_pairs)
+
+    # No pair checked is not a pass. A palette whose keys match no role
+    # (``label-``/``brand-`` against ``surface-``) used to print
+    # "0 pass, 0 fail." and exit 0, exactly like a palette that passed.
+    if not result["pairs"]:
+        sys.stderr.write(
+            "sprezzature-colors-contrast: no (foreground, background) pair to check. "
+            "Foreground keys must start with 'label-' or 'brand-' and background "
+            "keys with 'surface-'; nothing in this palette matched.\n"
+        )
+        return EXIT_NO_PAIRS
 
     if args.format == "json":
         json.dump(result, sys.stdout, indent=2, ensure_ascii=False)

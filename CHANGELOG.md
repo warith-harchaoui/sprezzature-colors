@@ -2,6 +2,63 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- `sprezzature-colors-contrast` on a palette whose keys match no role
+  printed `0 pass, 0 fail.` and exited 0, exactly like a palette that
+  passed. It now says that nothing was checked and exits 2.
+- `sprezzature-colors tools` cut every summary at its first period, so the
+  contrast line ended at "(4.". It now cuts at a sentence end.
+- Stale comments in `pyproject.toml`, the `Dockerfile` and
+  `requirements.txt` still described argparse front doors, `cvd`/`api`/`mcp`
+  extras and a base install with no dependencies.
+
+### Docs
+
+The Markdown files were checked against the code and rewritten where they
+disagreed with it.
+
+- **README / LISEZMOI.** The library example imported `scripts._colors`,
+  which exists only in a checkout; it now uses `import sprezzature_colors as
+  sc`. Its values were wrong: `#007AFF` on white is 4.02, not 4.55, so
+  `meets_wcag` at AA normal is `False`, not `True`; `lighten(…, 0.15)` is
+  `#47ABFF` and `darken(…, 0.10)` is `#0059DC`. The sample audit output was
+  replaced by a real run. The install section still said "every heavier
+  thing is an extra"; it now says one `pip install` brings everything and
+  `[dev]` is only the test toolchain. Added: the five surfaces, the HTTP
+  routes with their `operation_id`, Docker and compose, the MCP server and
+  its `/mcp` endpoint, the accessibility levels as a fourth tool,
+  `--all-pairs`, `--include-neutrals`, `--theme academic`, and the CVD type
+  shorthands. The figure now opens both files. The suite table dropped
+  best-engine-ai-helper, and the two languages now agree on the hub (ten
+  bricks, where LISEZMOI said nine).
+- **TRIGGERS.** Routed on the domain's closed vocabulary; added `health`, a
+  table of every tool and the request it answers, the library and HTTP
+  columns, `sprezzature-colors tools`, and the audit's key-name rule.
+- **EXAMPLES.** The `Color` wrapper was imported from `scripts._colors` and
+  promised `meets_wcag("#FFFFFF") -> True`; it is `False`. The sample
+  outputs (audit, fix, levels) were invented and are now real. The
+  pre-commit hook lacked `additional_dependencies`, so pre-commit would not
+  have installed the command.
+- **references/contrast-audit.md.** `-dark` roles are foregrounds, not
+  excluded; the role tests are prefixes, not regexes; the CI step calls the
+  installed command.
+- **references/cvd-simulation.md.** Pillow is in the base install;
+  `--grayscale`, `--out` as a directory, and the PNG-in-any-extension output
+  are documented.
+- **references/accessibility-levels.md.** The levels were described as a
+  roadmap; they ship as `apply_level` and `sprezzature-colors-levels`.
+- **CONTRIBUTING.** A new tool must also be registered in
+  `sprezzature_colors/_tools.py`; `[tool.setuptools.package-dir]` needs no
+  change; CI runs mypy.
+- **Docstrings and help strings.** The `api` module listed six routes and
+  missed `/v1/concepts`; `get_palette` documented `name`/`hex` keys the
+  palette rows do not have; `search_concepts` said it returns names, it
+  returns hex codes. The package docstring, `_tools.TOOLS` and the
+  `sprezzature-colors` help still spoke of `[api]`, `[mcp]` and tools that
+  need an extra. The `Color` doctest now passes, and the
+  `sprezzature-colors-cvd` example gives `--grid` a file, not a directory.
+
 ### Changed — one `pip install`
 
 **Everything this package does now installs with it.** 4 extras became

@@ -244,7 +244,7 @@ def main() -> int:
                     "and tritanopia. Catches red/green collisions before ship.",
         epilog="Examples:\n"
                "  sprezzature-colors-cvd screenshot.png\n"
-               "  sprezzature-colors-cvd screenshot.png --grid --out previews/\n",
+               "  sprezzature-colors-cvd screenshot.png --grid --out previews/screenshot-cvd.png\n",
     )
     p.add_argument(
         "source", type=Path,

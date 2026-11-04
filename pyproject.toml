@@ -53,11 +53,12 @@ dependencies = [
 dev = ["pytest>=8.0", "ruff", "mypy"]
 
 [project.scripts]
-# The two front doors, over the same four tools and the same table
-# (sprezzature_colors/cli.py). argparse because it is in the standard library
-# and therefore always there; click because its sub-commands carry the shape
-# without hand-rolling it. Until these existed there was no way to find out
-# what this package does except by reading its README — each tool had its own
+# Two spellings of one click front door over the four tools
+# (sprezzature_colors/cli.py, catalogue in sprezzature_colors/_tools.py);
+# argparse was removed from the front door on 2026-10-25. Then the MCP server,
+# and one console script per tool, which is what a script or a pre-commit
+# hook should call. Until the front door existed there was no way to find out
+# what this package does except by reading its README: each tool had its own
 # console script and nothing listed them together.
 make-colors = "sprezzature_colors.cli:main"
 sprezzature-colors = "sprezzature_colors.cli:main"

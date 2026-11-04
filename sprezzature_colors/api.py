@@ -17,10 +17,11 @@ What ships here
 - ``POST /v1/contrast``: contrast ratios and WCAG verdicts for colour pairs.
 - ``POST /v1/cvd``: how colours look to a colour-blind viewer.
 - ``POST /v1/adjust``: lighten or darken, in perceptual OKLab space.
-- ``GET  /v1/psychology/{colour}``: what a colour is associated with.
+- ``GET  /v1/psychology/{color}``: what a colour is associated with.
+- ``GET  /v1/concepts?keyword=``: which palette colours carry a concept.
 
-Why these six
--------------
+Why these seven
+---------------
 They are the questions a design review actually asks, and each one has a
 defensible answer rather than an opinion: a contrast ratio is a number the
 WCAG standard defines, a CVD simulation is a published matrix, and the
@@ -199,7 +200,7 @@ def health() -> dict:
 )
 def palette() -> dict:
     """
-    The house palette: every name, its hex, and its light variant.
+    The house palette: every name, its hex, its light variant, and its psychology.
 
     Call this when you need a colour and want the project's own rather than
     inventing a hex: "what are our brand colours", "give me the palette",
@@ -209,7 +210,10 @@ def palette() -> dict:
     Returns
     -------
     dict
-        ``{"colors": [{"name": ..., "hex": ...}, ...]}``.
+        ``{"colors": [row, ...]}``, one row of ``palette.csv`` per colour, with
+        the keys ``Base`` (the name), ``Hexcode``, ``R``, ``G``, ``B``,
+        ``LightHex``, ``Emotion``, ``Concepts``, ``PsychologyPositive`` and
+        ``PsychologyNegative``.
     """
     return {"colors": load_palette()}
 
@@ -406,7 +410,8 @@ def concepts(keyword: str) -> dict:
     Returns
     -------
     dict
-        Matching colour names, possibly empty.
+        ``{"keyword": ..., "colors": [...]}``: the hex codes of the matching
+        palette colours, possibly empty.
     """
     return {"keyword": keyword, "colors": concept_search(keyword)}
 

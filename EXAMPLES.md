@@ -6,18 +6,20 @@
 sprezzature-colors-contrast
 ```
 
-Output (text):
+Output (text, abridged), on the built-in default palette:
 
 ```
 Target ratio: 4.5
 
-  ✓      brand-blue  on  surface-primary    ratio 4.55
-  ✗      brand-red   on  surface-secondary  ratio 2.83
+  ✗             brand-blue  on         surface-primary   ratio 4.02
+  ✓             brand-blue  on    surface-primary-dark   ratio 5.23
+  ✗             brand-blue  on       surface-secondary   ratio 3.60
+  ...
 
-1 pass, 1 fail.
+34 pass, 22 fail.
 ```
 
-Exit code: `1` (a pair failed).
+Exit code: `1` (at least one pair failed). `0` means every checked pair passed.
 
 ## Audit an external palette with fix suggestions
 
@@ -34,13 +36,29 @@ sprezzature-colors-contrast --palette my-palette.json --target 7 --fix
 }
 ```
 
-Each failing pair gets a suggested OKLCH-neighbour hex that clears the
-target ratio:
+Variants other than `DEFAULT` become suffixed roles (`brand-red-dark`,
+`surface-primary-dark`). Each failing pair gets a suggested OKLCH-neighbour
+hex that clears the target ratio:
 
 ```
-  ✗   brand-red  on  surface-primary   ratio 4.02
-      → suggest #D4000A  (ratio 7.02)
+Target ratio: 7.0
+
+  ✗              brand-red  on         surface-primary   ratio 3.55
+      → suggest #C20000  (ratio 7.09)
+  ✗              brand-red  on    surface-primary-dark   ratio 5.92
+      → suggest #FF4E40  (ratio 7.09)
+  ✗         brand-red-dark  on    surface-primary-dark   ratio 6.16
+      → suggest #FF5346  (ratio 7.11)
+
+0 pass, 3 fail.
 ```
+
+`brand-red-dark` is not checked on `surface-primary`: a dark-theme colour is
+only paired with dark surfaces. Pass `--all-pairs` for the full cross-product.
+
+Keys must start with `label-`, `brand-` or `surface-`. Any other key is
+ignored, and a palette with no matching key is reported on standard error
+with exit code `2`: nothing was checked, so nothing passed.
 
 ## JSON output for CI
 
@@ -48,13 +66,16 @@ target ratio:
 sprezzature-colors-contrast --palette my-palette.json --format json | jq '.pairs | map(select(.passes == false)) | length'
 ```
 
+Each entry of `pairs` carries `fg` and `bg` (`role`, `hex`), `ratio`,
+`passes`, and `suggested` (`hex`, `ratio`) when `--fix` found one.
+
 ## Simulate color-blindness on a screenshot
 
 ```bash
-# Three sibling PNGs: hero-protanopia.png, hero-deuteranopia.png, hero-tritanopia.png
+# Three sibling files: hero-protanopia.png, hero-deuteranopia.png, hero-tritanopia.png
 sprezzature-colors-cvd hero.png
 
-# One 2x2 mosaic for a design review, with a grayscale panel added
+# One mosaic for a design review, with a grayscale panel added
 sprezzature-colors-cvd hero.png --grid --grayscale --out hero-cvd-review.png
 
 # Only deuteranopia (the most common form)
@@ -68,8 +89,9 @@ sprezzature-colors-levels --level deuteranopia
 ```
 
 ```
-Red          #C75A2E  contrast-vs-white 3.1:1
-Orange       #B8853A  contrast-vs-white 2.4:1
+Red          #D70000  contrast-vs-white 5.4:1
+Orange       #CC6600  contrast-vs-white 3.8:1
+Yellow       #BE8C00  contrast-vs-white 3.0:1
 ...
 ```
 
@@ -86,6 +108,18 @@ sprezzature-colors-palette-to-tailwind --emit config --with-dark --out tailwind.
 sprezzature-colors-palette-to-tailwind --theme academic
 ```
 
+## Ask the HTTP API
+
+```bash
+uvicorn sprezzature_colors.api:app --port 8000 &
+curl -s -X POST localhost:8000/v1/cvd \
+     -H 'content-type: application/json' -d '{"colors":["Red"]}'
+# {"results":[{"input":"#FF3B30","simulated":{"protanopia":"#796D2C",
+#   "deuteranopia":"#A99725","tritanopia":"#FF003B"}}]}
+curl -s "localhost:8000/v1/concepts?keyword=trust"
+# {"keyword":"trust","colors":["#007AFF"]}
+```
+
 ## Pre-commit hook
 
 ```yaml
@@ -97,21 +131,32 @@ repos:
         name: WCAG contrast audit
         entry: sprezzature-colors-contrast
         language: python
+        additional_dependencies: [sprezzature-colors]
         files: tokens/colors\.json$
+        pass_filenames: false
         args: ["--palette", "tokens/colors.json"]
 ```
 
 ## Library usage
 
 ```python
-from scripts._colors import contrast_ratio_hex, meets_wcag, lighten, Color
+import sprezzature_colors as sc
 
-# Direct function calls
-ratio = contrast_ratio_hex("#007AFF", "#FFFFFF")           # -> 4.55
-ok = meets_wcag("#007AFF", "#FFFFFF", level="AA", size="normal")  # -> True
+ratio = sc.contrast_ratio_hex("#007AFF", "#FFFFFF")                # -> 4.02 (rounded)
+ok = sc.meets_wcag("#007AFF", "#FFFFFF", level="AA", size="large")  # -> True
+sc.lighten("#007AFF", 0.15)                                          # -> "#47ABFF"
+```
 
-# Or the Color wrapper, for a chainable API
+The `Color` wrapper gives a chainable form of the same functions. It is not
+re-exported by `sprezzature_colors`; import it from the module that holds the
+implementation:
+
+```python
+from sprezzature_colors_scripts._colors import Color
+
 blue = Color("#007AFF")
-blue.lighten(0.15).hex        # -> a lighter blue, hue preserved
-blue.meets_wcag("#FFFFFF")    # -> True
+blue.lighten(0.15).hex        # -> "#47ABFF", hue preserved
+blue.contrast_with("#FFFFFF") # -> 4.02 (rounded)
+blue.meets_wcag("#FFFFFF")    # -> False: AA body text needs 4.5
+Color.from_name("Blue").hex   # -> "#007AFF"
 ```

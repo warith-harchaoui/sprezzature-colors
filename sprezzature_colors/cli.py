@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import importlib
 import importlib.util
+import re
 import sys
 
 import click
@@ -42,7 +43,7 @@ Shell completion:
   eval "$(_SPREZZATURE_COLORS_COMPLETE=zsh_source sprezzature-colors)"    # zsh
 
 Run `sprezzature-colors tools` to see which tools are ready to run on this
-machine and which need an extra installed.
+machine.
 """
 
 
@@ -65,9 +66,9 @@ def list_tools() -> None:
     """
     List the tools, and say which ones can run here.
 
-    The second half is the point. Three of these need nothing and one needs an
-    extra, so "it is installed" and "it will run" are different questions, and
-    a reader should not have to discover the difference from a traceback.
+    The second half is the point. Every tool's dependencies are in the base
+    install, so a tool that is not ready points at a broken install, and a
+    reader should not have to discover that from a traceback.
     """
     width = max(len(name) for name in TOOLS)
     for name, (module_name, extra, summary) in TOOLS.items():
@@ -80,7 +81,19 @@ def list_tools() -> None:
             except ImportError:
                 ready = False
         mark = "ready" if ready else f"needs [{extra}]" if extra else "unavailable"
-        click.echo(f"  {name:<{width}}  {mark:<14}  {summary.split('.')[0]}.")
+        click.echo(f"  {name:<{width}}  {mark:<14}  {first_sentence(summary)}")
+
+
+def first_sentence(text: str) -> str:
+    """
+    The first sentence of ``text``, ending with its period.
+
+    A sentence ends at a period followed by whitespace or the end of the
+    text, so a ratio such as ``4.5:1`` is not cut at its decimal point,
+    which ``str.split('.')`` did.
+    """
+    match = re.search(r"\.(\s|$)", text)
+    return text[: match.start() + 1] if match else text
 
 
 def _attach(name: str, module_name: str, extra: str, summary: str) -> None:

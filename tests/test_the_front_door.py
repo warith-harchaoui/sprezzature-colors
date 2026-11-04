@@ -211,3 +211,20 @@ def test_the_help_points_at_shell_completion() -> None:
     """
     out = CliRunner().invoke(main, ["--help"]).output
     assert "_SPREZZATURE_COLORS_COMPLETE" in out
+
+
+def test_tools_listing_does_not_cut_a_summary_at_a_decimal_point() -> None:
+    """``tools`` printed the contrast summary as "...contrast ratios (4." because
+    it split on every period; a sentence ends at a period followed by a space."""
+    result = CliRunner().invoke(main, ["tools"])
+    assert result.exit_code == 0, result.output
+    line = next(ln for ln in result.output.splitlines() if ln.strip().startswith("contrast"))
+    assert "(4." not in line or "4.5:1" in line
+    assert line.rstrip().endswith("failing pair.")
+
+
+def test_first_sentence_keeps_decimals() -> None:
+    from sprezzature_colors.cli import first_sentence
+
+    assert first_sentence("Ratio 4.5:1 here. Second.") == "Ratio 4.5:1 here."
+    assert first_sentence("No period at all") == "No period at all"

@@ -17,12 +17,13 @@ this module exists so the library reads like a library:
 
 ``import sprezzature_colors as sc``
     The functions, directly. This module.
-``sprezzature-colors-contrast`` and friends
-    The command lines, one per tool.
+``sprezzature-colors`` and ``sprezzature-colors-contrast`` and friends
+    The command lines: one click front door, and one command per tool.
 ``sprezzature_colors.api``
-    The same tools over HTTP. Needs the ``[api]`` extra.
+    The same tools over HTTP (FastAPI), part of the base install.
 ``sprezzature_colors.mcp``
-    The same HTTP routes as MCP tools, for an AI assistant. ``[mcp]``.
+    The same HTTP routes as MCP tools, for an AI assistant, also in the
+    base install.
 
 Usage example
 -------------

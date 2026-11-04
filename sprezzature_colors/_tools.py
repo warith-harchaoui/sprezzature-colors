@@ -21,11 +21,10 @@ from __future__ import annotations
 #: A tool missing from this table is unreachable, or reachable and
 #: undocumented.
 #:
-#: ``extra`` is the empty string for the three tools that need nothing beyond
-#: a bare install — which is most of them, and deliberately so. This package
-#: declares **no** base dependencies, and the contrast audit is the one most
-#: likely to sit in a pre-commit hook, where a colour library is the last
-#: thing anybody wants to install.
+#: ``extra`` is the empty string for all four tools: since 2026-11-01 every
+#: dependency is in the base install, Pillow for ``cvd`` included. The field
+#: stays so that :func:`missing_extra_message` can tell a missing extra from
+#: a broken install.
 TOOLS: dict[str, tuple[str, str, str]] = {
     "contrast": (
         "audit_contrast",

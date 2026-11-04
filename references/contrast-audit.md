@@ -22,6 +22,8 @@ Designers iterate on palettes by eye. An automated audit catches the pairs the e
 
 ## Run
 
+Installed, the command is `sprezzature-colors-contrast` (or `sprezzature-colors contrast`) and takes the same flags. From a source checkout:
+
 ```bash
 # Audit the skill's built-in palette at AA body (4.5:1)
 python scripts/audit_contrast.py
@@ -42,7 +44,7 @@ python scripts/audit_contrast.py --format json
 python scripts/audit_contrast.py --all-pairs
 ```
 
-Exit code is `0` when every checked pair passes, `1` when any pair fails. The exit code is the same regardless of `--fix`; the script reports the failures even when it suggests alternatives.
+Exit code is `0` when every checked pair passes, `1` when any pair fails, `2` when the palette yields no pair to check. The exit code is the same regardless of `--fix`; the script reports the failures even when it suggests alternatives.
 
 ## Palette format
 
@@ -72,17 +74,19 @@ Variant names other than `DEFAULT` become suffixes (`brand-blue-dark`, `brand-bl
 
 | Role pattern | Treated as |
 |---|---|
-| `label-…` (not `-light` or `-dark`) | foreground (text / icon) |
-| `brand-…` (not `-light` or `-dark`) | foreground |
+| `label-…` (not `-light`) | foreground (text / icon) |
+| `brand-…` (not `-light`) | foreground |
 | `surface-…` | background |
 
-Other roles are ignored. Re-name your palette keys to fit this scheme, or extend the regexes in `is_foreground` / `is_background`.
+`-light` brand tints are wash backgrounds and are never checked as text. `-dark` variants are the dark theme's foregrounds and surfaces. By default a pair is checked only when it can co-occur in a rendered theme: an unsuffixed label goes on unsuffixed surfaces, a `-dark` label on `-dark` surfaces, and a brand accent on every surface. `--all-pairs` drops that filter.
+
+Other roles are ignored. Rename your palette keys to fit this scheme, or extend the prefix tests in `is_foreground` / `is_background`. A palette with no matching key produces no pair at all: the script says so on standard error and exits `2`, so an unchecked palette cannot pass for a checked one.
 
 ## The suggestion search
 
 For each failing pair, the script:
 
-1. Converts the foreground to OKLCH, a color model published by Björn Ottosson (2020) in which moving the lightness value by a fixed amount produces a change the eye perceives as equally large everywhere in the color space, unlike raw RGB.
+1. Converts the foreground to OKLCH, a color model published by Björn OTTOSSON (2020) in which moving the lightness value by a fixed amount produces a change the eye perceives as equally large everywhere in the color space, unlike raw RGB.
 2. Walks the L axis from 0.00 to 1.00 in 0.01 steps, keeping C (chroma) and H (hue) fixed.
 3. Returns the candidate with the smallest `|ΔL|` that meets the target ratio.
 
@@ -95,7 +99,7 @@ If no candidate meets the target across the full L axis, the suggestion is omitt
 - WCAG 2.x SC 1.4.3 — Contrast (Minimum).
 - WCAG 2.x SC 1.4.6 — Contrast (Enhanced).
 - WCAG 2.x SC 1.4.11 — Non-text Contrast.
-- OKLab / OKLCH — Björn Ottosson, "A perceptual color space for image processing", <https://bottosson.github.io/posts/oklab/>.
+- OKLab / OKLCH: Björn OTTOSSON, "A perceptual color space for image processing", <https://bottosson.github.io/posts/oklab/>.
 
 ## Continuous integration (CI)
 
@@ -104,7 +108,8 @@ Continuous integration (CI) is the practice of running checks automatically on e
 ```yaml
 - name: Contrast audit
   run: |
-    python3 scripts/audit_contrast.py \
+    pip install sprezzature-colors
+    sprezzature-colors-contrast \
             --palette tokens/colors.json \
             --target 4.5 --format json > artifacts/contrast.json
 - uses: actions/upload-artifact@v4

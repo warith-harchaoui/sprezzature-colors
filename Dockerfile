@@ -4,11 +4,9 @@ WORKDIR /app
 
 COPY . .
 
-# `cvd` carries Pillow, which the colour-vision simulation needs to open a
-# screenshot; `api` and `mcp` carry fastapi and uvicorn, which live behind an
-# extra so that nobody installing the library pays for a web server. An image
-# that serves has to ask for all three — the previous `.` build could not
-# run the command its own CMD named.
+# A plain `.` install is the whole image: since 2026-11-01 Pillow (for the
+# colour-vision simulation), fastapi and uvicorn (for the CMD below) and
+# fastapi-mcp are base dependencies, so there is no extra to ask for.
 RUN pip install --no-cache-dir "."
 
 EXPOSE 8000
