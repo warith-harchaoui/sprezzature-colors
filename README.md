@@ -41,7 +41,7 @@ pip install -e ".[dev]"
 |---|---|
 | Library | `import sprezzature_colors as sc` |
 | Command line | `sprezzature-colors` (also `make-colors`), and one command per tool |
-| HTTP API | `uvicorn sprezzature_colors.api:app`, or `docker compose up` |
+| HTTP API | `uvicorn sprezzature_colors.api:app`, or `docker compose up` (which serves the MCP endpoint too) |
 | MCP server | `sprezzature-colors-mcp` |
 | Skill | `SKILL.md`, kept in the hub at `sprezzature/sprezzature-colors/` |
 
@@ -106,6 +106,9 @@ sprezzature-colors-contrast --palette my-palette.json --format json
 ```bash
 # Three sibling files: hero-protanopia.png, hero-deuteranopia.png, hero-tritanopia.png
 sprezzature-colors-cvd hero.png
+
+# Every file written is a PNG and named .png, whatever the source: hero.jpg gives hero-protanopia.png
+sprezzature-colors-cvd hero.jpg
 
 # One mosaic for design review: the original and each simulation, two per row
 sprezzature-colors-cvd hero.png --grid --out hero-cvd-grid.png
@@ -212,7 +215,7 @@ docker compose run --rm api sprezzature-colors-contrast --target 7
 docker compose run --rm api sprezzature-colors-cvd /work/hero.png --grid
 ```
 
-The image runs `uvicorn sprezzature_colors.api:app` on port 8000. The compose file mounts `./work` on `/work`, writable, because the simulation writes its files next to the source image.
+The image runs `sprezzature-colors-mcp --host 0.0.0.0 --port 8000`, so one container answers both the HTTP routes (`/health`, `/v1/...`) and the MCP endpoint (`/mcp`) on port 8000. The compose file mounts `./work` on `/work`, writable, because the simulation writes its files next to the source image.
 
 ## MCP server
 
@@ -221,7 +224,7 @@ sprezzature-colors-mcp                       # 127.0.0.1:8000
 sprezzature-colors-mcp --host 0.0.0.0 --port 9000
 ```
 
-The server wraps the same FastAPI app with fastapi-mcp and mounts the MCP endpoint at `/mcp`, beside the HTTP routes. Each route's `operation_id` is the MCP tool name, so the seven tools are `health`, `get_palette`, `check_contrast`, `simulate_color_blindness`, `adjust_lightness`, `get_color_psychology` and `search_concepts`. `SPREZZATURE_COLORS_HOST` and `SPREZZATURE_COLORS_PORT` set the defaults. The Docker image serves the HTTP routes only; run `sprezzature-colors-mcp` for the MCP endpoint.
+The server wraps the same FastAPI app with fastapi-mcp and mounts the MCP endpoint at `/mcp`, beside the HTTP routes. Each route's `operation_id` is the MCP tool name, so the seven tools are `health`, `get_palette`, `check_contrast`, `simulate_color_blindness`, `adjust_lightness`, `get_color_psychology` and `search_concepts`. `SPREZZATURE_COLORS_HOST` and `SPREZZATURE_COLORS_PORT` set the defaults. The Docker image runs this same server, so `docker compose up` gives you `/mcp` as well.
 
 ---
 

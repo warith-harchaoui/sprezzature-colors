@@ -28,8 +28,9 @@ dependencies = [
     # left that ships with Python, so an optional click would mean a
     # `pip install sprezzature-colors` whose own commands do not run.
     #
-    # The per-tool scripts (sprezzature-colors-contrast and friends) still
-    # need nothing beyond this, so the pre-commit case stays cheap.
+    # The per-tool scripts (sprezzature-colors-contrast and friends) and the
+    # MCP server's own flags are click too since 2026-11-04 (scripts/_click.py);
+    # the scripts need nothing beyond this, so the pre-commit case stays cheap.
     "click>=8.1",
 
     # ------------------------------------------------- une seule installation
@@ -55,7 +56,8 @@ dev = ["pytest>=8.0", "ruff", "mypy"]
 [project.scripts]
 # Two spellings of one click front door over the four tools
 # (sprezzature_colors/cli.py, catalogue in sprezzature_colors/_tools.py);
-# argparse was removed from the front door on 2026-10-25. Then the MCP server,
+# argparse was removed from the front door on 2026-10-25, and from every other
+# command, the per-tool ones and the MCP server, on 2026-11-04. Then the MCP server,
 # and one console script per tool, which is what a script or a pre-commit
 # hook should call. Until the front door existed there was no way to find out
 # what this package does except by reading its README: each tool had its own

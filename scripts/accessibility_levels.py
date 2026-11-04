@@ -50,7 +50,10 @@ import sys
 from collections.abc import Callable
 from pathlib import Path
 
+import click
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _click import run_command, sprezzature_command  # noqa: E402
 from _colors import (  # noqa: E402
     _PALETTE_PATH,  # source-tree vs. installed-package path, resolved once
     CVD_MATRICES,
@@ -228,36 +231,42 @@ def apply_level(
     return _rank_spread(palette, lambda h: _cvd_luminance(h, level), gray=False, bg=bg)
 
 
-def main() -> int:
+@sprezzature_command(
+    name="sprezzature-colors-levels",
+    help="Preview the canonical palette remapped to an accessibility level.",
+)
+@click.option("--level", type=click.Choice(LEVELS), default="universal")
+@click.option(
+    "--csv",
+    "csv_path",
+    type=click.Path(path_type=Path),
+    default=_PALETTE_PATH,
+    help="palette CSV to read (default: the canonical palette.csv, resolved "
+    "the same way in a source checkout or an installed package)",
+)
+def _command(level: str, csv_path: Path) -> int:
+    """Print the remapped palette; the exit code is :func:`main`'s."""
+    return _preview(level, csv_path)
+
+
+def main(argv: list[str] | None = None) -> int:
     """Preview a level: print ``name  #hex  contrast-vs-white`` for each colour."""
-    sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from _argparse import make_parser  # noqa: E402  (local import keeps module import light)
+    return run_command(_command, argv)
 
-    parser = make_parser(
-        prog="sprezzature-colors-levels",
-        description="Preview the canonical palette remapped to an accessibility level.",
-    )
-    parser.add_argument("--level", choices=LEVELS, default="universal")
-    parser.add_argument(
-        "--csv",
-        type=Path,
-        default=_PALETTE_PATH,
-        help="palette CSV to read (default: the canonical palette.csv, resolved "
-             "the same way in a source checkout or an installed package)",
-    )
-    args = parser.parse_args()
 
+def _preview(level: str, csv_path: Path) -> int:
+    """Print ``name  #hex  contrast-vs-white`` for ``level`` read from ``csv_path``."""
     import csv
 
     base: dict[str, str] = {}
-    with args.csv.open(encoding="utf-8", newline="") as fh:
+    with csv_path.open(encoding="utf-8", newline="") as fh:
         for row in csv.DictReader(fh):
             name = (row.get("Base") or "").strip()
             hexv = (row.get("Hexcode") or "").strip()
             if name and hexv.startswith("#"):
                 base[name] = hexv.upper()
 
-    leveled = apply_level(base, args.level)
+    leveled = apply_level(base, level)
     for name, hexv in leveled.items():
         print(f"{name:12} {hexv}  contrast-vs-white {contrast_ratio_hex(hexv, '#FFFFFF'):.1f}:1")
     return 0

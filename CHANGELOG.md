@@ -2,8 +2,29 @@
 
 ## [Unreleased]
 
+### Changed
+
+- The last argparse command lines are click now: `sprezzature-colors-contrast`,
+  `sprezzature-colors-cvd`, `sprezzature-colors-levels`,
+  `sprezzature-colors-palette-to-tailwind` and `sprezzature-colors-mcp`. Option
+  names, defaults, choices and exit codes are unchanged (a usage error still
+  exits 2); the help now opens on click's `Usage:` line, `-V` prints the
+  package's real version (it said 1.0.0), and every `main` takes
+  `argv: list[str] | None = None`. `scripts/_argparse.py` is deleted and
+  `scripts/_click.py` joins the synced helpers.
+  `tests/test_every_command_is_click.py` checks every console script's
+  `--help` and that nothing shipped imports argparse.
+- The Docker image and `docker compose up` run `sprezzature-colors-mcp` on
+  `0.0.0.0:8000` instead of bare uvicorn on `api:app`, so one container
+  serves the HTTP routes and the MCP endpoint at `/mcp`. Before, the image
+  had no `/mcp`.
+
 ### Fixed
 
+- `sprezzature-colors-cvd` wrote PNG bytes under the source's extension:
+  `hero.jpg` gave `hero-protanopia.jpg` holding a PNG. The per-type and
+  grayscale files are now always named `.png`, and `--help` says so.
+  `--out` keeps its meaning (a directory per type, a file for `--grid`).
 - `sprezzature-colors-contrast` on a palette whose keys match no role
   printed `0 pass, 0 fail.` and exited 0, exactly like a palette that
   passed. It now says that nothing was checked and exits 2.

@@ -73,6 +73,7 @@ Each entry of `pairs` carries `fg` and `bg` (`role`, `hex`), `ratio`,
 
 ```bash
 # Three sibling files: hero-protanopia.png, hero-deuteranopia.png, hero-tritanopia.png
+# (always .png, the bytes are PNG: hero.jpg gives hero-protanopia.png too)
 sprezzature-colors-cvd hero.png
 
 # One mosaic for a design review, with a grayscale panel added

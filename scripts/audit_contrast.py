@@ -62,8 +62,10 @@ import json
 import sys
 from pathlib import Path
 
+import click
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _argparse import make_parser  # noqa: E402
+from _click import run_command, sprezzature_command  # noqa: E402
 from _colors import (  # noqa: E402
     contrast_ratio,
     contrast_ratio_hex,
@@ -263,50 +265,56 @@ def audit(
 #: pair passes) and 1 (a pair fails), because nothing was checked.
 EXIT_NO_PAIRS: int = 2
 
-def main() -> int:
-    """Run the audit. Exit 0 when every checked pair passes, 1 when one fails,
-    2 when the palette yields no pair to check."""
-    p = make_parser(
-        prog="sprezzature-colors-contrast",
-        description="Audit a palette's foreground/background contrast against WCAG. "
-                    "Walks the (label, surface) pairs that co-occur in a rendered "
-                    "theme (--all-pairs for the full cross-product), suggests the "
-                    "nearest OKLCH neighbour for failing pairs when --fix is set.",
-        epilog="Examples:\n"
-               "  sprezzature-colors-contrast --palette palette.json\n"
-               "  sprezzature-colors-contrast --palette palette.json --target 7 --fix\n"
-               "  sprezzature-colors-contrast --format json --palette palette.json\n",
-    )
-    p.add_argument(
-        "--palette", type=Path,
-        help="JSON palette. When omitted, the skill's built-in default is used.",
-    )
-    p.add_argument(
-        "--target", type=float, default=4.5,
-        help="Minimum acceptable WCAG contrast ratio. 4.5 (AA body), 7 (AAA), or 3 (UI/large).",
-    )
-    p.add_argument(
-        "--fix", action="store_true",
-        help="Propose a suggested fix for each failing pair (nearest OKLCH neighbour).",
-    )
-    p.add_argument(
-        "--format", choices=["text", "json"], default="text",
-        help="Output format. Default: text.",
-    )
-    p.add_argument(
-        "--all-pairs", action="store_true",
-        help="Also check cross-theme pairs (light labels on dark surfaces and "
-             "vice versa). Default: only pairs that co-occur in a rendered theme.",
-    )
-    args = p.parse_args()
-
-    if args.palette is not None:
-        raw = json.loads(args.palette.read_text(encoding="utf-8"))
+@sprezzature_command(
+    name="sprezzature-colors-contrast",
+    help="Audit a palette's foreground/background contrast against WCAG. "
+    "Walks the (label, surface) pairs that co-occur in a rendered "
+    "theme (--all-pairs for the full cross-product), suggests the "
+    "nearest OKLCH neighbour for failing pairs when --fix is set.",
+    epilog="\b\nExamples:\n"
+    "  sprezzature-colors-contrast --palette palette.json\n"
+    "  sprezzature-colors-contrast --palette palette.json --target 7 --fix\n"
+    "  sprezzature-colors-contrast --format json --palette palette.json\n",
+)
+@click.option(
+    "--palette",
+    type=click.Path(path_type=Path),
+    default=None,
+    help="JSON palette. When omitted, the skill's built-in default is used.",
+)
+@click.option(
+    "--target",
+    type=float,
+    default=4.5,
+    help="Minimum acceptable WCAG contrast ratio. 4.5 (AA body), 7 (AAA), or 3 (UI/large).",
+)
+@click.option(
+    "--fix",
+    is_flag=True,
+    help="Propose a suggested fix for each failing pair (nearest OKLCH neighbour).",
+)
+@click.option(
+    "--format",
+    "fmt",
+    type=click.Choice(["text", "json"]),
+    default="text",
+    help="Output format. Default: text.",
+)
+@click.option(
+    "--all-pairs",
+    is_flag=True,
+    help="Also check cross-theme pairs (light labels on dark surfaces and "
+    "vice versa). Default: only pairs that co-occur in a rendered theme.",
+)
+def _command(palette: Path | None, target: float, fix: bool, fmt: str, all_pairs: bool) -> int:
+    """Run the audit; the exit code is :func:`main`'s."""
+    if palette is not None:
+        raw = json.loads(palette.read_text(encoding="utf-8"))
     else:
         raw = DEFAULT_PALETTE
     flat = normalize_palette(raw)
 
-    result = audit(flat, args.target, args.fix, all_pairs=args.all_pairs)
+    result = audit(flat, target, fix, all_pairs=all_pairs)
 
     # No pair checked is not a pass. A palette whose keys match no role
     # (``label-``/``brand-`` against ``surface-``) used to print
@@ -319,7 +327,7 @@ def main() -> int:
         )
         return EXIT_NO_PAIRS
 
-    if args.format == "json":
+    if fmt == "json":
         json.dump(result, sys.stdout, indent=2, ensure_ascii=False)
         sys.stdout.write("\n")
     else:
@@ -347,6 +355,12 @@ def main() -> int:
 
     failing_count: int = sum(1 for p in result["pairs"] if not p["passes"])
     return 0 if failing_count == 0 else 1
+
+
+def main(argv: list[str] | None = None) -> int:
+    """Run the audit. Exit 0 when every checked pair passes, 1 when one fails,
+    2 when the palette yields no pair to check (or on a usage error)."""
+    return run_command(_command, argv)
 
 
 if __name__ == "__main__":

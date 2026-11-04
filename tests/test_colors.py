@@ -570,7 +570,7 @@ def test_parse_types_shorthands_and_default() -> None:
 
     assert parse_types("prot,deut") == ["protanopia", "deuteranopia"]
     assert set(parse_types("")) == {"protanopia", "deuteranopia", "tritanopia"}
-    with pytest.raises(Exception):  # argparse.ArgumentTypeError
+    with pytest.raises(ValueError):
         parse_types("not-a-type")
 
 
@@ -599,6 +599,44 @@ def test_simulate_cvd_main_cli_writes_sibling_files(tmp_path, monkeypatch: pytes
     assert (tmp_path / "hero-protanopia.png").is_file()
     assert (tmp_path / "hero-deuteranopia.png").is_file()
     assert not (tmp_path / "hero-tritanopia.png").is_file()
+
+
+def test_simulate_cvd_names_its_png_output_png_whatever_the_source(tmp_path) -> None:
+    """A JPEG source gives ``.png`` siblings, because the bytes written are PNG.
+
+    Until 2026-11-04 the siblings reused the source's suffix, so
+    ``hero-protanopia.jpg`` held PNG data: a viewer, a CDN or a pipeline that
+    trusts the extension then misreads the file.
+    """
+    from PIL import Image
+    from simulate_cvd import main as cvd_main
+
+    src = tmp_path / "hero.jpg"
+    Image.new("RGB", (3, 3), (10, 200, 30)).save(src, format="JPEG")
+
+    assert cvd_main([str(src), "--types", "prot", "--grayscale"]) == 0
+    for name in ("hero-protanopia.png", "hero-grayscale.png"):
+        written = tmp_path / name
+        assert written.is_file(), f"{name} was not written"
+        assert written.read_bytes()[:8] == b"\x89PNG\r\n\x1a\n"
+    assert not list(tmp_path.glob("hero-*.jpg")), "a PNG was written under a .jpg name"
+
+    # --out as a directory keeps its meaning; only the extension changed.
+    out_dir = tmp_path / "previews"
+    assert cvd_main([str(src), "--types", "deut", "--out", str(out_dir)]) == 0
+    assert (out_dir / "hero-deuteranopia.png").is_file()
+
+
+def test_simulate_cvd_rejects_an_unknown_type_as_a_usage_error(tmp_path) -> None:
+    """``--types nope`` is a usage error: exit 2, as it was under argparse."""
+    from PIL import Image
+    from simulate_cvd import main as cvd_main
+
+    src = tmp_path / "hero.png"
+    Image.new("RGB", (3, 3), (10, 200, 30)).save(src)
+    with pytest.raises(SystemExit) as exc:
+        cvd_main([str(src), "--types", "nope"])
+    assert exc.value.code == 2
 
 
 def test_simulate_cvd_main_cli_grid_and_grayscale(tmp_path, monkeypatch: pytest.MonkeyPatch) -> None:

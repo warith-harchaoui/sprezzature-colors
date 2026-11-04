@@ -123,40 +123,47 @@ else:
         argv : list of str or None, optional
             Arguments to parse. ``None`` reads ``sys.argv``.
         """
-        import argparse
         import os
 
-        parser = argparse.ArgumentParser(
-            prog="sprezzature-colors-mcp",
-            description=(
+        import click
+        from sprezzature_colors_scripts._click import run_command, sprezzature_command
+
+        @sprezzature_command(
+            name="sprezzature-colors-mcp",
+            help=(
                 "Serve the sprezzature-colors MCP tools over HTTP. Every tool is a "
                 "route on the same FastAPI app, with the MCP endpoint "
                 "mounted beside them."
             ),
-            formatter_class=argparse.RawDescriptionHelpFormatter,
             epilog=(
+                "\b\n"
                 "Defaults come from SPREZZATURE_COLORS_HOST and "
                 "SPREZZATURE_COLORS_PORT when those are set.\n"
                 "The host defaults to 127.0.0.1: pass --host 0.0.0.0 to "
                 "accept connections from outside this machine."
             ),
         )
-        parser.add_argument(
+        @click.option(
             "--host",
             default=os.environ.get("SPREZZATURE_COLORS_HOST", "127.0.0.1"),
-            help="Interface to bind (default: %(default)s).",
+            show_default=True,
+            help="Interface to bind.",
         )
-        parser.add_argument(
+        @click.option(
             "--port",
             type=int,
             default=int(os.environ.get("SPREZZATURE_COLORS_PORT", "8000")),
-            help="Port to bind (default: %(default)s).",
+            show_default=True,
+            help="Port to bind.",
         )
-        args = parser.parse_args(argv)
+        def _serve(host: str, port: int) -> None:
+            """Bind and serve; reached only once the arguments parsed."""
+            import uvicorn
 
-        import uvicorn
+            uvicorn.run(app, host=host, port=port, workers=1)
 
-        uvicorn.run(app, host=args.host, port=args.port, workers=1)
+        run_command(_serve, argv)
+
 
 if __name__ == "__main__":  # pragma: no cover
     main()

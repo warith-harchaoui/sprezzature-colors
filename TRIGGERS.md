@@ -63,7 +63,7 @@ tools.
 | `get_color_psychology` | "what does this colour connote" | `color` (hex or palette name) | positive and negative associations, plus the emotion table; 404 when the colour has no entry |
 | `search_concepts` | "which colour says this" | `keyword` | palette hex codes associated with the concept, possibly none |
 | `sprezzature-colors-contrast` | "audit this palette file" | `--palette`, `--target`, `--fix`, `--format`, `--all-pairs` | one line per pair; exit 1 on any failure |
-| `sprezzature-colors-cvd` | "show me this screenshot as a colour-blind viewer sees it" | an image, `--types`, `--grid`, `--grayscale`, `--out` | image files beside the source |
+| `sprezzature-colors-cvd` | "show me this screenshot as a colour-blind viewer sees it" | an image, `--types`, `--grid`, `--grayscale`, `--out` | PNG files beside the source, always named `.png` |
 | `sprezzature-colors-levels` | "the palette at this accessibility level" | `--level`, `--csv` | name, hex and contrast against white, per colour |
 | `sprezzature-colors-palette-to-tailwind` | "the palette as Tailwind tokens" | `--emit`, `--with-dark`, `--include-neutrals`, `--theme`, `--out` | a `brand` block or a full `tailwind.config.js` |
 | `sprezzature-colors tools` | "which colour tools run on this machine" | nothing | one line per tool, ready or not |

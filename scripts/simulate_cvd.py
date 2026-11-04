@@ -62,13 +62,14 @@ Author
 
 from __future__ import annotations
 
-import argparse
 import sys
 from pathlib import Path
 from typing import cast
 
+import click
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _argparse import make_parser  # noqa: E402
+from _click import run_command, sprezzature_command  # noqa: E402
 from _colors import (  # noqa: E402
     CVD_LABELS,
     CVD_MATRICES,
@@ -222,6 +223,11 @@ def parse_types(arg: str) -> list[str]:
 
     Returns full CVD kind names in source order. Empty input returns all
     three kinds.
+
+    Raises
+    ------
+    ValueError
+        On a token that is neither a CVD kind nor one of its shorthands.
     """
     out: list[str] = []
     for tok in arg.split(","):
@@ -230,77 +236,97 @@ def parse_types(arg: str) -> list[str]:
             continue
         full = SHORTHAND.get(tok, tok)
         if full not in CVD_MATRICES:
-            raise argparse.ArgumentTypeError(f"Unknown CVD type: {tok}")
+            raise ValueError(f"Unknown CVD type: {tok}")
         out.append(full)
     return out or list(CVD_MATRICES.keys())
 
 
-def main() -> int:
-    """Generate the requested CVD-simulated outputs. Returns 0 on success."""
-    p = make_parser(
-        prog="sprezzature-colors-cvd",
-        description="Render an image as a color-blind viewer sees it. "
-                    "Applies Machado et al. matrices for protanopia, deuteranopia "
-                    "and tritanopia. Catches red/green collisions before ship.",
-        epilog="Examples:\n"
-               "  sprezzature-colors-cvd screenshot.png\n"
-               "  sprezzature-colors-cvd screenshot.png --grid --out previews/screenshot-cvd.png\n",
-    )
-    p.add_argument(
-        "source", type=Path,
-        help="Path to the source image (PNG, JPG, WebP, …).",
-    )
-    p.add_argument(
-        "--out", type=Path,
-        help="Output path. For per-type mode, a directory; for --grid, a file. "
-             "Defaults to siblings of the source.",
-    )
-    p.add_argument(
-        "--types", type=parse_types, default=parse_types("protanopia,deuteranopia,tritanopia"),
-        help="Comma-separated CVD types (default: all three).",
-    )
-    p.add_argument(
-        "--grid", action="store_true",
-        help="Write a single 2×2 mosaic instead of three sibling files.",
-    )
-    p.add_argument(
-        "--grayscale", action="store_true",
-        help="Also emit a relative-luminance grayscale variant — the "
-             "'does it read with no colour?' check.",
-    )
-    args = p.parse_args()
-
+def _types_option(ctx: click.Context, param: click.Parameter, value: str) -> list[str]:
+    """Click callback for ``--types``: :func:`parse_types`, as a usage error."""
     try:
-        original = Image.open(args.source).convert("RGB")
+        return parse_types(value)
+    except ValueError as exc:
+        raise click.BadParameter(str(exc), ctx=ctx, param=param) from exc
+
+
+@sprezzature_command(
+    name="sprezzature-colors-cvd",
+    help="Render an image as a color-blind viewer sees it. "
+    "Applies Machado et al. matrices for protanopia, deuteranopia "
+    "and tritanopia. Catches red/green collisions before ship. "
+    "Every file written is a PNG and is named .png, whatever the "
+    "source's extension: hero.jpg gives hero-protanopia.png.",
+    epilog="\b\nExamples:\n"
+    "  sprezzature-colors-cvd screenshot.png\n"
+    "  sprezzature-colors-cvd screenshot.png --grid --out previews/screenshot-cvd.png\n",
+)
+@click.argument("source", type=click.Path(path_type=Path))
+@click.option(
+    "--out",
+    type=click.Path(path_type=Path),
+    default=None,
+    help="Output path. For per-type mode, a directory; for --grid, a file. "
+    "Defaults to siblings of the source.",
+)
+@click.option(
+    "--types",
+    "types",
+    default="protanopia,deuteranopia,tritanopia",
+    callback=_types_option,
+    help="Comma-separated CVD types (default: all three).",
+)
+@click.option(
+    "--grid",
+    is_flag=True,
+    help="Write a single 2×2 mosaic instead of three sibling files.",
+)
+@click.option(
+    "--grayscale",
+    is_flag=True,
+    help="Also emit a relative-luminance grayscale variant — the "
+    "'does it read with no colour?' check.",
+)
+def _command(source: Path, out: Path | None, types: list[str], grid: bool, grayscale: bool) -> int:
+    """Generate the outputs; the exit code is :func:`main`'s."""
+    try:
+        original = Image.open(source).convert("RGB")
     except OSError as e:
-        sys.stderr.write(f"Cannot open {args.source}: {e}\n")
+        sys.stderr.write(f"Cannot open {source}: {e}\n")
         return 1
 
     simulated: dict[str, Image.Image] = {}
-    for kind in args.types:
+    for kind in types:
         simulated[kind] = simulate_image(original, kind)
 
-    gray = grayscale_image(original) if args.grayscale else None
+    gray = grayscale_image(original) if grayscale else None
 
-    if args.grid:
+    if grid:
         extra = [("Grayscale", gray)] if gray is not None else None
-        grid = make_grid(original, simulated, extra)
-        out_path: Path = args.out or args.source.with_name(args.source.stem + "-cvd-grid.png")
-        grid.save(out_path, format="PNG", optimize=True)
+        mosaic = make_grid(original, simulated, extra)
+        out_path: Path = out or source.with_name(source.stem + "-cvd-grid.png")
+        mosaic.save(out_path, format="PNG", optimize=True)
         print(f"→ Wrote grid to {out_path}")
     else:
-        out_dir: Path = args.out or args.source.parent
+        out_dir: Path = out or source.parent
         out_dir.mkdir(parents=True, exist_ok=True)
         for kind, im in simulated.items():
-            out_path = out_dir / f"{args.source.stem}-{kind}{args.source.suffix or '.png'}"
+            # Always ``.png``: the bytes are PNG. Reusing the source's suffix
+            # wrote PNG data into ``hero-protanopia.jpg``, which a viewer or a
+            # pipeline keyed on the extension then misread.
+            out_path = out_dir / f"{source.stem}-{kind}.png"
             im.save(out_path, format="PNG", optimize=True)
             print(f"→ Wrote {out_path}")
         if gray is not None:
-            gpath = out_dir / f"{args.source.stem}-grayscale{args.source.suffix or '.png'}"
+            gpath = out_dir / f"{source.stem}-grayscale.png"
             gray.save(gpath, format="PNG", optimize=True)
             print(f"→ Wrote {gpath}")
 
     return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    """Generate the requested CVD-simulated outputs. Returns 0 on success."""
+    return run_command(_command, argv)
 
 
 if __name__ == "__main__":

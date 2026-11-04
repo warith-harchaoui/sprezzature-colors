@@ -39,9 +39,13 @@ mypy scripts
    `palette_to_tailwind.py`) imports its color primitives from there;
    a new script should do the same rather than reimplementing sRGB or
    OKLCH conversion.
-2. Build the script's own parser with `_argparse.make_parser`, not a
-   bare `argparse.ArgumentParser`, so `--version` and the help
-   formatting stay consistent across scripts. The front door
+2. Build the script's command with click, through
+   `_click.sprezzature_command(name=..., help=...)`, and keep
+   `main(argv: list[str] | None = None) -> int` returning
+   `_click.run_command(cmd, argv)`, so `-h`, `-V/--version`, the help
+   layout and the exit codes (2 on a usage error) stay the same across
+   scripts. argparse is not used anywhere in this package, and
+   `tests/test_every_command_is_click.py` fails if it comes back. The front door
    (`sprezzature-colors`, in `sprezzature_colors/cli.py`) is click and
    hands the arguments through unchanged.
 3. Register the tool in `TOOLS` in `sprezzature_colors/_tools.py`. That

@@ -82,13 +82,14 @@ Author
 
 from __future__ import annotations
 
-import argparse
 import sys
 from collections.abc import Iterable
 from pathlib import Path
 
+import click
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _argparse import make_parser  # noqa: E402
+from _click import run_command, sprezzature_command  # noqa: E402
 from _colors import academic_palette_rows, lighten, load_palette  # noqa: E402
 
 # ── Constants ──────────────────────────────────────────────────────────────
@@ -405,6 +406,105 @@ def render_full_config(
 # ── CLI ────────────────────────────────────────────────────────────────────
 
 
+@sprezzature_command(
+    name="sprezzature-colors-palette-to-tailwind",
+    help=(
+        "Render sprezzature-colors/references/palette.csv as a Tailwind "
+        "theme.extend.colors block (default) or as a complete "
+        "tailwind.config.js. Stdlib only; deterministic; reads the "
+        "canonical CSV and writes the machine-readable Tailwind "
+        "form of the same source of truth."
+    ),
+)
+@click.option(
+    "--emit",
+    type=click.Choice(("theme", "config")),
+    default="theme",
+    help=(
+        "What to emit. 'theme' (default) prints only the "
+        "brand: { ... } block — paste into an existing config. "
+        "'config' prints a complete module.exports = { ... } "
+        "ready to save as tailwind.config.js."
+    ),
+)
+@click.option(
+    "--with-dark",
+    is_flag=True,
+    help=(
+        "Include a derived dark-mode variant per brand token "
+        "(OKLCH L-axis bump of "
+        f"{DARK_LIGHTNESS_DELTA}). The CSV does not carry a dark "
+        "column; the value is a derivation, not Apple's exact "
+        "saturated-dark — a comment in the output makes this clear."
+    ),
+)
+@click.option(
+    "--include-neutrals",
+    is_flag=True,
+    help=(
+        "Also emit Brown / Black / Gray / White brand tokens. "
+        "Off by default — these neutrals normally live under the "
+        "surface / label tokens in the sprezzature-ui Tailwind config "
+        "and would collide if also published under brand."
+    ),
+)
+@click.option(
+    "--out",
+    type=click.Path(path_type=Path),
+    default=None,
+    help=("Write to this file instead of stdout. The parent directory must already exist."),
+)
+@click.option(
+    "--theme",
+    type=click.Choice(("corporate", "academic")),
+    default="corporate",
+    help=(
+        "'corporate' (default, unchanged) emits the brand palette.csv "
+        "(Apple-system hues). 'academic' emits the Okabe-Ito "
+        "colour-vision-deficiency-safe standard instead -- a fixed "
+        "scientific palette, not brand tokens, so it ignores palette.csv "
+        "(see _colors.academic_palette_rows). Matches the theme= "
+        "parameter in sprezzature-figures' _style.py."
+    ),
+)
+def _command(
+    emit: str, with_dark: bool, include_neutrals: bool, out: Path | None, theme: str
+) -> int:
+    """Render the palette; the exit code is :func:`main`'s."""
+    rows: list[dict[str, str]] = academic_palette_rows() if theme == "academic" else load_palette()
+    rendered: str = (
+        render_full_config(
+            rows,
+            with_dark=with_dark,
+            include_neutrals=include_neutrals,
+            theme=theme,
+        )
+        if emit == "config"
+        else render_brand_block(
+            rows,
+            with_dark=with_dark,
+            include_neutrals=include_neutrals,
+            theme=theme,
+        )
+    )
+
+    if out is None:
+        sys.stdout.write(rendered)
+        return 0
+
+    try:
+        out.write_text(rendered, encoding="utf-8")
+    except OSError as exc:
+        # Surface the I/O failure on stderr so CI logs are useful. We
+        # do not swallow the exception class — the message is enough
+        # at the user level.
+        print(f"palette_to_tailwind: write failed: {exc}", file=sys.stderr)
+        return 1
+
+    print(f"palette_to_tailwind: wrote {out}", file=sys.stderr)
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     """
     CLI entry point.
@@ -414,106 +514,7 @@ def main(argv: list[str] | None = None) -> int:
     int
         ``0`` on success, ``1`` on I/O failure.
     """
-    parser: argparse.ArgumentParser = make_parser(
-        prog="sprezzature-colors-palette-to-tailwind",
-        description=(
-            "Render sprezzature-colors/references/palette.csv as a Tailwind "
-            "theme.extend.colors block (default) or as a complete "
-            "tailwind.config.js. Stdlib only; deterministic; reads the "
-            "canonical CSV and writes the machine-readable Tailwind "
-            "form of the same source of truth."
-        ),
-    )
-    parser.add_argument(
-        "--emit",
-        choices=("theme", "config"),
-        default="theme",
-        help=(
-            "What to emit. 'theme' (default) prints only the "
-            "brand: { ... } block — paste into an existing config. "
-            "'config' prints a complete module.exports = { ... } "
-            "ready to save as tailwind.config.js."
-        ),
-    )
-    parser.add_argument(
-        "--with-dark",
-        action="store_true",
-        help=(
-            "Include a derived dark-mode variant per brand token "
-            "(OKLCH L-axis bump of "
-            f"{DARK_LIGHTNESS_DELTA}). The CSV does not carry a dark "
-            "column; the value is a derivation, not Apple's exact "
-            "saturated-dark — a comment in the output makes this clear."
-        ),
-    )
-    parser.add_argument(
-        "--include-neutrals",
-        action="store_true",
-        help=(
-            "Also emit Brown / Black / Gray / White brand tokens. "
-            "Off by default — these neutrals normally live under the "
-            "surface / label tokens in the sprezzature-ui Tailwind config "
-            "and would collide if also published under brand."
-        ),
-    )
-    parser.add_argument(
-        "--out",
-        type=Path,
-        default=None,
-        help=(
-            "Write to this file instead of stdout. The parent "
-            "directory must already exist."
-        ),
-    )
-    parser.add_argument(
-        "--theme",
-        choices=("corporate", "academic"),
-        default="corporate",
-        help=(
-            "'corporate' (default, unchanged) emits the brand palette.csv "
-            "(Apple-system hues). 'academic' emits the Okabe-Ito "
-            "colour-vision-deficiency-safe standard instead -- a fixed "
-            "scientific palette, not brand tokens, so it ignores palette.csv "
-            "(see _colors.academic_palette_rows). Matches the theme= "
-            "parameter in sprezzature-figures' _style.py."
-        ),
-    )
-    args: argparse.Namespace = parser.parse_args(argv)
-
-    rows: list[dict[str, str]] = (
-        academic_palette_rows() if args.theme == "academic" else load_palette()
-    )
-    rendered: str = (
-        render_full_config(
-            rows,
-            with_dark=args.with_dark,
-            include_neutrals=args.include_neutrals,
-            theme=args.theme,
-        )
-        if args.emit == "config"
-        else render_brand_block(
-            rows,
-            with_dark=args.with_dark,
-            include_neutrals=args.include_neutrals,
-            theme=args.theme,
-        )
-    )
-
-    if args.out is None:
-        sys.stdout.write(rendered)
-        return 0
-
-    try:
-        args.out.write_text(rendered, encoding="utf-8")
-    except OSError as exc:
-        # Surface the I/O failure on stderr so CI logs are useful. We
-        # do not swallow the exception class — the message is enough
-        # at the user level.
-        print(f"palette_to_tailwind: write failed: {exc}", file=sys.stderr)
-        return 1
-
-    print(f"palette_to_tailwind: wrote {args.out}", file=sys.stderr)
-    return 0
+    return run_command(_command, argv)
 
 
 if __name__ == "__main__":

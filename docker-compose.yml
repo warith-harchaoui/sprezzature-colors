@@ -4,7 +4,8 @@
 # `docker run` line in somebody's shell history.
 #
 #   docker compose up -d
-#   curl -s localhost:8000/health
+#   curl -s localhost:8000/health        # the HTTP routes
+#   # and the MCP endpoint, on the same port: http://localhost:8000/mcp
 #   docker compose run --rm api sprezzature-colors-contrast --target 7
 #   docker compose run --rm api sprezzature-colors-cvd /work/hero.png --grid
 #
@@ -25,4 +26,7 @@ services:
       # not on the read, which is the confusing half.
       - ./work:/work
     working_dir: /work
+    # Stated rather than inherited from the Dockerfile: one server for the
+    # HTTP routes and the MCP endpoint, bound to every interface.
+    command: ["sprezzature-colors-mcp", "--host", "0.0.0.0", "--port", "8000"]
     restart: unless-stopped
