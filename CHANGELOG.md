@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.2.3] — 2026-11-05
+
 ### Fixed
 
 - `contrast --palette` on a colour it cannot read (`rgba(...)`, `hsl(...)`)
