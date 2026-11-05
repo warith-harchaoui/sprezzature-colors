@@ -3,6 +3,8 @@
 # Install:
 #   pip install -r requirements-cvd.txt
 #
-# Used for: image decoding, per-pixel transform, grid mosaic rendering.
+# Pillow: image decoding, per-pixel transform, grid mosaic rendering.
+# click: the command line (simulate_cvd.py and scripts/_click.py import it).
 
 Pillow>=10.0.0
+click>=8.1

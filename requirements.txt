@@ -4,4 +4,5 @@
 #   pip install sprezzature-colors
 # The colour arithmetic itself (audit_contrast, palette_to_tailwind,
 # accessibility_levels) uses the standard library only; simulate_cvd.py
-# needs Pillow, which requirements-cvd.txt installs alone.
+# needs Pillow, which requirements-cvd.txt installs alone with click, the
+# command line every tool imports.

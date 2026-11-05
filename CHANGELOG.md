@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- `requirements-cvd.txt`, which installs the colour-blindness simulator on
+  its own from a source checkout, listed Pillow but not click, which
+  `simulate_cvd.py` imports; it now lists both, and
+  `references/cvd-simulation.md` says so.
+
 ## [1.2.1] — 2026-11-05
 
 ### Docs
