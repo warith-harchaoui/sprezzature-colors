@@ -56,7 +56,7 @@ machine.
         "what a script should call."
     ),
 )
-@click.version_option(package_name="sprezzature-colors")
+@click.version_option(None, "-V", "--version", package_name="sprezzature-colors")
 def main() -> None:
     """Front door over the four tools this package ships."""
 
@@ -71,16 +71,11 @@ def list_tools() -> None:
     reader should not have to discover that from a traceback.
     """
     width = max(len(name) for name in TOOLS)
-    for name, (module_name, extra, summary) in TOOLS.items():
+    for name, (module_name, _extra, summary) in TOOLS.items():
+        # No tool has an extra any more, so there is no "needs [extra]" case
+        # to report: a tool is ready when its module is there.
         ready = importlib.util.find_spec(f"sprezzature_colors_scripts.{module_name}") is not None
-        if ready and extra:
-            # The module is importable, but its extra may still be absent --
-            # the module is ours, the dependency is not.
-            try:
-                importlib.import_module(f"sprezzature_colors_scripts.{module_name}")
-            except ImportError:
-                ready = False
-        mark = "ready" if ready else f"needs [{extra}]" if extra else "unavailable"
+        mark = "ready" if ready else "unavailable"
         click.echo(f"  {name:<{width}}  {mark:<14}  {first_sentence(summary)}")
 
 

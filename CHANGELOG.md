@@ -13,7 +13,17 @@
 - `CODING.md` and `references/CODING.md` pointed at a gist that does not
   exist; they now name the real one.
 - The MCP fallback's docstring and a CI comment still spoke of the `[mcp]`
-  and `[api,mcp]` extras.
+  and `[api,mcp]` extras, and so did the docstring of
+  `tests/test_mcp_fallback_signature.py`.
+
+### Changed
+
+- The front door `sprezzature-colors` (and `make-colors`) answers `-V` as
+  well as `--version`, like every per-tool command already did; a test
+  holds both flags.
+- `sprezzature-colors-levels --level` has a help text and shows its default.
+- `sprezzature-colors tools` lost its "needs [extra]" branch, which nothing
+  could reach since every tool's extra is empty; the output is unchanged.
 
 ## [1.2.0] - 2026-11-04: click everywhere, and an audit that cannot pass on nothing
 

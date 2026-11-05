@@ -2,7 +2,9 @@
 Both halves of the dependency guard in ``mcp.py`` must take the same call.
 
 ``mcp.py`` defines ``main`` twice: once in the ``except ImportError`` branch
-taken when the ``[mcp]`` extra is absent, once in the ``else`` branch that
+taken when fastapi-mcp cannot be imported (an optional ``[mcp]`` extra until
+2026-11-01, a base dependency since, so now a broken install), once in the
+``else`` branch that
 runs the real server. The two are reached through the same console script,
 so they are one function as far as any caller is concerned. They were not:
 the fallback was ``def main() -> None`` while the real one was
@@ -36,16 +38,14 @@ def _main_definitions() -> list[ast.FunctionDef]:
     """Every ``def main`` in mcp.py, whichever branch it sits in."""
     tree = ast.parse(MCP_SOURCE.read_text(encoding="utf-8"))
     return [
-        node
-        for node in ast.walk(tree)
-        if isinstance(node, ast.FunctionDef) and node.name == "main"
+        node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef) and node.name == "main"
     ]
 
 
 def test_mcp_defines_main_in_both_branches() -> None:
     """The guard only means something if both branches are still there."""
     assert len(_main_definitions()) == 2, (
-        "mcp.py should define main() twice: once for the missing-extra "
+        "mcp.py should define main() twice: once for the broken-install "
         "fallback and once for the real server."
     )
 

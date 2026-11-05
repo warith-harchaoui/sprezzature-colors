@@ -217,7 +217,9 @@ def apply_level(
 
     if level == "high-contrast":
         # Deepen every hue until it clears AAA against the background.
-        return {name: _darken_to_contrast(hexv, _AAA_CONTRAST, bg) for name, hexv in palette.items()}
+        return {
+            name: _darken_to_contrast(hexv, _AAA_CONTRAST, bg) for name, hexv in palette.items()
+        }
 
     if level == "monochrome":
         # Distinct greys by luminance rank, not faithful luminance: equally
@@ -235,7 +237,13 @@ def apply_level(
     name="sprezzature-colors-levels",
     help="Preview the canonical palette remapped to an accessibility level.",
 )
-@click.option("--level", type=click.Choice(LEVELS), default="universal")
+@click.option(
+    "--level",
+    type=click.Choice(LEVELS),
+    default="universal",
+    show_default=True,
+    help="Accessibility level to remap the palette to.",
+)
 @click.option(
     "--csv",
     "csv_path",

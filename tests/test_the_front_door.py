@@ -201,7 +201,7 @@ def test_the_tools_command_reports_readiness() -> None:
     out = CliRunner().invoke(main, ["tools"]).output
     for tool in TOOLS:
         assert tool in out
-    assert "ready" in out or "needs [" in out
+    assert "ready" in out or "unavailable" in out
 
 
 def test_the_help_points_at_shell_completion() -> None:
@@ -228,3 +228,15 @@ def test_first_sentence_keeps_decimals() -> None:
 
     assert first_sentence("Ratio 4.5:1 here. Second.") == "Ratio 4.5:1 here."
     assert first_sentence("No period at all") == "No period at all"
+
+
+@pytest.mark.parametrize("flag", ["-V", "--version"])
+def test_the_front_door_answers_both_version_flags(flag: str) -> None:
+    """``-V`` is what every per-tool command answers, so the front door must too.
+
+    Until 2026-11-05 the group took ``--version`` only, and ``sprezzature-colors -V``
+    was a usage error while ``sprezzature-colors-contrast -V`` printed a version.
+    """
+    result = CliRunner().invoke(main, [flag])
+    assert result.exit_code == 0, result.output
+    assert re.search(r"version \d+\.\d+\.\d+", result.output), result.output
