@@ -247,13 +247,13 @@ Le serveur enveloppe la même application FastAPI avec fastapi-mcp et monte le p
 
 ## Le seul canal qui survit
 
-Trois outils, une seule idée dessous.
+Quatre outils, une seule idée dessous.
 
 Une couleur a trois composantes qu'on peut faire bouger : la teinte, la
 saturation, la clarté. Le daltonisme rouge-vert retire la teinte.
 L'impression en niveaux de gris retire la saturation. **La clarté est la
 seule qu'aucun déficit, aucune imprimante et aucun écran en plein soleil ne
-retire.** C'est donc sur elle que travaillent les trois outils.
+retire.** C'est donc sur elle que travaillent les quatre outils.
 
 L'audit de contraste ne propose pas une autre couleur. Il fige votre teinte et
 votre saturation, parcourt l'axe de clarté par centièmes, puis s'arrête à la

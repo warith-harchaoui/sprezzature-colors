@@ -247,7 +247,7 @@ The server wraps the same FastAPI app with fastapi-mcp and mounts the MCP endpoi
 
 ## The one channel that survives
 
-Three tools, one idea underneath them.
+Four tools, one idea underneath them.
 
 A colour has three parts you can move: hue, how saturated it is, and how light
 it is. Red-green colour blindness takes hue away. Grayscale printing takes

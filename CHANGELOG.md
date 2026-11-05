@@ -2,6 +2,16 @@
 
 ## [Unreleased]
 
+### Docs
+
+- `LANDSCAPE.md` and `PAYSAGE.md` still listed the silent pass on a palette
+  with no matching key as a defect to fix; 1.2.0 fixed it (exit 2), and the
+  entry now says so and points at what remains, a `--pairs` file.
+- The README, the LISEZMOI and the how-it-works figure spoke of three tools
+  where the package ships four, and the figure's footer called the whole
+  package standard library only; it is the colour arithmetic that is, and
+  the figure now says so.
+
 ## [1.2.2] — 2026-11-05
 
 ### Fixed

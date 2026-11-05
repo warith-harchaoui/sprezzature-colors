@@ -11,7 +11,7 @@ package: sprezzature-colors
 
 en:
   title: How sprezzature-colors works
-  subtitle: Three tools, and one channel underneath all three.
+  subtitle: Four tools, and one channel underneath all four.
   alt: >-
     Flow diagram. At the top, a palette or an image feeds two lanes. The left lane
     audits: it composites any translucent colour, measures the WCAG contrast ratio
@@ -50,11 +50,11 @@ en:
   outcome:
     label: A palette that survives a cheap screen, bright sunlight, a grayscale printer, and one man in twelve
     note: "No single set of colours is best for protanopia, deuteranopia and tritanopia at once: widening the spacing for one eye closes it for another. That is why universal is the default and the rest are options."
-  footer: Standard library only, and no network and no model anywhere in it. Pillow is needed to read and write an image, and nothing else is.
+  footer: The colour arithmetic is standard library only, with no network and no model anywhere in it. Pillow reads and writes the images.
 
 fr:
   title: Comment fonctionne sprezzature-colors
-  subtitle: Trois outils, et un seul canal sous les trois.
+  subtitle: Quatre outils, et un seul canal sous les quatre.
   alt: >-
     Schéma de flux. En haut, une palette ou une image alimente deux voies. La voie
     de gauche contrôle : elle compose les couleurs translucides, mesure le rapport
@@ -94,4 +94,4 @@ fr:
   outcome:
     label: Une palette qui survit à un écran bon marché, au plein soleil, à une imprimante en noir et blanc, et à un homme sur douze
     note: "Aucun jeu de couleurs n'est le meilleur pour la protanopie, la deutéranopie et la tritanopie à la fois : élargir l'écart pour un œil le referme pour un autre. D'où le choix d'universel par défaut, et des autres en option."
-  footer: Bibliothèque standard seule, sans réseau et sans modèle nulle part. Pillow sert à lire et écrire une image, et à rien d'autre.
+  footer: Le calcul des couleurs tient dans la bibliothèque standard, sans réseau et sans modèle nulle part. Pillow lit et écrit les images.
