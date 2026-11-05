@@ -5,7 +5,7 @@ Coding standards for sprezzature-colors.
 Refresh the full version with:
 
 ```
-gh gist view 21e67f6d6d9a1a2d3f4b5c6d7e8f9a0b
+gh gist view 21e67f6eabd3052d3ae426d5e0b1e950
 ```
 
 Key rules: NumPy docstrings on every function, full typing, ~25-30%

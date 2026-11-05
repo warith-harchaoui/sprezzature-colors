@@ -59,16 +59,16 @@ except ImportError:  # pragma: no cover - dependency guard
 
     def main(argv: list[str] | None = None) -> None:
         """
-        Entry point when the MCP extra is not installed.
+        Entry point when fastapi-mcp cannot be imported.
 
         Takes the same ``argv`` as the real entry point and ignores it:
         the two variants are reached through the same console script, so
         a caller that passes arguments must not get a ``TypeError`` from
         the branch that happens to be missing a dependency.
 
-        Says which extra is missing and stops. Reaching an MCP
-        command without the ``[mcp]`` extra needs a one-line fix,
-        not a stack trace.
+        Says the install is broken and stops: fastapi-mcp is a base
+        dependency, so reaching this branch needs a reinstall, a
+        one-line fix rather than a stack trace.
         """
         print(
             "sprezzature-colors MCP surface could not import fastapi-mcp, which is a "
@@ -80,7 +80,6 @@ except ImportError:  # pragma: no cover - dependency guard
         sys.exit(1)
 
 else:
-
     # Reuse the exact same FastAPI app -- MCP is a thin wrapper on top.
     from sprezzature_colors.api import app
 
@@ -104,7 +103,6 @@ else:
         mcp.mount_http()
     else:  # pragma: no cover - legacy fastapi-mcp
         mcp.mount()
-
 
     def main(argv: list[str] | None = None) -> None:
         """

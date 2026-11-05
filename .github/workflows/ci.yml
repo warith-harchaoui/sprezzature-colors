@@ -45,9 +45,10 @@ jobs:
       # imports `sprezzature_colors_scripts`, which is scripts/ under a
       # mapped name and only exists once installed -- without this the
       # package does not import at all on CI, and that break hid behind a
-      # failing ruff step for a week. And without [api,mcp] every test of
-      # the HTTP and agent-tool surfaces skips, so CI was green on code
-      # nobody ran.
+      # failing ruff step for a week. And while the HTTP and MCP surfaces
+      # were extras, an install without them skipped every test of those
+      # surfaces, so CI was green on code nobody ran; they are base
+      # dependencies now, so the plain install brings them.
       - name: Install
         run: |
           python -m pip install --upgrade pip

@@ -30,8 +30,10 @@ By default, three sibling files are written next to the source image::
     <stem>-deuteranopia.png
     <stem>-tritanopia.png
 
-With ``--grid``, a single 2×2 mosaic is written instead, with the original
-image in the top-left and each CVD variant labeled.
+With ``--grid``, a single mosaic is written instead, two panels per row:
+the original in the top-left, then each CVD variant (and the grayscale
+panel with ``--grayscale``), each one labelled. Three variants make a 2×2
+mosaic; adding ``--grayscale`` makes it three rows.
 
 Usage
 -----
@@ -91,8 +93,7 @@ except ImportError:  # pragma: no cover - dependency guard
     # the package does not. Reaching this command without the extra needs a
     # one-line fix, not a stack trace.
     print(
-        "sprezzature-colors CVD simulation requires Pillow. "
-        "pip install 'sprezzature-colors'",
+        "sprezzature-colors CVD simulation requires Pillow. pip install 'sprezzature-colors'",
         file=sys.stderr,
     )
     sys.exit(1)
@@ -122,11 +123,15 @@ def simulate_image(im: Image.Image, kind: str) -> Image.Image:
     out = Image.new("RGB", rgb.size)
     src_pixels = rgb.load()
     dst_pixels = out.load()
-    assert src_pixels is not None and dst_pixels is not None  # load() is None only on a closed image
+    assert (
+        src_pixels is not None and dst_pixels is not None
+    )  # load() is None only on a closed image
     w, h = rgb.size
     for y in range(h):
         for x in range(w):
-            dst_pixels[x, y] = simulate_pixel(cast("tuple[int, int, int]", src_pixels[x, y]), matrix)
+            dst_pixels[x, y] = simulate_pixel(
+                cast("tuple[int, int, int]", src_pixels[x, y]), matrix
+            )
     return out
 
 
@@ -155,13 +160,16 @@ def grayscale_image(im: Image.Image) -> Image.Image:
     for y in range(h):
         for x in range(w):
             r, g, b = cast("tuple[int, int, int]", src_pixels[x, y])
-            lum = 0.2126 * srgb_to_linear(r) + 0.7152 * srgb_to_linear(g) + 0.0722 * srgb_to_linear(b)
+            lum = (
+                0.2126 * srgb_to_linear(r) + 0.7152 * srgb_to_linear(g) + 0.0722 * srgb_to_linear(b)
+            )
             v = linear_to_srgb(lum)
             dst_pixels[x, y] = (v, v, v)
     return out
 
 
 # ── Grid mosaic ─────────────────────────────────────────────────────────────
+
 
 def make_grid(
     original: Image.Image,
@@ -176,6 +184,7 @@ def make_grid(
     * 1 variant  → 1×2 grid (original, variant).
     * 2 variants → 2×2 grid (original + 2 variants + an empty slot).
     * 3 variants → 2×2 grid (original + 3 variants).
+    * 3 variants and a grayscale panel → 3 rows of 2 (one empty slot).
 
     ``extra`` appends further labelled cells after the CVD variants (used by
     ``--grayscale`` to add a grayscale panel).
@@ -204,18 +213,26 @@ def make_grid(
             bbox = draw.textbbox((0, 0), label, font=font)
             tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
             draw.rectangle(
-                (col * cell_w, row * cell_h, col * cell_w + tw + 2 * text_pad, row * cell_h + th + 2 * text_pad),
+                (
+                    col * cell_w,
+                    row * cell_h,
+                    col * cell_w + tw + 2 * text_pad,
+                    row * cell_h + th + 2 * text_pad,
+                ),
                 fill=(255, 255, 255),
             )
             draw.text(
                 (col * cell_w + text_pad, row * cell_h + text_pad),
-                label, fill=(0, 0, 0), font=font,
+                label,
+                fill=(0, 0, 0),
+                font=font,
             )
 
     return grid
 
 
 # ── CLI entry point ───────────────────────────────────────────────────────
+
 
 def parse_types(arg: str) -> list[str]:
     """
@@ -278,7 +295,8 @@ def _types_option(ctx: click.Context, param: click.Parameter, value: str) -> lis
 @click.option(
     "--grid",
     is_flag=True,
-    help="Write a single 2×2 mosaic instead of three sibling files.",
+    help="Write a single mosaic, two panels per row (2×2 for the three types), "
+    "instead of sibling files.",
 )
 @click.option(
     "--grayscale",

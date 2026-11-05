@@ -2,6 +2,19 @@
 
 ## [Unreleased]
 
+### Docs
+
+- `references/cvd-simulation.md` still said `hero.jpg` gives
+  `hero-protanopia.jpg` holding PNG data, the defect 1.2.0 fixed; it now
+  says every file is named `.png`.
+- `sprezzature-colors-cvd --grid` promised a 2×2 mosaic. The mosaic is two
+  panels per row, so `--grayscale` makes three rows; the help and the
+  module docstring now say so.
+- `CODING.md` and `references/CODING.md` pointed at a gist that does not
+  exist; they now name the real one.
+- The MCP fallback's docstring and a CI comment still spoke of the `[mcp]`
+  and `[api,mcp]` extras.
+
 ## [1.2.0] - 2026-11-04: click everywhere, and an audit that cannot pass on nothing
 
 ### Changed

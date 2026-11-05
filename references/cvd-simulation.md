@@ -40,9 +40,9 @@ Output filenames:
 |---|---|
 | Default | `<stem>-protanopia.png`, `<stem>-deuteranopia.png`, `<stem>-tritanopia.png` siblings of the source, or in the directory given to `--out`. |
 | `--grayscale` | Adds `<stem>-grayscale.png`, or a "Grayscale" panel in the mosaic. |
-| `--grid` | One mosaic at `<stem>-cvd-grid.png` (override with a file path in `--out`): the original and each variant, two per row. |
+| `--grid` | One mosaic at `<stem>-cvd-grid.png` (override with a file path in `--out`): the original and each variant, two per row, so 2×2 for the three types and three rows with `--grayscale`. |
 
-Every file is written as PNG. The per-type files keep the source's extension in their name, so `hero.jpg` gives `hero-protanopia.jpg` holding PNG data.
+Every file is written as PNG and named `.png`, whatever the source's extension: `hero.jpg` gives `hero-protanopia.png`.
 
 ## How to read the output
 
