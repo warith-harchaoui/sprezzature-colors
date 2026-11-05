@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.2.2] — 2026-11-05
+
 ### Fixed
 
 - `requirements-cvd.txt`, which installs the colour-blindness simulator on
