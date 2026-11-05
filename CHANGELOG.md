@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.2.1] — 2026-11-05
+
 ### Docs
 
 - `references/cvd-simulation.md` still said `hero.jpg` gives
