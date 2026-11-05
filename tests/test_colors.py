@@ -684,6 +684,22 @@ def test_audit_with_no_matching_role_is_not_a_pass(
     assert "no (foreground, background) pair" in capsys.readouterr().err
 
 
+def test_audit_of_an_unreadable_colour_is_a_usage_error(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """``rgba(...)`` ended on a raw ``ValueError: Bad hex color`` traceback."""
+    import audit_contrast
+
+    palette = tmp_path / "palette.json"
+    palette.write_text(
+        '{"label-primary": "rgba(0, 0, 0, 0.9)", "surface-base": "#FFFFFF"}', encoding="utf-8"
+    )
+    monkeypatch.setattr(sys, "argv", ["sprezzature-colors-contrast", "--palette", str(palette)])
+    assert audit_contrast.main() == 2
+    err = capsys.readouterr().err
+    assert "cannot read the palette" in err and "rgba" in err
+
+
 def test_audit_with_matching_roles_still_exits_0_or_1(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

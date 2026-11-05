@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- `contrast --palette` on a colour it cannot read (`rgba(...)`, `hsl(...)`)
+  or on a file that is not JSON ended on a raw Python traceback. It now says
+  it cannot read the palette, names the value, and exits 2. Reading `rgba()`
+  is still to do (LANDSCAPE, entry 6).
+
 ### Docs
 
 - `LANDSCAPE.md` and `PAYSAGE.md` still listed the silent pass on a palette

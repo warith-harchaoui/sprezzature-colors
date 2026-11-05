@@ -308,13 +308,22 @@ EXIT_NO_PAIRS: int = 2
 )
 def _command(palette: Path | None, target: float, fix: bool, fmt: str, all_pairs: bool) -> int:
     """Run the audit; the exit code is :func:`main`'s."""
-    if palette is not None:
-        raw = json.loads(palette.read_text(encoding="utf-8"))
-    else:
-        raw = DEFAULT_PALETTE
-    flat = normalize_palette(raw)
-
-    result = audit(flat, target, fix, all_pairs=all_pairs)
+    # A value this module cannot read (``rgba(...)``, ``hsl(...)``, a typo) or a
+    # file that is not JSON ended on a raw Python traceback. Both are a
+    # usage error: say which, and exit 2 like any other.
+    try:
+        if palette is not None:
+            raw = json.loads(palette.read_text(encoding="utf-8"))
+        else:
+            raw = DEFAULT_PALETTE
+        flat = normalize_palette(raw)
+        result = audit(flat, target, fix, all_pairs=all_pairs)
+    except (ValueError, TypeError) as exc:
+        sys.stderr.write(
+            f"sprezzature-colors-contrast: cannot read the palette: {exc}. "
+            "Colours must be hex (#RRGGBB or #RGB).\n"
+        )
+        return EXIT_NO_PAIRS
 
     # No pair checked is not a pass. A palette whose keys match no role
     # (``label-``/``brand-`` against ``surface-``) used to print
