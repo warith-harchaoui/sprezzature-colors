@@ -26,6 +26,9 @@
   written is now one line and exit 1.
 - The HTTP routes answered 500 on a malformed hex such as `#zzz`. Everything
   starting with `#` went past the check that gives a 400 to an unknown colour.
+- The MCP server told every host that its version was a sentence: fastapi-mcp
+  0.4 passes the description in the version slot of `Server`. It now announces
+  the package version, and the description as its instructions.
 - `_click.SKILL_VERSION`, the version a bare clone prints, was still 1.2.2.
 
 ### Docs

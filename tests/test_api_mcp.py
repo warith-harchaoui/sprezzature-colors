@@ -160,6 +160,16 @@ def _documented_routes(app):
     ]
 
 
+def test_the_mcp_server_announces_its_version_as_a_version() -> None:
+    """fastapi-mcp passes the description into the version slot."""
+    from sprezzature_colors import __version__
+    from sprezzature_colors.mcp import mcp
+
+    options = mcp.server.create_initialization_options()
+    assert options.server_version == __version__
+    assert options.instructions == mcp.description
+
+
 def test_every_tool_has_a_written_summary() -> None:
     """The first line an MCP host shows is FastAPI's `summary`, and its
     default is the function name title-cased: `cvd` became "Cvd", `wer`
