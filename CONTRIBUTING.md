@@ -24,7 +24,7 @@ wrong quote style, and the like) in one fast pass.
 ruff check .
 ```
 
-CI also runs mypy, once on the package and once on the scripts:
+The pre-push hook also runs mypy, once on the package and once on the scripts:
 
 ```bash
 mypy sprezzature_colors
