@@ -62,7 +62,7 @@ tools.
 | `adjust_lightness` | "a lighter or darker version" | `colors`, `amount` from -1 to 1 (default 0.1) | per colour: the adjusted hex |
 | `get_color_psychology` | "what does this colour connote" | `color` (hex or palette name) | positive and negative associations, plus the emotion table; 404 when the colour has no entry |
 | `search_concepts` | "which colour says this" | `keyword` | palette hex codes associated with the concept, possibly none |
-| `sprezzature-colors-contrast` | "audit this palette file" | `--palette`, `--target`, `--fix`, `--format`, `--all-pairs` | one line per pair; exit 1 on any failure |
+| `sprezzature-colors-contrast` | "audit this palette file" | `--palette`, `--target`, `--fix`, `--format`, `--all-pairs` | one line per pair; exit 1 on any failing pair, 2 when nothing could be checked |
 | `sprezzature-colors-cvd` | "show me this screenshot as a colour-blind viewer sees it" | an image, `--types`, `--grid`, `--grayscale`, `--out` | PNG files beside the source, always named `.png` |
 | `sprezzature-colors-levels` | "the palette at this accessibility level" | `--level`, `--csv` | name, hex and contrast against white, per colour |
 | `sprezzature-colors-palette-to-tailwind` | "the palette as Tailwind tokens" | `--emit`, `--with-dark`, `--include-neutrals`, `--theme`, `--out` | a `brand` block or a full `tailwind.config.js` |
@@ -124,7 +124,8 @@ is the usual reason a hand-built palette looks uneven.
 **Key names matter in the audit.** `sprezzature-colors-contrast` only checks
 keys named `label-…` or `brand-…` against keys named `surface-…`. A palette
 with other key names yields no pair and exits 2 with a message on standard
-error. Rename the keys rather than reading exit 2 as a pass or a fail.
+error, as does a palette it cannot read. Rename the keys or fix the file
+rather than reading exit 2 as a pass or a fail.
 
 ---
 

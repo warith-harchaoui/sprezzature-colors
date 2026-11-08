@@ -88,10 +88,10 @@ from _colors import (
 try:
     from PIL import Image, ImageDraw, ImageFont
 except ImportError:  # pragma: no cover - dependency guard
-    # Pillow is an optional extra: simulating colour-vision deficiency is the
-    # one thing here that needs to open and redraw an image, and the rest of
-    # the package does not. Reaching this command without the extra needs a
-    # one-line fix, not a stack trace.
+    # Pillow is a base dependency, so reaching this means a broken install or
+    # a bare clone: simulating colour-vision deficiency is the one thing here
+    # that needs to open and redraw an image. That is a one-line fix, not a
+    # stack trace.
     print(
         "sprezzature-colors CVD simulation requires Pillow. pip install 'sprezzature-colors'",
         file=sys.stderr,
@@ -318,26 +318,36 @@ def _command(source: Path, out: Path | None, types: list[str], grid: bool, grays
 
     gray = grayscale_image(original) if grayscale else None
 
-    if grid:
-        extra = [("Grayscale", gray)] if gray is not None else None
-        mosaic = make_grid(original, simulated, extra)
-        out_path: Path = out or source.with_name(source.stem + "-cvd-grid.png")
-        mosaic.save(out_path, format="PNG", optimize=True)
-        print(f"→ Wrote grid to {out_path}")
-    else:
-        out_dir: Path = out or source.parent
-        out_dir.mkdir(parents=True, exist_ok=True)
-        for kind, im in simulated.items():
-            # Always ``.png``: the bytes are PNG. Reusing the source's suffix
-            # wrote PNG data into ``hero-protanopia.jpg``, which a viewer or a
-            # pipeline keyed on the extension then misread.
-            out_path = out_dir / f"{source.stem}-{kind}.png"
-            im.save(out_path, format="PNG", optimize=True)
-            print(f"→ Wrote {out_path}")
-        if gray is not None:
-            gpath = out_dir / f"{source.stem}-grayscale.png"
-            gray.save(gpath, format="PNG", optimize=True)
-            print(f"→ Wrote {gpath}")
+    # The per-type branch has always created its directory and the grid branch
+    # had not, so `--grid --out artifacts/x.png` on a fresh CI runner ended on
+    # a traceback. Both create what they need; what still cannot be written
+    # (a file where a directory is wanted, a read-only volume) is said in one
+    # line, with the exit code of an unreadable source.
+    try:
+        if grid:
+            extra = [("Grayscale", gray)] if gray is not None else None
+            mosaic = make_grid(original, simulated, extra)
+            out_path: Path = out or source.with_name(source.stem + "-cvd-grid.png")
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            mosaic.save(out_path, format="PNG", optimize=True)
+            print(f"→ Wrote grid to {out_path}")
+        else:
+            out_dir: Path = out or source.parent
+            out_dir.mkdir(parents=True, exist_ok=True)
+            for kind, im in simulated.items():
+                # Always ``.png``: the bytes are PNG. Reusing the source's suffix
+                # wrote PNG data into ``hero-protanopia.jpg``, which a viewer or a
+                # pipeline keyed on the extension then misread.
+                out_path = out_dir / f"{source.stem}-{kind}.png"
+                im.save(out_path, format="PNG", optimize=True)
+                print(f"→ Wrote {out_path}")
+            if gray is not None:
+                gpath = out_dir / f"{source.stem}-grayscale.png"
+                gray.save(gpath, format="PNG", optimize=True)
+                print(f"→ Wrote {gpath}")
+    except OSError as exc:
+        sys.stderr.write(f"Cannot write the output: {exc}\n")
+        return 1
 
     return 0
 

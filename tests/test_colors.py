@@ -710,3 +710,117 @@ def test_audit_with_matching_roles_still_exits_0_or_1(
     palette.write_text('{"label-primary": "#000000", "surface-primary": "#FFFFFF"}', encoding="utf-8")
     monkeypatch.setattr(sys, "argv", ["sprezzature-colors-contrast", "--palette", str(palette)])
     assert audit_contrast.main() == 0
+
+
+@pytest.mark.parametrize(
+    "content",
+    [
+        None,  # the file is not there
+        '["#FFFFFF"]',  # JSON, but not an object
+        '{"brand-a": {"DEFAULT": 5}, "surface-b": "#FFFFFF"}',  # a role holding a number
+        '{"brand-a": 5, "surface-b": "#FFFFFF"}',  # the same, flat: it used to vanish silently
+    ],
+)
+def test_audit_of_a_palette_it_cannot_use_exits_2(
+    content: str | None,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    """A traceback exits 1, which a CI job reads as "a pair failed"."""
+    import audit_contrast
+
+    palette = tmp_path / "palette.json"
+    if content is not None:
+        palette.write_text(content, encoding="utf-8")
+    monkeypatch.setattr(sys, "argv", ["sprezzature-colors-contrast", "--palette", str(palette)])
+    assert audit_contrast.main() == 2
+    assert "cannot read the palette" in capsys.readouterr().err
+
+
+def test_audit_ignores_what_is_not_a_role(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """A tokens file carries its own metadata; only the roles have to be colours."""
+    import audit_contrast
+
+    palette = tmp_path / "palette.json"
+    palette.write_text(
+        '{"version": 3, "meta": {"revision": 7}, "label-a": "#000000", "surface-b": "#FFFFFF"}',
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(sys, "argv", ["sprezzature-colors-contrast", "--palette", str(palette)])
+    assert audit_contrast.main() == 0
+
+
+def test_monochrome_gives_every_house_colour_its_own_grey() -> None:
+    """The 3:1 floor darkened every rank above it onto one grey: Yellow == Turquoise."""
+    from _colors import contrast_ratio_hex, load_palette
+    from accessibility_levels import apply_level
+
+    house = {row["Base"]: row["Hexcode"].upper() for row in load_palette()}
+    greys = apply_level(house, "monochrome")
+    assert len(set(greys.values())) == len(house)
+    assert all(contrast_ratio_hex(v, "#FFFFFF") >= 3.0 for v in greys.values())
+
+
+@pytest.mark.parametrize("content", [None, "a,b\n1,2\n"])
+def test_levels_on_a_csv_it_cannot_use_exits_2(
+    content: str | None,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    """A missing file was a traceback, and a file without the columns a silent 0."""
+    from accessibility_levels import main as levels_main
+
+    path = tmp_path / "palette.csv"
+    if content is not None:
+        path.write_text(content, encoding="utf-8")
+    monkeypatch.setattr(sys, "argv", ["sprezzature-colors-levels", "--csv", str(path)])
+    assert levels_main() == 2
+    assert "cannot read" in capsys.readouterr().err
+
+
+def test_simulate_cvd_grid_creates_the_directory_of_its_out(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """`--grid --out artifacts/x.png` on a fresh runner ended on a traceback."""
+    from PIL import Image
+    from simulate_cvd import main as cvd_main
+
+    source = tmp_path / "hero.png"
+    Image.new("RGB", (4, 4), (255, 0, 0)).save(source)
+    out = tmp_path / "artifacts" / "deep" / "grid.png"
+    monkeypatch.setattr(
+        sys, "argv", ["sprezzature-colors-cvd", str(source), "--grid", "--out", str(out)]
+    )
+    assert cvd_main() == 0
+    assert out.is_file()
+
+
+def test_simulate_cvd_says_when_it_cannot_write(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """A file where the per-type directory should go is one line, not a traceback."""
+    from PIL import Image
+    from simulate_cvd import main as cvd_main
+
+    source = tmp_path / "hero.png"
+    Image.new("RGB", (4, 4), (255, 0, 0)).save(source)
+    blocker = tmp_path / "blocker"
+    blocker.write_text("in the way", encoding="utf-8")
+    monkeypatch.setattr(sys, "argv", ["sprezzature-colors-cvd", str(source), "--out", str(blocker)])
+    assert cvd_main() == 1
+    assert "Cannot write the output" in capsys.readouterr().err
+
+
+def test_the_audits_default_palette_keeps_the_csv_hexes() -> None:
+    """Two copies of one fact: ``DEFAULT_PALETTE`` is written by hand beside the CSV."""
+    from _colors import load_palette
+    from audit_contrast import DEFAULT_PALETTE
+
+    rows = {row["Base"].lower(): row for row in load_palette()}
+    brands = {k.removeprefix("brand-"): v for k, v in DEFAULT_PALETTE.items() if k.startswith("brand-")}
+    assert brands
+    for name, variants in brands.items():
+        assert variants["DEFAULT"] == rows[name]["Hexcode"].upper(), name
+        assert variants["light"] == rows[name]["LightHex"].upper(), name

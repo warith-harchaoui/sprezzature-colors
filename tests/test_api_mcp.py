@@ -71,6 +71,23 @@ def test_unknown_colour_is_a_400_not_a_500() -> None:
     assert client.post("/v1/contrast", json=body).status_code == 400
 
 
+@pytest.mark.parametrize(
+    ("method", "url", "body"),
+    [
+        ("post", "/v1/contrast", {"pairs": [{"foreground": "#zzz", "background": "#ffffff"}]}),
+        ("post", "/v1/contrast", {"pairs": [{"foreground": "#000", "background": "#12345"}]}),
+        ("post", "/v1/cvd", {"colors": ["#12"]}),
+        ("post", "/v1/adjust", {"colors": ["#gg0000"]}),
+        ("get", "/v1/psychology/%23gg", None),
+    ],
+)
+def test_a_malformed_hex_is_a_400_on_every_route(method: str, url: str, body: dict | None) -> None:
+    """Anything starting with # went past the check and blew up as a 500."""
+    local = TestClient(app, raise_server_exceptions=False)
+    response = local.get(url) if method == "get" else local.post(url, json=body)
+    assert response.status_code == 400
+
+
 def test_red_and_green_collide_under_deuteranopia() -> None:
     """
     The simulation must actually simulate something.

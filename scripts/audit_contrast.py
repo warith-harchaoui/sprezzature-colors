@@ -44,7 +44,7 @@ Usage
 
 Notes
 -----
-* Python 3.10+, stdlib only.
+* Python 3.10+. The arithmetic is standard library only; the command line is click.
 * The "fix" search walks the OKLCH L axis at 0.01 resolution; in practice
   the search converges in tens of microseconds per pair.
 * Color math (sRGB transfer, WCAG luminance, OKLab / OKLCH) lives in
@@ -159,7 +159,23 @@ def normalize_palette(raw: dict) -> dict[str, str]:
 
     Accepts both flat (``{"key": "#fff"}``) and nested
     (``{"key": {"DEFAULT": "#fff", "dark": "#000"}}``) shapes.
+
+    Raises
+    ------
+    TypeError
+        When ``raw`` is not a mapping, or when a key the audit would check
+        (:func:`is_foreground` / :func:`is_background`) does not hold a string.
+        Keys the audit ignores may hold anything: a tokens file has its own
+        metadata.
     """
+    if not isinstance(raw, dict):
+        raise TypeError(f"expected a JSON object of role to colour, got {type(raw).__name__}")
+
+    def checked(key: str, value: object) -> None:
+        """Refuse a non-string under a role the audit is going to read."""
+        if not isinstance(value, str) and (is_foreground(key) or is_background(key)):
+            raise TypeError(f"{key!r} holds {value!r}, not a colour")
+
     flat: dict[str, str] = {}
     for role, value in raw.items():
         if isinstance(value, str):
@@ -167,7 +183,11 @@ def normalize_palette(raw: dict) -> dict[str, str]:
         elif isinstance(value, dict):
             for variant, hex_val in value.items():
                 key: str = role if variant.upper() == "DEFAULT" else f"{role}-{variant}"
-                flat[key] = hex_val
+                checked(key, hex_val)
+                if isinstance(hex_val, str):
+                    flat[key] = hex_val
+        else:
+            checked(role, value)
     return flat
 
 
@@ -308,9 +328,11 @@ EXIT_NO_PAIRS: int = 2
 )
 def _command(palette: Path | None, target: float, fix: bool, fmt: str, all_pairs: bool) -> int:
     """Run the audit; the exit code is :func:`main`'s."""
-    # A value this module cannot read (``rgba(...)``, ``hsl(...)``, a typo) or a
-    # file that is not JSON ended on a raw Python traceback. Both are a
-    # usage error: say which, and exit 2 like any other.
+    # A value this module cannot read (``rgba(...)``, ``hsl(...)``, a typo), a
+    # file that is not JSON, or a file that is not there ended on a raw Python
+    # traceback, and a traceback exits 1, which a CI job reads as "a pair
+    # failed". All of them are a usage error: say which, and exit 2 like any
+    # other.
     try:
         if palette is not None:
             raw = json.loads(palette.read_text(encoding="utf-8"))
@@ -318,10 +340,13 @@ def _command(palette: Path | None, target: float, fix: bool, fmt: str, all_pairs
             raw = DEFAULT_PALETTE
         flat = normalize_palette(raw)
         result = audit(flat, target, fix, all_pairs=all_pairs)
+    except OSError as exc:
+        sys.stderr.write(f"sprezzature-colors-contrast: cannot read the palette: {exc}.\n")
+        return EXIT_NO_PAIRS
     except (ValueError, TypeError) as exc:
         sys.stderr.write(
             f"sprezzature-colors-contrast: cannot read the palette: {exc}. "
-            "Colours must be hex (#RRGGBB or #RGB).\n"
+            "Colours must be hex (#RGB, #RRGGBB or #RRGGBBAA).\n"
         )
         return EXIT_NO_PAIRS
 

@@ -411,7 +411,7 @@ def render_full_config(
     help=(
         "Render sprezzature-colors/references/palette.csv as a Tailwind "
         "theme.extend.colors block (default) or as a complete "
-        "tailwind.config.js. Stdlib only; deterministic; reads the "
+        "tailwind.config.js. Deterministic; reads the "
         "canonical CSV and writes the machine-readable Tailwind "
         "form of the same source of truth."
     ),

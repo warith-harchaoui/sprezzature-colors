@@ -90,7 +90,7 @@ sprezzature-colors-contrast --fix
 # 34 pass, 22 fail.
 ```
 
-"Ratio" here is the WCAG contrast ratio: a number from 1 (identical brightness, unreadable) to 21 (pure black on pure white). 4.5 is the WCAG threshold for normal body text. Without `--palette`, the audit reads its built-in default palette. The exit code is 0 when every checked pair passes, 1 when a pair fails, and 2 when the palette yields no pair to check.
+"Ratio" here is the WCAG contrast ratio: a number from 1 (identical brightness, unreadable) to 21 (pure black on pure white). 4.5 is the WCAG threshold for normal body text. Without `--palette`, the audit reads its built-in default palette. The exit code is 0 when every checked pair passes, 1 when a pair fails, and 2 when nothing could be checked: no pair in the palette, or a palette it cannot read.
 
 By default only pairs that can appear together in a rendered theme are checked: light labels on light surfaces, dark labels on dark surfaces, brand accents on every surface. `--all-pairs` checks the full cross-product. Roles are recognised by prefix: `label-` and `brand-` are foregrounds (except `-light` tints), `surface-` is a background, and every other key is ignored.
 
@@ -117,7 +117,7 @@ sprezzature-colors-cvd hero.png --grid --out hero-cvd-grid.png
 sprezzature-colors-cvd hero.png --types deut --grayscale
 ```
 
-`--types` takes full names or the shorthands `prot`, `deut` and `trit`, comma-separated. In per-type mode `--out` is a directory; with `--grid` it is a file.
+`--types` takes full names or the shorthands `prot`, `deut` and `trit`, comma-separated. In per-type mode `--out` is a directory; with `--grid` it is a file. Missing directories are created. Missing directories are created.
 
 ### Palette to Tailwind
 
@@ -144,7 +144,7 @@ sprezzature-colors-levels --level high-contrast
 #                   deuteranopia, protanopia, tritanopia
 ```
 
-Each line prints the color name, its hex at that level, and its contrast against white. `--csv` reads another palette file with the same columns.
+Each line prints the color name, its hex at that level, and its contrast against white. `--csv` reads another palette file with the same columns; a file it cannot read, or without those columns, exits 2.
 
 ---
 
@@ -204,7 +204,7 @@ curl -X POST localhost:8000/v1/contrast \
 | `GET /v1/psychology/{color}` | `get_color_psychology` | Positive and negative associations of a palette color |
 | `GET /v1/concepts?keyword=` | `search_concepts` | Palette hex codes associated with a concept |
 
-Every route that takes a color accepts a hex code or a palette name such as `"Blue"`. Interactive documentation is at `/docs`.
+Every route that takes a color accepts a hex code or a palette name such as `"Blue"`; anything else is a 400. Interactive documentation is at `/docs`.
 
 ### Docker
 
@@ -263,7 +263,10 @@ brand blue; it gets lighter or darker until it is legible.
 The deficiency-specific palettes do the same thing one level up. Each colour
 is ranked by how bright it looks *to that viewer*, under the MACHADO matrices,
 and the lightnesses are then spread across a legible band. Hue and saturation
-are left alone. For that reader, every category separates.
+are left alone. That spreads the categories for that reader without proving
+them apart: the 3:1 floor against white and the gamut can bring two back
+together, as Yellow and White under tritanopia on the house palette, which is
+why shape and label stay on the job.
 
 That is also why the deficiency palettes are options rather than the default.
 No single set of colours is best for protanopia, deuteranopia and tritanopia

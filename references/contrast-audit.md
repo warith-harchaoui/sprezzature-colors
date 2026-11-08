@@ -1,6 +1,6 @@
 # Contrast audit — `audit_contrast.py`
 
-Audit a palette's (foreground, background) pairs against the contrast-ratio thresholds published by the Web Content Accessibility Guidelines (WCAG, the reference standard for making web content usable by people with disabilities), and propose the nearest accessible alternative for failing pairs. The contrast ratio itself is a single number from 1 (identical brightness, unreadable) to 21 (pure black on pure white): the higher it is, the easier the two colors are to tell apart at a glance. Deterministic, stdlib-only, no model.
+Audit a palette's (foreground, background) pairs against the contrast-ratio thresholds published by the Web Content Accessibility Guidelines (WCAG, the reference standard for making web content usable by people with disabilities), and propose the nearest accessible alternative for failing pairs. The contrast ratio itself is a single number from 1 (identical brightness, unreadable) to 21 (pure black on pure white): the higher it is, the easier the two colors are to tell apart at a glance. Deterministic, no model; the arithmetic is standard library only.
 
 ## What this tool is — and isn't
 
@@ -44,7 +44,7 @@ python scripts/audit_contrast.py --format json
 python scripts/audit_contrast.py --all-pairs
 ```
 
-Exit code is `0` when every checked pair passes, `1` when any pair fails, `2` when the palette yields no pair to check. The exit code is the same regardless of `--fix`; the script reports the failures even when it suggests alternatives.
+Exit code is `0` when every checked pair passes, `1` when any pair fails, `2` when nothing could be checked: no pair in the palette, or a palette it cannot read (missing file, not JSON, a colour that is not hex). The exit code is the same regardless of `--fix`; the script reports the failures even when it suggests alternatives.
 
 ## Palette format
 
@@ -109,14 +109,16 @@ Continuous integration (CI) is the practice of running checks automatically on e
 - name: Contrast audit
   run: |
     pip install sprezzature-colors
+    mkdir -p artifacts
     sprezzature-colors-contrast \
             --palette tokens/colors.json \
             --target 4.5 --format json > artifacts/contrast.json
 - uses: actions/upload-artifact@v4
+  if: always()  # the audit's non-zero exit is what fails the job; keep the report anyway
   with: { name: contrast-audit, path: artifacts/ }
 ```
 
-The audit's exit code is the gating signal: non-zero on any failing pair.
+The audit's exit code is the gating signal: `1` on a failing pair, `2` when nothing could be checked.
 
 ## Checklist
 

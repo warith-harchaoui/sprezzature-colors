@@ -21,18 +21,22 @@ Levels
     Accessibility Guidelines (WCAG) AAA ratio of 7:1 against the background,
     for low vision and hostile lighting.
 ``monochrome``
-    Every colour becomes the grey of its own relative luminance. Categories then
-    ride entirely on lightness (plus the figure's shape / label redundancy),
-    which is the print and total-colour-blindness case.
+    Every colour becomes a grey, ranked by its own relative luminance and spread
+    evenly across a band, so two equally bright hues do not land on one grey.
+    Categories then ride entirely on lightness (plus the figure's shape / label
+    redundancy), which is the print and total-colour-blindness case.
 ``deuteranopia`` / ``protanopia`` / ``tritanopia``
     A palette re-spaced so that, *as that viewer sees it*, every category is
     separated by lightness. Colours are ranked by their luminance under the
     Machado et al. (2009) simulation of the deficiency, then their OKLCH L is
     spread across a legible band (hue and chroma kept). Lightness is the one
-    channel that survives every colour vision deficiency, so this guarantees the
-    categories stay distinct for that specific viewer. There is no single
-    colour-only palette that is optimal for all deficiencies at once, which is
-    exactly why these are offered as *choices*, not as the default.
+    channel that survives every colour vision deficiency, so this spreads the
+    categories for that specific viewer. It is a spread and not a guarantee: the
+    3:1 floor and the gamut clipping can bring two categories back together
+    (Yellow and White under tritanopia, on the house palette), so a figure's
+    shape and label still carry the rest. There is no single colour-only palette
+    that is optimal for all deficiencies at once, which is exactly why these are
+    offered as *choices*, not as the default.
 
 The maths (OKLCH round-trip, WCAG contrast, the Machado CVD matrices) is reused
 from :mod:`_colors`, so this module adds no new colour science, only the
@@ -161,6 +165,13 @@ def _rank_spread(
     # Grey can use a wider band (no hue to keep legible); coloured marks stay in
     # a mid band so even the lightest keeps contrast on white.
     lo, hi = (0.22, 0.85) if gray else (0.34, 0.72)
+    if gray:
+        # Bring the top of the grey band under the floor first. The floor is
+        # applied per mark, so every rank above it was darkened onto the same
+        # 3:1 grey: on the house palette Yellow and Turquoise came out as one
+        # #909090, the collision this level exists to prevent.
+        while hi > lo and contrast_ratio_hex(_gray_at(hi), bg) < _MIN_MARK_CONTRAST:
+            hi -= 0.005
     out: dict[str, str] = dict(palette)
     for rank, idx in enumerate(order):
         name, hexv = items[idx]
@@ -266,15 +277,24 @@ def _preview(level: str, csv_path: Path) -> int:
     """Print ``name  #hex  contrast-vs-white`` for ``level`` read from ``csv_path``."""
     import csv
 
+    # A file that is not there ended on a traceback, and a file with neither
+    # column printed nothing and exited 0, like a palette that had been read.
+    # The same exit 2 as an audit with nothing to check.
     base: dict[str, str] = {}
-    with csv_path.open(encoding="utf-8", newline="") as fh:
-        for row in csv.DictReader(fh):
-            name = (row.get("Base") or "").strip()
-            hexv = (row.get("Hexcode") or "").strip()
-            if name and hexv.startswith("#"):
-                base[name] = hexv.upper()
+    try:
+        with csv_path.open(encoding="utf-8", newline="") as fh:
+            for row in csv.DictReader(fh):
+                name = (row.get("Base") or "").strip()
+                hexv = (row.get("Hexcode") or "").strip()
+                if name and hexv.startswith("#"):
+                    base[name] = hexv.upper()
+        if not base:
+            raise ValueError("no row has both a Base name and a #Hexcode")
+        leveled = apply_level(base, level)
+    except (OSError, ValueError, csv.Error) as exc:
+        sys.stderr.write(f"sprezzature-colors-levels: cannot read {csv_path}: {exc}.\n")
+        return 2
 
-    leveled = apply_level(base, level)
     for name, hexv in leveled.items():
         print(f"{name:12} {hexv}  contrast-vs-white {contrast_ratio_hex(hexv, '#FFFFFF'):.1f}:1")
     return 0

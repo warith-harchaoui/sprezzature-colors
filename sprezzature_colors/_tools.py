@@ -31,7 +31,7 @@ TOOLS: dict[str, tuple[str, str, str]] = {
         "",
         "Audit a palette against the WCAG contrast ratios (4.5:1 body, 3:1 "
         "large and UI, 7:1 AAA) and propose the nearest accessible "
-        "alternative for every failing pair. Standard library only.",
+        "alternative for every failing pair. No model, no network.",
     ),
     "cvd": (
         "simulate_cvd",

@@ -101,8 +101,8 @@ is already usable without them.
 **The default is implemented.** Across `sprezzature-figures`, categories are told apart
 by shape, direct labels, and position as well as hue; diverging data uses the
 blue-to-red house convention; text and marks target WCAG AA. Every figure is
-checked with `sprezzature-colors/scripts/simulate_cvd.py` (the three deficiencies plus
-`--grayscale`) and with `sprezzature-accessibility/scripts/lint_a11y.py`, and the
+checked with `sprezzature-colors-cvd` (the three deficiencies plus
+`--grayscale`) and with `sprezzature-accessibility-lint`, and the
 result is looked at through the Ralph Eyeball Loop, including the CVD and
 greyscale sheets: the shipped default is designed against the greyscale worst
 case by method, which is what the literature recommends.
@@ -112,8 +112,9 @@ holds them as one pure function, `apply_level(palette, level, bg="#FFFFFF")`,
 which returns the same colour names with level-appropriate hex values. The
 six levels are `universal` (the default, returned unchanged),
 `high-contrast` (each hue darkened on the OKLCH lightness axis until it
-clears 7:1 against the background), `monochrome` (each colour becomes the
-grey of its own relative luminance), and `deuteranopia`, `protanopia` and
+clears 7:1 against the background), `monochrome` (each colour becomes a grey,
+ranked by its relative luminance and spread evenly, so two equally bright
+hues do not share one), and `deuteranopia`, `protanopia` and
 `tritanopia` (colours ranked by their luminance under that deficiency's
 MACHADO matrix, then spread across a legible lightness band, hue and chroma
 kept). The maths is the shared one in `_colors.py`: OKLCH, WCAG contrast and

@@ -13,7 +13,7 @@ re-exported by the package, never a second copy of the arithmetic.
 What ships here
 ---------------
 - ``GET  /health``: a liveness probe, so a monitor can tell the app is up.
-- ``GET  /v1/palette``: the house palette, as name → hex.
+- ``GET  /v1/palette``: the house palette, one row per colour.
 - ``POST /v1/contrast``: contrast ratios and WCAG verdicts for colour pairs.
 - ``POST /v1/cvd``: how colours look to a colour-blind viewer.
 - ``POST /v1/adjust``: lighten or darken, in perceptual OKLab space.
@@ -161,9 +161,12 @@ def _resolve(value: str) -> str:
     fastapi.HTTPException
         400 if the value is neither a hex colour nor a known palette name.
     """
-    if value.startswith("#"):
-        return value
     try:
+        if value.startswith("#"):
+            # Parsed here because every route parses it next, outside any
+            # handler: "#zzz" reached that parse and came back as a 500.
+            parse_hex(value)
+            return value
         return name_to_hex(value)
     except (KeyError, ValueError) as exc:
         raise HTTPException(

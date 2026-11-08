@@ -58,7 +58,8 @@ only paired with dark surfaces. Pass `--all-pairs` for the full cross-product.
 
 Keys must start with `label-`, `brand-` or `surface-`. Any other key is
 ignored, and a palette with no matching key is reported on standard error
-with exit code `2`: nothing was checked, so nothing passed.
+with exit code `2`: nothing was checked, so nothing passed. A file that is
+missing, not JSON, or holds a colour that is not hex exits `2` the same way.
 
 ## JSON output for CI
 

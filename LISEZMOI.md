@@ -90,7 +90,7 @@ sprezzature-colors-contrast --fix
 # 34 pass, 22 fail.
 ```
 
-Le « ratio » ici est le ratio de contraste WCAG : un nombre allant de 1 (luminosités identiques, illisible) à 21 (noir pur sur blanc pur). 4,5 est le seuil WCAG pour le texte courant. Sans `--palette`, l'audit lit sa palette par défaut intégrée. Le code de sortie vaut 0 quand toutes les paires vérifiées passent, 1 quand une paire échoue, et 2 quand la palette ne donne aucune paire à vérifier.
+Le « ratio » ici est le ratio de contraste WCAG : un nombre allant de 1 (luminosités identiques, illisible) à 21 (noir pur sur blanc pur). 4,5 est le seuil WCAG pour le texte courant. Sans `--palette`, l'audit lit sa palette par défaut intégrée. Le code de sortie vaut 0 quand toutes les paires vérifiées passent, 1 quand une paire échoue, et 2 quand rien n'a pu être vérifié : aucune paire dans la palette, ou une palette illisible.
 
 Par défaut, seules les paires qui peuvent se rencontrer dans un thème rendu sont vérifiées : textes clairs sur surfaces claires, textes sombres sur surfaces sombres, accents de marque sur toutes les surfaces. `--all-pairs` vérifie le produit croisé complet. Les rôles sont reconnus par préfixe : `label-` et `brand-` sont des premiers plans (sauf les teintes `-light`), `surface-` est un fond, et toute autre clé est ignorée.
 
@@ -117,7 +117,7 @@ sprezzature-colors-cvd hero.png --grid --out hero-cvd-grille.png
 sprezzature-colors-cvd hero.png --types deut --grayscale
 ```
 
-`--types` accepte les noms complets ou les abréviations `prot`, `deut` et `trit`, séparés par des virgules. En mode par type, `--out` est un dossier ; avec `--grid`, c'est un fichier.
+`--types` accepte les noms complets ou les abréviations `prot`, `deut` et `trit`, séparés par des virgules. En mode par type, `--out` est un dossier ; avec `--grid`, c'est un fichier. Les dossiers manquants sont créés.
 
 ### Palette vers Tailwind
 
@@ -144,7 +144,7 @@ sprezzature-colors-levels --level high-contrast
 #                       deuteranopia, protanopia, tritanopia
 ```
 
-Chaque ligne affiche le nom de la couleur, son code hexadécimal à ce niveau, et son contraste sur blanc. `--csv` lit un autre fichier de palette aux mêmes colonnes.
+Chaque ligne affiche le nom de la couleur, son code hexadécimal à ce niveau, et son contraste sur blanc. `--csv` lit un autre fichier de palette aux mêmes colonnes ; un fichier illisible, ou sans ces colonnes, sort en 2.
 
 ---
 
@@ -204,7 +204,7 @@ curl -X POST localhost:8000/v1/contrast \
 | `GET /v1/psychology/{color}` | `get_color_psychology` | Associations positives et négatives d'une couleur de la palette |
 | `GET /v1/concepts?keyword=` | `search_concepts` | Codes hexadécimaux de la palette associés à un concept |
 
-Chaque route qui prend une couleur accepte un code hexadécimal ou un nom de la palette comme `"Blue"`. La documentation interactive est sous `/docs`.
+Chaque route qui prend une couleur accepte un code hexadécimal ou un nom de la palette comme `"Blue"` ; tout le reste est une erreur 400. La documentation interactive est sous `/docs`.
 
 ### Docker
 
@@ -263,8 +263,11 @@ bleu de marque : il s'éclaircit ou s'assombrit jusqu'à devenir lisible.
 Les palettes dédiées à un déficit font la même chose un cran plus haut. Chaque
 couleur est classée selon sa clarté *telle que ce lecteur la perçoit*, d'après
 les matrices de MACHADO, puis les clartés sont réparties sur une plage
-lisible. La teinte et la saturation ne bougent pas. Pour ce lecteur, chaque
-catégorie se détache.
+lisible. La teinte et la saturation ne bougent pas. Cela écarte les catégories pour
+ce lecteur sans prouver qu'elles se distinguent : le plancher de 3:1 sur blanc
+et le gamut peuvent en rapprocher deux, comme le jaune et le blanc en
+tritanopie sur la palette maison, et c'est pourquoi la forme et l'étiquette
+restent à leur poste.
 
 C'est aussi pourquoi ces palettes sont des options plutôt que le défaut.
 Aucun jeu de couleurs n'est le meilleur pour la protanopie, la deutéranopie et
