@@ -2,6 +2,47 @@
 
 ## [Unreleased]
 
+## [1.2.4] — 2026-11-08
+
+### Fixed
+
+- `sprezzature-colors-levels --level monochrome` gave two categories the same
+  grey. The 3:1 floor darkened every rank above it onto one value, so on the
+  house palette Yellow and Turquoise came out as one `#909090` and four colours
+  sat within a shade of each other. The grey band now stops where it clears the
+  floor, and the twelve colours get twelve greys. Figures that ask for this
+  level change colour.
+- `contrast --palette` on a file that is not there, on JSON that is not an
+  object, or on a role holding something other than a string ended on a
+  traceback, and a traceback exits 1, which a CI job reads as a failing pair.
+  They now exit 2 with one line. A role holding a number used to be dropped in
+  silence when it was flat; it is refused too. Keys that are not roles may
+  still hold anything.
+- `levels --csv` on a missing file was a traceback, and on a file with neither
+  column printed nothing and exited 0. Both now exit 2 with one line.
+- `cvd --grid --out dir/x.png` ended on a traceback when `dir` did not exist,
+  where the per-type mode has always created its directory; the example in
+  `references/cvd-simulation.md` did exactly that. An output that cannot be
+  written is now one line and exit 1.
+- The HTTP routes answered 500 on a malformed hex such as `#zzz`. Everything
+  starting with `#` went past the check that gives a 400 to an unknown colour.
+- `_click.SKILL_VERSION`, the version a bare clone prints, was still 1.2.2.
+
+### Docs
+
+- The exit code 2 of the audit also covers a palette it cannot read; the README,
+  the LISEZMOI, `EXAMPLES.md`, `TRIGGERS.md` and the audit's reference said only
+  "no pair".
+- `references/accessibility-levels.md` and the module docstring said monochrome
+  gives each colour the grey of its own luminance; it ranks them and spreads the
+  ranks. The README, the LISEZMOI and the docstring said the deficiency levels
+  separate or guarantee every category; measured on the house palette they do
+  not always (Yellow and White under tritanopia), and the text now says so.
+- The "standard library only" claims about the audit and the Tailwind emitter
+  date from before click: it is the arithmetic that is.
+- The CI recipes of the audit reference wrote into an `artifacts/` directory
+  nothing created, and uploaded nothing when the audit failed.
+
 ## [1.2.3] — 2026-11-05
 
 ### Fixed
