@@ -1,6 +1,6 @@
 # sprezzature-colors
 
-Color accessibility and palette tooling for the [sprezzature](https://sprezzature.ai/) stack.
+Color accessibility and palette tooling for the [sprezzature](https://sprezzature.ai/) stack: contrast measured against WCAG (Web Content Accessibility Guidelines, the international rulebook that says, for example, how dark text must be against its background), colors adjusted in OKLCH (OK Lightness Chroma Hue, a color model in which raising lightness by 0.1 looks like the same brightening whatever the hue).
 
 ## How it works
 
@@ -15,7 +15,7 @@ This package gives four deterministic tools that catch these gaps before a desig
 - **Contrast auditing.** Checks the (text, background) color pairs of a palette against the thresholds of the Web Content Accessibility Guidelines (WCAG, the standard body of rules for making web content usable by people with disabilities), and suggests a fix that stays visually close to the original color.
 - **Color-blindness simulation.** Renders an image the way a person with protanopia, deuteranopia, or tritanopia (the three forms of red, green and blue color blindness) would see it, plus an optional grayscale version.
 - **Accessibility levels.** Remaps the house palette to one of six levels (universal, high-contrast, monochrome, and one per deficiency) while keeping every color's name.
-- **Tailwind palette export.** Writes the project's approved brand colors as a ready-to-use Tailwind CSS configuration block, so every project in the stack draws from the same source instead of each one hand-copying hex codes.
+- **Tailwind palette export.** Writes the project's approved brand colors as a ready-to-use configuration block for Tailwind CSS (Cascading Style Sheets, the rules that set a web page's colors, fonts and spacing, such as "every heading in blue"), so every project in the stack draws from the same source instead of each one hand-copying hex codes.
 
 The color arithmetic is written on the Python standard library. Pillow, a Python imaging library, reads and writes the image files of the simulation. Nothing here calls out to the network or an AI model.
 
@@ -27,7 +27,7 @@ The color arithmetic is written on the Python standard library. Pillow, a Python
 pip install sprezzature-colors
 ```
 
-That one line installs everything: the four tools, the command line (click), the image simulation (Pillow), the HTTP API (FastAPI and uvicorn) and the MCP server (fastapi-mcp). There is no feature extra. The only extra is `[dev]`, the test toolchain (pytest, ruff, mypy), for a source checkout:
+That one line installs everything: the four tools, the command line (click), the image simulation (Pillow), the HTTP (HyperText Transfer Protocol, the request-and-reply exchange a browser makes each time it loads a page) API (Application Programming Interface, web addresses another program sends a request to and gets an answer from, served by FastAPI and uvicorn) and the MCP (Model Context Protocol, the protocol through which AI agents call tools in English) server (fastapi-mcp). There is no feature extra. The only extra is `[dev]`, the test toolchain (pytest, ruff, mypy), for a source checkout:
 
 ```bash
 git clone https://github.com/warith-harchaoui/sprezzature-colors
@@ -94,7 +94,7 @@ sprezzature-colors-contrast --fix
 
 By default only pairs that can appear together in a rendered theme are checked: light labels on light surfaces, dark labels on dark surfaces, brand accents on every surface. `--all-pairs` checks the full cross-product. Roles are recognised by prefix: `label-` and `brand-` are foregrounds (except `-light` tints), `surface-` is a background, and every other key is ignored.
 
-With a custom palette JSON:
+With a custom palette in JSON (JavaScript Object Notation, a text format in which programs store data as named fields, like {"name": "Ada"}):
 
 ```bash
 sprezzature-colors-contrast --palette my-palette.json --target 7 --fix
@@ -177,13 +177,13 @@ sc.concept_search("trust")    # -> ['#007AFF']
 sc.psychology_for("Blue")     # -> {'positive': ['Trust', ...], 'negative': [...]}
 ```
 
-`sprezzature_colors.__all__` lists the whole public surface: contrast and WCAG, hex parsing and alpha compositing, OKLab / OKLCH conversions, palette lookup, CVD simulation, and color psychology.
+`sprezzature_colors.__all__` lists the whole public surface: contrast and WCAG, hex parsing and alpha compositing, OKLab / OKLCH conversions, palette lookup, CVD (color vision deficiency, what is commonly called color blindness, such as confusing red with green) simulation, and color psychology.
 
 ---
 
 ## HTTP API
 
-FastAPI is a Python web framework for HTTP APIs. The app in `sprezzature_colors.api` serves the library over HTTP, so a design system in TypeScript or a CI job in another language can run the same checks.
+FastAPI is a Python web framework for HTTP APIs. The app in `sprezzature_colors.api` serves the library over HTTP, so a design system in TypeScript or a CI (continuous integration, a server that reruns all the tests every time code is pushed and flags any that fail) job in another language can run the same checks.
 
 ```bash
 uvicorn sprezzature_colors.api:app --host 0.0.0.0 --port 8000
@@ -198,7 +198,7 @@ curl -X POST localhost:8000/v1/contrast \
 |---|---|---|
 | `GET /health` | `health` | Is the server up |
 | `GET /v1/palette` | `get_palette` | The house palette, one row per color |
-| `POST /v1/contrast` | `check_contrast` | Ratio and WCAG verdict per pair (`level` AA or AAA, `size` normal or large) |
+| `POST /v1/contrast` | `check_contrast` | Ratio and WCAG verdict per pair (`level` AA or AAA (the standard and enhanced WCAG levels: a contrast of 4.5:1 and 7:1 for body text), `size` normal or large) |
 | `POST /v1/cvd` | `simulate_color_blindness` | The hex each deficiency perceives, per color |
 | `POST /v1/adjust` | `adjust_lightness` | Lighter (`amount` > 0) or darker (`amount` < 0) colors, in OKLab |
 | `GET /v1/psychology/{color}` | `get_color_psychology` | Positive and negative associations of a palette color |
@@ -278,7 +278,7 @@ everybody, with shape, label and position carrying the rest.
 
 ## Color science
 
-Contrast ratios follow WCAG 2.x: relative luminance (how bright a color looks to the eye, not just its raw RGB numbers) uses the 2.4-gamma transfer function that the standard specifies. Perceptual adjustments use OKLab / OKLCH, a color model designed by Björn OTTOSSON (2020) precisely so that "move the lightness value by X" matches how much brighter the color actually looks, which plain RGB does not guarantee. Color-blindness simulation matrices come from MACHADO, OLIVEIRA, and FERNANDES (2009, IEEE Transactions on Visualization and Computer Graphics), a widely cited paper that measured how each type of color blindness transforms a color and published the transformation as a matrix of numbers, which is exactly what `CVD_MATRICES` stores, at full severity.
+Contrast ratios follow WCAG 2.x: relative luminance (how bright a color looks to the eye, not just its raw RGB (red, green, blue, the three lights a screen mixes into every color: #FF0000 is pure red) numbers) uses the 2.4-gamma transfer function that the standard specifies. Perceptual adjustments use OKLab / OKLCH, a color model designed by Björn OTTOSSON (2020) precisely so that "move the lightness value by X" matches how much brighter the color actually looks, which plain RGB does not guarantee. Color-blindness simulation matrices come from MACHADO, OLIVEIRA, and FERNANDES (2009, IEEE (Institute of Electrical and Electronics Engineers, the world's largest engineering society, which publishes this journal) Transactions on Visualization and Computer Graphics), a widely cited paper that measured how each type of color blindness transforms a color and published the transformation as a matrix of numbers, which is exactly what `CVD_MATRICES` stores, at full severity.
 
 ---
 
@@ -290,7 +290,7 @@ Contrast ratios follow WCAG 2.x: relative luminance (how bright a color looks to
 | [sprezzature-colors](https://github.com/warith-harchaoui/sprezzature-colors) | This repo |
 | [sprezzature-accessibility](https://github.com/warith-harchaoui/sprezzature-accessibility) | Static HTML accessibility lint |
 | [sprezzature-figures](https://github.com/warith-harchaoui/sprezzature-figures) | Data visualization; applies the accessibility levels |
-| [sprezzature-ui](https://github.com/warith-harchaoui/sprezzature-ui) | UI components; consumes the Tailwind export |
+| [sprezzature-ui](https://github.com/warith-harchaoui/sprezzature-ui) | UI (user interface, the buttons, menus and forms people click) components; consumes the Tailwind export |
 
 ---
 
@@ -298,4 +298,4 @@ Contrast ratios follow WCAG 2.x: relative luminance (how bright a color looks to
 
 Warith HARCHAOUI, [deraison.ai](https://deraison.ai)
 
-License: BSD-3-Clause
+License: Berkeley Software Distribution, three-clause version (BSD-3-Clause, a permissive licence: anyone may use, change and resell the code if they keep the copyright notice)

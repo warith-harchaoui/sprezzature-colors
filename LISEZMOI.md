@@ -1,6 +1,6 @@
 # sprezzature-colors
 
-Outils d'accessibilité des couleurs et d'export de palette pour la suite [sprezzature](https://sprezzature.ai/).
+Outils d'accessibilité des couleurs et d'export de palette pour la suite [sprezzature](https://sprezzature.ai/) : le contraste mesuré selon les WCAG (*Web Content Accessibility Guidelines*, la norme internationale qui dit par exemple à quel point un texte doit trancher sur son fond), les couleurs ajustées en OKLCH (*OK Lightness Chroma Hue*, un modèle de couleur où éclaircir de 0,1 se voit autant quelle que soit la teinte).
 
 ## Comment ça marche
 
@@ -15,7 +15,7 @@ Ce paquet fournit quatre outils déterministes pour repérer ces écarts avant q
 - **Audit de contraste.** Vérifie les paires (texte, fond) d'une palette par rapport aux seuils des Règles pour l'accessibilité des contenus web (*Web Content Accessibility Guidelines* ou WCAG, le corpus de règles de référence pour rendre un contenu web utilisable par des personnes en situation de handicap), et propose une correction qui reste visuellement proche de la couleur d'origine.
 - **Simulation de daltonisme.** Génère l'image telle que la verrait une personne atteinte de protanopie, deutéranopie ou tritanopie (les trois formes de daltonisme, respectivement liées au rouge, au vert et au bleu), avec en option une version en niveaux de gris.
 - **Niveaux d'accessibilité.** Transpose la palette maison vers l'un de six niveaux (universel, fort contraste, monochrome, et un par déficience) en gardant le nom de chaque couleur.
-- **Export de palette Tailwind.** Écrit les couleurs de marque validées du projet sous forme d'un bloc de configuration Tailwind CSS prêt à l'emploi, pour que chaque projet de la suite parte de la même source plutôt que de recopier des codes hexadécimaux à la main.
+- **Export de palette Tailwind.** Écrit les couleurs de marque validées du projet sous forme d'un bloc de configuration prêt à l'emploi pour Tailwind CSS (*Cascading Style Sheets*, les règles qui fixent couleurs, polices et marges d'une page web, comme « tous les titres en bleu »), pour que chaque projet de la suite parte de la même source plutôt que de recopier des codes hexadécimaux à la main.
 
 Le calcul des couleurs est écrit sur la seule bibliothèque standard de Python. Pillow, une bibliothèque Python de traitement d'image, lit et écrit les fichiers image de la simulation. Rien ici n'appelle le réseau ni un modèle d'intelligence artificielle.
 
@@ -27,7 +27,7 @@ Le calcul des couleurs est écrit sur la seule bibliothèque standard de Python.
 pip install sprezzature-colors
 ```
 
-Cette seule ligne installe tout : les quatre outils, la ligne de commande (click), la simulation sur image (Pillow), l'API HTTP (FastAPI et uvicorn) et le serveur MCP (fastapi-mcp). Il n'y a aucun extra de fonctionnalité. Le seul extra est `[dev]`, la chaîne de test (pytest, ruff, mypy), pour un dépôt cloné :
+Cette seule ligne installe tout : les quatre outils, la ligne de commande (click), la simulation sur image (Pillow), l'API (*Application Programming Interface*, des adresses web auxquelles un autre programme envoie une requête et dont il reçoit une réponse) HTTP (*HyperText Transfer Protocol*, l'échange question-réponse qu'un navigateur fait pour chaque page qu'il charge), servie par FastAPI et uvicorn, et le serveur MCP (Model Context Protocol, le protocole par lequel les agents IA appellent des outils en français), servi par fastapi-mcp. Il n'y a aucun extra de fonctionnalité. Le seul extra est `[dev]`, la chaîne de test (pytest, ruff, mypy), pour un dépôt cloné :
 
 ```bash
 git clone https://github.com/warith-harchaoui/sprezzature-colors
@@ -94,7 +94,7 @@ Le « ratio » ici est le ratio de contraste WCAG : un nombre allant de 1 (lu
 
 Par défaut, seules les paires qui peuvent se rencontrer dans un thème rendu sont vérifiées : textes clairs sur surfaces claires, textes sombres sur surfaces sombres, accents de marque sur toutes les surfaces. `--all-pairs` vérifie le produit croisé complet. Les rôles sont reconnus par préfixe : `label-` et `brand-` sont des premiers plans (sauf les teintes `-light`), `surface-` est un fond, et toute autre clé est ignorée.
 
-Avec une palette JSON externe :
+Avec une palette externe en JSON (*JavaScript Object Notation*, un format texte où les programmes rangent des données en champs nommés, comme {"nom": "Ada"}) :
 
 ```bash
 sprezzature-colors-contrast --palette ma-palette.json --target 7 --fix
@@ -198,7 +198,7 @@ curl -X POST localhost:8000/v1/contrast \
 |---|---|---|
 | `GET /health` | `health` | Le serveur tourne-t-il |
 | `GET /v1/palette` | `get_palette` | La palette maison, une ligne par couleur |
-| `POST /v1/contrast` | `check_contrast` | Ratio et verdict WCAG par paire (`level` AA ou AAA, `size` normal ou large) |
+| `POST /v1/contrast` | `check_contrast` | Ratio et verdict WCAG par paire (`level` AA ou AAA (les niveaux standard et renforcé des WCAG : un contraste de 4,5:1 et de 7:1 pour le texte courant), `size` normal ou large) |
 | `POST /v1/cvd` | `simulate_color_blindness` | Le code hexadécimal que perçoit chaque déficience, par couleur |
 | `POST /v1/adjust` | `adjust_lightness` | Couleurs plus claires (`amount` > 0) ou plus sombres (`amount` < 0), en OKLab |
 | `GET /v1/psychology/{color}` | `get_color_psychology` | Associations positives et négatives d'une couleur de la palette |
@@ -279,7 +279,7 @@ tout le monde, la forme, l'étiquette et la position portant le reste.
 
 ## Sciences des couleurs
 
-Les ratios de contraste suivent la norme WCAG 2.x : la luminance relative (à quel point une couleur paraît claire à l'œil, pas seulement ses valeurs RGB brutes) utilise la fonction de transfert gamma 2,4 que fixe la norme. Les ajustements perceptuels utilisent OKLab et OKLCH, un modèle de couleur conçu par Björn OTTOSSON (2020) précisément pour qu'un même pas numérique de luminosité corresponde au même écart de clarté perçu par l'œil, ce que le RGB brut ne garantit pas. Les matrices de simulation du daltonisme viennent de MACHADO, OLIVEIRA et FERNANDES (2009, revue *IEEE Transactions on Visualization and Computer Graphics*), un article largement cité qui a mesuré comment chaque type de daltonisme transforme une couleur perçue et a publié cette transformation sous forme d'une matrice de nombres, exactement ce que stocke `CVD_MATRICES`, à sévérité maximale.
+Les ratios de contraste suivent la norme WCAG 2.x : la luminance relative (à quel point une couleur paraît claire à l'œil, pas seulement ses valeurs RGB (*red, green, blue*, les trois lumières qu'un écran mélange pour chaque couleur : #FF0000 est le rouge pur) brutes) utilise la fonction de transfert gamma 2,4 que fixe la norme. Les ajustements perceptuels utilisent OKLab et OKLCH, un modèle de couleur conçu par Björn OTTOSSON (2020) précisément pour qu'un même pas numérique de luminosité corresponde au même écart de clarté perçu par l'œil, ce que le RGB brut ne garantit pas. Les matrices de simulation du daltonisme viennent de MACHADO, OLIVEIRA et FERNANDES (2009, revue de l'IEEE (*Institute of Electrical and Electronics Engineers*, la plus grande société d'ingénieurs au monde, qui publie cette revue), *IEEE Transactions on Visualization and Computer Graphics*), un article largement cité qui a mesuré comment chaque type de daltonisme transforme une couleur perçue et a publié cette transformation sous forme d'une matrice de nombres, exactement ce que stocke `CVD_MATRICES`, à sévérité maximale.
 
 ---
 
@@ -299,4 +299,4 @@ Les ratios de contraste suivent la norme WCAG 2.x : la luminance relative (à q
 
 Warith HARCHAOUI, [deraison.ai](https://deraison.ai)
 
-Licence : BSD-3-Clause
+Licence : *Berkeley Software Distribution*, version à trois clauses (BSD-3-Clause, une licence permissive : chacun peut utiliser, modifier et revendre le code s'il garde la mention du copyright)
