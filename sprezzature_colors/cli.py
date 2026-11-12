@@ -31,7 +31,6 @@ import sys
 import click
 
 from sprezzature_colors._skill import skill_command
-
 from sprezzature_colors._tools import TOOLS, missing_extra_message
 
 #: Shown under the command list. Completion is click's, and worth saying out

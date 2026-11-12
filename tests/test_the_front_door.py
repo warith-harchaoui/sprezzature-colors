@@ -121,8 +121,12 @@ def test_both_spellings_start(front_door: str) -> None:
 
 
 def test_the_command_list_is_the_table() -> None:
-    """The group's sub-commands are the catalogue, no more and no less."""
-    assert _subcommands() == set(TOOLS)
+    """The group's sub-commands are the catalogue, no more and no less.
+
+    ``skill`` is the one sub-command that is not a tool: it installs the skill
+    this package ships, and is the same command in all ten bricks.
+    """
+    assert _subcommands() - {"skill"} == set(TOOLS)
 
 
 def test_every_tool_names_a_module_that_exists() -> None:
