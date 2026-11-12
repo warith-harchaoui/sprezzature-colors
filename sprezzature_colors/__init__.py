@@ -80,7 +80,7 @@ from sprezzature_colors_scripts._colors import (
     to_hex,
 )
 
-__version__ = "1.2.4"
+__version__ = "1.3.0"
 __author__ = "Warith HARCHAOUI"
 __email__ = "warithmetics@deraison.ai"
 

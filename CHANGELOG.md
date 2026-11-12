@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.3.0] — 2026-11-12
+
 ### Added
 
 - **The skill travels with the package.** `SKILL.md`, its reference documents,

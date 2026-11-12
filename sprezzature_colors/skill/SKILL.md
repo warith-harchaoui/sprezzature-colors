@@ -24,7 +24,7 @@ compatibility: >-
   No network or model required at any point.
 metadata:
   author: Warith HARCHAOUI
-  version: 1.8.4
+  version: 1.9.0
 ---
 
 > The deterministic tools below ship as the standalone package [`sprezzature-colors`](https://github.com/warith-harchaoui/sprezzature-colors) (`pip install sprezzature-colors`), invoked as `sprezzature-colors …` (also spelled `make-colors`) or one command per tool. This skill ships inside that package, at `sprezzature_colors/skill/`: `sprezzature-colors-skill` says whether the copy an agent reads is in step with the installed package, and `sprezzature-colors-skill --install` copies it into `~/.claude/skills` (`--agent opencode` for `~/.opencode/skills`).
