@@ -86,7 +86,10 @@ __email__ = "warithmetics@deraison.ai"
 
 #: The public surface, grouped the way the documentation presents it:
 #: contrast and WCAG, color spaces, palette lookup, and color psychology.
+from sprezzature_colors._skill import skill_path  # noqa: E402
+
 __all__ = [
+    "skill_path",
     # contrast and WCAG
     "contrast_ratio",
     "contrast_ratio_hex",

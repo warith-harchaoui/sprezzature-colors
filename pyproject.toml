@@ -54,6 +54,7 @@ dependencies = [
 dev = ["pytest>=8.0", "ruff", "mypy"]
 
 [project.scripts]
+sprezzature-colors-skill = "sprezzature_colors._skill:main"
 # Two spellings of one click front door over the four tools
 # (sprezzature_colors/cli.py, catalogue in sprezzature_colors/_tools.py);
 # argparse was removed from the front door on 2026-10-25, and from every other
@@ -82,6 +83,10 @@ packages = ["sprezzature_colors", "sprezzature_colors_scripts", "sprezzature_col
 "sprezzature_colors_references" = "references"
 
 [tool.setuptools.package-data]
+# The skill an agent reads ships inside the package, so `pip install`
+# carries all five surfaces; `sprezzature-colors-skill --install` puts it
+# where Claude Code or OpenCode looks.
+"sprezzature_colors" = ["skill/**/*"]
 "sprezzature_colors_references" = ["palette.csv"]
 
 [tool.pytest.ini_options]
