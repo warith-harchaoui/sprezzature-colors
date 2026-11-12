@@ -1,6 +1,6 @@
 # Color-blind simulation — `sprezzature-colors-cvd`
 
-Render an image (a chart, a UI screenshot, an asset) as a color-blind viewer would see it. Three simulations are produced by default: protanopia, deuteranopia, tritanopia. Pillow + published transformation matrices. No model.
+Render an image (a chart, a UI (user interface, the screens and buttons a person uses) screenshot, an asset) as a color-blind viewer would see it. Three simulations are produced by default: protanopia, deuteranopia, tritanopia. Pillow + published transformation matrices. No model.
 
 ## Why it matters
 
@@ -62,7 +62,7 @@ If the answer to (2) is yes:
 
 The script implements the MACHADO, OLIVEIRA & FERNANDES (2009) precomputed CVD matrices at severity 1.0 ("dichromat" / fully missing cone type). The matrices are applied in **linear sRGB**: the source is degamma-decoded before the matrix, then re-encoded with the standard sRGB transfer.
 
-This is not the only model. BRETTEL / VIÉNOT / MOLLON (1997) work in LMS space and are often cited. MACHADO et al. matrices are easier to ship (just three numbers per output channel), faithful at severity 1, and used by major design tools (e.g., Figma's CVD preview).
+This is not the only model. BRETTEL / VIÉNOT / MOLLON (1997) work in LMS (long, medium, short: the three kinds of cone in the eye) space and are often cited. MACHADO et al. matrices are easier to ship (just three numbers per output channel), faithful at severity 1, and used by major design tools (e.g., Figma's CVD preview).
 
 ## Limitations
 

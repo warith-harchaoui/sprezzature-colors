@@ -43,9 +43,9 @@ pip install -e ".[dev]"
 | Ligne de commande | `sprezzature-colors` (aussi `make-colors`), et une commande par outil |
 | API HTTP | `uvicorn sprezzature_colors.api:app`, ou `docker compose up` (qui sert aussi le point d'accès MCP) |
 | Serveur MCP | `sprezzature-colors-mcp` |
-| Skill | `SKILL.md`, rangé dans le hub sous `sprezzature/sprezzature-colors/` |
+| Skill | `sprezzature_colors/skill/` (`SKILL.md` et ses références), livré dans le paquet ; `sprezzature-colors-skill --install` le range là où l'agent le lit |
 
-MCP est le *Model Context Protocol*, la norme par laquelle un assistant d'IA appelle des outils. [TRIGGERS.md](https://github.com/warith-harchaoui/sprezzature-colors/blob/main/TRIGGERS.md) dit quel outil répond à quelle demande, sur chaque surface.
+La cinquième surface est le skill : le dossier qu'un agent comme Claude Code ou OpenCode lit pour savoir quand prendre ces outils et quelle commande lancer. Il voyage dans la roue, si bien que `pip install` apporte les cinq surfaces. [TRIGGERS.md](https://github.com/warith-harchaoui/sprezzature-colors/blob/main/TRIGGERS.md) dit quel outil répond à quelle demande, sur chaque surface.
 
 ---
 
@@ -58,9 +58,10 @@ sprezzature-colors --help             # les quatre outils, et ce que fait chacun
 sprezzature-colors tools              # quels outils tournent sur cette machine
 sprezzature-colors contrast --fix     # lancer un outil par la porte d'entrée
 make-colors contrast --fix            # la même commande, sous le nom historique
+sprezzature-colors skill              # le skill installé est-il à jour avec ce paquet ?
 ```
 
-`make-colors` et `sprezzature-colors` désignent le même groupe click, donc ils ne peuvent pas diverger. Ses sous-commandes sont `contrast`, `cvd`, `levels`, `palette-to-tailwind` et `tools`. Le groupe affiche à la fin de `--help` les lignes de complétion pour bash et zsh.
+`make-colors` et `sprezzature-colors` désignent le même groupe click, donc ils ne peuvent pas diverger. Ses sous-commandes sont `contrast`, `cvd`, `levels`, `palette-to-tailwind`, `tools` et `skill`. Le groupe répond à `-V` / `--version`, et affiche à la fin de `--help` les lignes de complétion pour bash et zsh.
 
 Chaque outil est aussi sa propre commande, et c'est ce qu'un script ou un crochet de pré-commit devrait appeler :
 
@@ -72,6 +73,17 @@ Chaque outil est aussi sa propre commande, et c'est ce qu'un script ou un croche
 | `sprezzature-colors-palette-to-tailwind` | Palette exportée en configuration Tailwind |
 
 Ces quatre commandes lisent leurs propres options ; la porte d'entrée leur transmet tels quels tous les arguments qui suivent le nom de la sous-commande. Depuis un dépôt cloné, les mêmes outils s'écrivent `python scripts/audit_contrast.py --fix`, un fichier par commande.
+
+### Le skill
+
+```bash
+sprezzature-colors-skill                         # rapport : la copie installée est-elle à jour ?
+sprezzature-colors-skill --install               # la copier dans ~/.claude/skills/sprezzature-colors
+sprezzature-colors-skill --install --agent opencode   # dans ~/.opencode/skills à la place
+sprezzature-colors-skill --path                  # où pip l'a rangé
+```
+
+`sprezzature-colors skill` est la même commande par la porte d'entrée. Par défaut elle ne fait que rendre compte, et sort en 0 que les copies diffèrent ou non. `--install` écrit sous votre dossier personnel ; une copie précédente est déplacée dans `~/.claude/skills-superseded/`, hors du dossier des skills, pour que l'agent ne la lise pas comme un second skill. Depuis Python, `sprezzature_colors.skill_path()` renvoie le dossier.
 
 ---
 
@@ -177,7 +189,7 @@ sc.concept_search("trust")    # -> ['#007AFF']
 sc.psychology_for("Blue")     # -> {'positive': ['Trust', ...], 'negative': [...]}
 ```
 
-`sprezzature_colors.__all__` liste toute la surface publique : contraste et WCAG, lecture des codes hexadécimaux et composition alpha, conversions OKLab / OKLCH, recherche dans la palette, simulation de daltonisme, et psychologie des couleurs.
+`sprezzature_colors.__all__` liste toute la surface publique : contraste et WCAG, lecture des codes hexadécimaux et composition alpha, conversions OKLab / OKLCH, recherche dans la palette, simulation de daltonisme, psychologie des couleurs, et `skill_path()`, le dossier du skill que livre le paquet.
 
 ---
 

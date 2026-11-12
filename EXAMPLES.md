@@ -1,5 +1,12 @@
 # Examples
 
+Every command below is installed by `pip install sprezzature-colors`. The
+contrast checks follow WCAG (Web Content Accessibility Guidelines, the
+international rules for readable web content); a palette file is JSON
+(JavaScript Object Notation, a text format of named fields); the fixes move
+along the lightness axis of OKLCH (OK Lightness Chroma Hue, a colour model in
+which equal steps look equally different to the eye).
+
 ## Audit a palette for WCAG contrast
 
 ```bash
@@ -61,7 +68,9 @@ ignored, and a palette with no matching key is reported on standard error
 with exit code `2`: nothing was checked, so nothing passed. A file that is
 missing, not JSON, or holds a colour that is not hex exits `2` the same way.
 
-## JSON output for CI
+## JSON output for continuous integration
+
+A continuous integration job, the server that reruns every check each time code is pushed, reads the exit code and, with `--format json`, the pairs:
 
 ```bash
 sprezzature-colors-contrast --palette my-palette.json --format json | jq '.pairs | map(select(.passes == false)) | length'
@@ -110,7 +119,9 @@ sprezzature-colors-palette-to-tailwind --emit config --with-dark --out tailwind.
 sprezzature-colors-palette-to-tailwind --theme academic
 ```
 
-## Ask the HTTP API
+## Ask the web server
+
+The app answers over HTTP (HyperText Transfer Protocol, the request-and-reply exchange a browser makes for each page), as an API (Application Programming Interface, web addresses another program sends a request to), the questions that need no file:
 
 ```bash
 uvicorn sprezzature_colors.api:app --port 8000 &
@@ -138,6 +149,24 @@ repos:
         pass_filenames: false
         args: ["--palette", "tokens/colors.json"]
 ```
+
+## Install the skill for an agent
+
+```bash
+sprezzature-colors-skill                    # is the copy in ~/.claude/skills in step?
+# sprezzature-colors: differs: SKILL.md (/home/you/.claude/skills/sprezzature-colors)
+# Pass --install to copy the shipped skill there.
+
+sprezzature-colors-skill --install          # copy it; any previous copy goes to ~/.claude/skills-superseded/
+sprezzature-colors-skill --install --agent opencode   # ~/.opencode/skills instead
+sprezzature-colors skill --path             # the same command through the front door: where pip put it
+```
+
+The skill is the fifth surface, beside the library, the command line, the
+HTTP API and the MCP (Model Context Protocol, the protocol through which AI
+agents call tools in English) server. It ships inside the package, in
+`sprezzature_colors/skill/`, and `sprezzature_colors.skill_path()` returns
+that folder.
 
 ## Library usage
 

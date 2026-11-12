@@ -61,8 +61,8 @@ needs redundant cues, because two of its colours can still converge for a given
 viewer.
 
 **Contrast has explicit levels, and a graded future.** WCAG 2.x already tiers
-contrast: AA asks for 4.5:1 for normal text (3:1 for large text and for
-graphical objects), AAA asks for 7:1. WCAG 3.0 (the "Silver" draft) replaces the
+contrast: AA (the standard level) asks for 4.5:1 for normal text (3:1 for large text and for
+graphical objects), AAA (the enhanced level) asks for 7:1. WCAG 3.0 (the "Silver" draft) replaces the
 binary pass/fail with a graded 0-to-4 score (Fair, Good, Excellent) and is
 trialling APCA, a perceptual model that reports a lightness-contrast value and
 accounts for font size, weight, and which colour is on top. As of 2026, WCAG 2.x
@@ -111,7 +111,7 @@ case by method, which is what the literature recommends.
 holds them as one pure function, `apply_level(palette, level, bg="#FFFFFF")`,
 which returns the same colour names with level-appropriate hex values. The
 six levels are `universal` (the default, returned unchanged),
-`high-contrast` (each hue darkened on the OKLCH lightness axis until it
+`high-contrast` (each hue darkened on the OKLCH (OK Lightness Chroma Hue, a colour model in which equal steps look equally different to the eye) lightness axis until it
 clears 7:1 against the background), `monochrome` (each colour becomes a grey,
 ranked by its relative luminance and spread evenly, so two equally bright
 hues do not share one), and `deuteranopia`, `protanopia` and

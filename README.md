@@ -43,9 +43,9 @@ pip install -e ".[dev]"
 | Command line | `sprezzature-colors` (also `make-colors`), and one command per tool |
 | HTTP API | `uvicorn sprezzature_colors.api:app`, or `docker compose up` (which serves the MCP endpoint too) |
 | MCP server | `sprezzature-colors-mcp` |
-| Skill | `SKILL.md`, kept in the hub at `sprezzature/sprezzature-colors/` |
+| Skill | `sprezzature_colors/skill/` (`SKILL.md` and its references), shipped inside the package; `sprezzature-colors-skill --install` puts it where the agent reads |
 
-MCP is the Model Context Protocol, the standard an AI assistant uses to call tools. [TRIGGERS.md](https://github.com/warith-harchaoui/sprezzature-colors/blob/main/TRIGGERS.md) says which tool answers which request, on every surface.
+The fifth surface is the skill: the folder an agent such as Claude Code or OpenCode reads to know when to reach for these tools and which command to run. It ships in the wheel, so `pip install` carries all five surfaces. [TRIGGERS.md](https://github.com/warith-harchaoui/sprezzature-colors/blob/main/TRIGGERS.md) says which tool answers which request, on every surface.
 
 ---
 
@@ -58,9 +58,10 @@ sprezzature-colors --help             # the four tools, with what each does
 sprezzature-colors tools              # which tools can run on this machine
 sprezzature-colors contrast --fix     # run a tool through the front door
 make-colors contrast --fix            # the same command, historical name
+sprezzature-colors skill              # is the installed skill in step with this package?
 ```
 
-`make-colors` and `sprezzature-colors` resolve to the same click group, so they cannot drift. Its sub-commands are `contrast`, `cvd`, `levels`, `palette-to-tailwind` and `tools`. The group prints shell-completion lines for bash and zsh at the end of `--help`.
+`make-colors` and `sprezzature-colors` resolve to the same click group, so they cannot drift. Its sub-commands are `contrast`, `cvd`, `levels`, `palette-to-tailwind`, `tools` and `skill`. The group answers `-V` / `--version`, and prints shell-completion lines for bash and zsh at the end of `--help`.
 
 Each tool is also its own command, which is what a script or a pre-commit hook should call:
 
@@ -72,6 +73,17 @@ Each tool is also its own command, which is what a script or a pre-commit hook s
 | `sprezzature-colors-palette-to-tailwind` | Palette exported as Tailwind configuration |
 
 These four parse their own flags; the front door hands every argument after the sub-command name to them unchanged. From a source checkout the same tools run as `python scripts/audit_contrast.py --fix`, one file per command.
+
+### The skill
+
+```bash
+sprezzature-colors-skill                         # report: is the installed copy in step?
+sprezzature-colors-skill --install               # copy it into ~/.claude/skills/sprezzature-colors
+sprezzature-colors-skill --install --agent opencode   # ~/.opencode/skills instead
+sprezzature-colors-skill --path                  # where pip put it
+```
+
+`sprezzature-colors skill` is the same command through the front door. By default it only reports, and exits 0 whether or not the copies differ. `--install` writes under your home directory; a previous copy is moved aside to `~/.claude/skills-superseded/`, outside the skills folder, so the agent does not read it as a second skill. From Python, `sprezzature_colors.skill_path()` returns the folder.
 
 ---
 
@@ -117,7 +129,7 @@ sprezzature-colors-cvd hero.png --grid --out hero-cvd-grid.png
 sprezzature-colors-cvd hero.png --types deut --grayscale
 ```
 
-`--types` takes full names or the shorthands `prot`, `deut` and `trit`, comma-separated. In per-type mode `--out` is a directory; with `--grid` it is a file. Missing directories are created. Missing directories are created.
+`--types` takes full names or the shorthands `prot`, `deut` and `trit`, comma-separated. In per-type mode `--out` is a directory; with `--grid` it is a file. Missing directories are created.
 
 ### Palette to Tailwind
 
@@ -177,7 +189,7 @@ sc.concept_search("trust")    # -> ['#007AFF']
 sc.psychology_for("Blue")     # -> {'positive': ['Trust', ...], 'negative': [...]}
 ```
 
-`sprezzature_colors.__all__` lists the whole public surface: contrast and WCAG, hex parsing and alpha compositing, OKLab / OKLCH conversions, palette lookup, CVD (color vision deficiency, what is commonly called color blindness, such as confusing red with green) simulation, and color psychology.
+`sprezzature_colors.__all__` lists the whole public surface: contrast and WCAG, hex parsing and alpha compositing, OKLab / OKLCH conversions, palette lookup, CVD simulation, color psychology, and `skill_path()`, the folder of the skill the package ships.
 
 ---
 

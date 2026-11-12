@@ -1,10 +1,12 @@
 # Triggers
 
-What a user might say about colour, and what to call when they say it.
+What a user might say about colour, and what to call when they say it. Most
+of it is about WCAG (Web Content Accessibility Guidelines, the international
+rules for readable web content) contrast, and none of it waits for that word.
 
 This file is written for an agent: a Claude Code or OpenCode skill, an MCP
-host (MCP is the Model Context Protocol, the standard an assistant uses to
-call tools), anything choosing a tool on someone's behalf.
+(Model Context Protocol, the protocol through which AI agents call tools in
+English) host, anything choosing a tool on someone's behalf.
 
 ---
 
@@ -25,17 +27,20 @@ which are not. A request belongs here when it names one of these objects:
   `Brown`, `Black`, `Gray`, `White`), or a role (`label-…`, `brand-…`,
   `surface-…`);
 - **a pair**: foreground and background, text on a surface;
-- **a measure**: contrast ratio, WCAG level (AA, AAA), text size (normal,
-  large), lightness (OKLab, OKLCH);
+- **a measure**: contrast ratio, WCAG level (AA and AAA (the standard and
+  enhanced levels, 4.5:1 and 7:1 for body text)), text size (normal, large),
+  lightness (OKLab, OKLCH (OK Lightness Chroma Hue, a colour model in which
+  equal steps look equally different to the eye));
 - **a viewer**: colour vision deficiency (CVD), protanopia, deuteranopia,
   tritanopia, grayscale, low vision;
-- **a palette artefact**: the palette CSV, a palette JSON, a Tailwind
-  config, an accessibility level;
+- **a palette artefact**: the palette CSV (comma-separated values, a table
+  saved as plain text), a palette JSON (JavaScript Object Notation, a text
+  format of named fields), a Tailwind config, an accessibility level;
 - **a meaning**: an emotion or a concept a colour carries.
 
 Colour requests then come in seven shapes. The set is closed.
 
-| The user is… | Call | Typical phrasings (EN / FR) |
+| The user is… | Call | Typical phrasings (English / French) |
 |---|---|---|
 | **judging a pair**: will this text be readable on this background | `check_contrast`, or `sprezzature-colors-contrast` for a whole palette file | "does this pass WCAG", "contrast audit", "is my palette accessible", « est-ce lisible », « ça passe en AA ? » |
 | **judging a distinction**: will colour-blind readers tell these apart | `simulate_color_blindness` for colours, `sprezzature-colors-cvd` for an image | "colourblind preview", "deuteranopia", "is this CVD-safe", « daltonisme », « et pour un daltonien ? » |
@@ -67,6 +72,7 @@ tools.
 | `sprezzature-colors-levels` | "the palette at this accessibility level" | `--level`, `--csv` | name, hex and contrast against white, per colour |
 | `sprezzature-colors-palette-to-tailwind` | "the palette as Tailwind tokens" | `--emit`, `--with-dark`, `--include-neutrals`, `--theme`, `--out` | a `brand` block or a full `tailwind.config.js` |
 | `sprezzature-colors tools` | "which colour tools run on this machine" | nothing | one line per tool, ready or not |
+| `sprezzature-colors-skill` | "is the colour skill installed", "update the skill" | `--install`, `--agent claude\|opencode`, `--path` | whether the copy under `~/.claude/skills` (or `~/.opencode/skills`) is in step; with `--install`, the copy refreshed |
 
 Every MCP tool that takes a colour accepts a hex code or a palette name.
 
@@ -75,8 +81,11 @@ Every MCP tool that takes a colour accepts a hex code or a palette name.
 ## What to call, on every surface
 
 The MCP tool name is the route's `operation_id`. The front door
-`sprezzature-colors` (also spelled `make-colors`) runs each CLI tool as a
-sub-command: `sprezzature-colors contrast` is `sprezzature-colors-contrast`.
+`sprezzature-colors` (also spelled `make-colors`) runs each CLI (command-line
+interface, a program run by typing in a terminal) tool as a sub-command:
+`sprezzature-colors contrast` is `sprezzature-colors-contrast`. The routes
+over HTTP (HyperText Transfer Protocol, the request-and-reply exchange a browser
+makes for each page) are served by the FastAPI app `sprezzature_colors.api`.
 
 | Job | Library (`import sprezzature_colors as sc`) | CLI | HTTP route | MCP tool (`operation_id`) |
 |---|---|---|---|---|
@@ -90,10 +99,12 @@ sub-command: `sprezzature-colors contrast` is `sprezzature-colors-contrast`.
 | Palette remapped to an accessibility level | — | `sprezzature-colors-levels` (`levels`) | — | *(not an MCP tool)* |
 | Palette CSV → Tailwind config | `sc.apple_palette()`, `sc.academic_palette()` (data only) | `sprezzature-colors-palette-to-tailwind` (`palette-to-tailwind`) | — | *(not an MCP tool)* |
 | Which tools can run here | — | `sprezzature-colors tools` | — | *(not an MCP tool)* |
+| The skill an agent reads | `sc.skill_path()` | `sprezzature-colors-skill` (`skill`) | — | *(not an MCP tool)* |
 
 The server is `sprezzature-colors-mcp` (default `127.0.0.1:8000`, endpoint
-`/mcp`). The skill is `SKILL.md` in the hub, under
-`sprezzature/sprezzature-colors/`.
+`/mcp`). The skill is `SKILL.md`, shipped inside the package at
+`sprezzature_colors/skill/`; `sprezzature-colors-skill --install` copies it
+into `~/.claude/skills` (`--agent opencode` for `~/.opencode/skills`).
 
 The gaps are deliberate. The two CLI-only jobs write project files from a
 palette CSV; an HTTP tool that returns a config an agent must then write by
@@ -118,7 +129,7 @@ two things, run both.
 
 **3. Do not hand-tune a lighter or darker shade.** `adjust_lightness` moves
 along the OKLab lightness axis, where one step looks like one step whatever
-the hue. Nudging RGB digits washes yellows out while blues barely move, which
+the hue. Nudging RGB (red, green, blue, the three channels a screen mixes) digits washes yellows out while blues barely move, which
 is the usual reason a hand-built palette looks uneven.
 
 **Key names matter in the audit.** `sprezzature-colors-contrast` only checks

@@ -4,9 +4,9 @@ Audit a palette's (foreground, background) pairs against the contrast-ratio thre
 
 ## What this tool is — and isn't
 
-This tool **flags WCAG contrast failures** on the (foreground, background) pairs that co-occur in a rendered theme — light labels on light surfaces, dark labels (`*-dark`) on dark surfaces, theme-neutral brand accents on every surface (`--all-pairs` restores the exhaustive cross-product) — and **proposes a minimal-edit nudge** along the OKLCH lightness axis. The proposed fix preserves the WCAG ratio at the cost of moving along the L axis only: same hue, same chroma, brighter or darker. That is a useful starting suggestion when nothing else is on the line; it is **not** a designer-approved replacement.
+This tool **flags WCAG contrast failures** on the (foreground, background) pairs that co-occur in a rendered theme — light labels on light surfaces, dark labels (`*-dark`) on dark surfaces, theme-neutral brand accents on every surface (`--all-pairs` restores the exhaustive cross-product) — and **proposes a minimal-edit nudge** along the OKLCH (OK Lightness Chroma Hue, a colour model in which equal steps look equally different to the eye) lightness axis. The proposed fix preserves the WCAG ratio at the cost of moving along the L axis only: same hue, same chroma, brighter or darker. That is a useful starting suggestion when nothing else is on the line; it is **not** a designer-approved replacement.
 
-Brand-critical colours (the primary CTA, accent colours that carry semantic meaning across the product, anything tied to a logo) should be reviewed by a designer. A neighbour that passes 4.5:1 can still violate brand identity, tonal hierarchy, or the relationship between sibling tokens. Treat `--fix` as a flagged failure with a proposed minimum edit, not as the final swatch.
+Brand-critical colours (the primary CTA (call to action, the button a page most wants clicked), accent colours that carry semantic meaning across the product, anything tied to a logo) should be reviewed by a designer. A neighbour that passes 4.5:1 can still violate brand identity, tonal hierarchy, or the relationship between sibling tokens. Treat `--fix` as a flagged failure with a proposed minimum edit, not as the final swatch.
 
 ## Why it matters
 
@@ -14,9 +14,9 @@ WCAG 2.x contrast thresholds:
 
 | Threshold | Use |
 |---|---|
-| 4.5:1 | Body text, normal weight (WCAG SC 1.4.3 AA). |
-| 3:1 | Large text (≥ 18 pt, ≥ 14 pt bold) and UI components (WCAG SC 1.4.11 AA). |
-| 7:1 | Body text (WCAG SC 1.4.6 AAA). |
+| 4.5:1 | Body text, normal weight (WCAG SC (success criterion, one numbered rule of the guidelines) 1.4.3, level AA (the standard level)). |
+| 3:1 | Large text (≥ 18 pt, ≥ 14 pt bold) and UI (user interface, the buttons, fields and icons a person uses) components (WCAG SC 1.4.11, level AA). |
+| 7:1 | Body text (WCAG SC 1.4.6, level AAA (the enhanced level)). |
 
 Designers iterate on palettes by eye. An automated audit catches the pairs the eye missed: typically `label-secondary` on `surface-tertiary` and accent colours on accent surfaces. The "fix" suggester saves the manual trial-and-error: it walks the OKLCH lightness axis and returns the closest hue that meets the target.
 
@@ -44,7 +44,7 @@ sprezzature-colors-contrast --format json
 sprezzature-colors-contrast --all-pairs
 ```
 
-Exit code is `0` when every checked pair passes, `1` when any pair fails, `2` when nothing could be checked: no pair in the palette, or a palette it cannot read (missing file, not JSON, a colour that is not hex). The exit code is the same regardless of `--fix`; the script reports the failures even when it suggests alternatives.
+Exit code is `0` when every checked pair passes, `1` when any pair fails, `2` when nothing could be checked: no pair in the palette, or a palette it cannot read (missing file, not JSON (JavaScript Object Notation, a text format of named fields), a colour that is not hex). The exit code is the same regardless of `--fix`; the script reports the failures even when it suggests alternatives.
 
 ## Palette format
 
@@ -86,7 +86,7 @@ Other roles are ignored. Rename your palette keys to fit this scheme, or extend 
 
 For each failing pair, the script:
 
-1. Converts the foreground to OKLCH, a color model published by Björn OTTOSSON (2020) in which moving the lightness value by a fixed amount produces a change the eye perceives as equally large everywhere in the color space, unlike raw RGB.
+1. Converts the foreground to OKLCH, a color model published by Björn OTTOSSON (2020) in which moving the lightness value by a fixed amount produces a change the eye perceives as equally large everywhere in the color space, unlike raw RGB (red, green, blue, the three channels a screen mixes).
 2. Walks the L axis from 0.00 to 1.00 in 0.01 steps, keeping C (chroma) and H (hue) fixed.
 3. Returns the candidate with the smallest `|ΔL|` that meets the target ratio.
 

@@ -27,17 +27,17 @@ metadata:
   version: 1.8.4
 ---
 
-> The deterministic tools below ship as the standalone package [`sprezzature-colors`](https://github.com/warith-harchaoui/sprezzature-colors) (`pip install sprezzature-colors`), invoked as `sprezzature-colors …` (also spelled `make-colors`) or one command per tool. The `scripts/` folder has moved out of this monorepo; the SKILL.md here stays as the agentic contract.
+> The deterministic tools below ship as the standalone package [`sprezzature-colors`](https://github.com/warith-harchaoui/sprezzature-colors) (`pip install sprezzature-colors`), invoked as `sprezzature-colors …` (also spelled `make-colors`) or one command per tool. This skill ships inside that package, at `sprezzature_colors/skill/`: `sprezzature-colors-skill` says whether the copy an agent reads is in step with the installed package, and `sprezzature-colors-skill --install` copies it into `~/.claude/skills` (`--agent opencode` for `~/.opencode/skills`).
 
 ## Five surfaces
 
 | Surface | Entry point |
 |---|---|
 | Library | `import sprezzature_colors as sc` |
-| Command line | `sprezzature-colors <tool>` (click front door: `contrast`, `cvd`, `levels`, `palette-to-tailwind`, `tools`), or `sprezzature-colors-contrast`, `-cvd`, `-levels`, `-palette-to-tailwind` |
+| Command line | `sprezzature-colors <tool>` (click front door: `contrast`, `cvd`, `levels`, `palette-to-tailwind`, `tools`, `skill`), or `sprezzature-colors-contrast`, `-cvd`, `-levels`, `-palette-to-tailwind` |
 | HTTP (HyperText Transfer Protocol, the language a browser and a server speak each time a page loads) API (application programming interface, the requests one program can send another, such as render this chart) | `uvicorn sprezzature_colors.api:app`, or `docker compose up` in the package repository |
 | MCP (Model Context Protocol, the protocol through which AI agents call tools in English) server | `sprezzature-colors-mcp` (default `127.0.0.1:8000`, endpoint `/mcp`) |
-| Skill | this file |
+| Skill | this file, shipped in the package at `sprezzature_colors/skill/` (`sprezzature_colors.skill_path()`); `sprezzature-colors-skill [--install] [--agent claude\|opencode] [--path]`, or `sprezzature-colors skill` |
 
 The MCP tools are the routes' `operation_id`s: `health`, `get_palette`, `check_contrast`, `simulate_color_blindness`, `adjust_lightness`, `get_color_psychology`, `search_concepts`. Each accepts a hex code or a palette name wherever it takes a colour. Levels, the Tailwind export and image simulation are command-line only, because they read or write files.
 
@@ -49,7 +49,7 @@ Solo developers and small teams who:
 
 - Need a **pre-commit gate** that fails fast on contrast regressions.
 - Want a curated starter palette rather than picking colors at random.
-- Want CVD (colour-vision deficiency, the medical name for colour blindness: red and green that look alike, for instance) review without a browser extension or SaaS.
+- Want CVD (colour-vision deficiency, the medical name for colour blindness: red and green that look alike, for instance) review without a browser extension or a SaaS (software as a service, a tool rented by subscription and used in the browser).
 - Need perceptual color shifts (lighten / darken) for
   generating tints and shades, not the naïve RGB (red, green, blue: the three channels a screen mixes) offsets that wash
   saturated hues into pastels.
