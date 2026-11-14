@@ -12,7 +12,7 @@ Espace de couleur perceptuel: 4
 Fondé sur une source publiée: 5
 Agit sur ce qui est réellement affiché: 3
 Maturité et écosystème: 1
-Soutien commercial et support: 1"><circle cx="912.0" cy="259.0" r="7.05" fill="#FF3B30" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: sprezzature-colors
+Soutien commercial et support: 1"><circle cx="912.0" cy="259.0" r="7.05" fill="#FF383C" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: sprezzature-colors
 Couverture du contraste: 3
 Simulation des déficiences de la vision des couleurs: 4
 Correction fidèle à la couleur d'origine: 5
@@ -96,7 +96,7 @@ Espace de couleur perceptuel: 1
 Fondé sur une source publiée: 5
 Agit sur ce qui est réellement affiché: 5
 Maturité et écosystème: 5
-Soutien commercial et support: 5"><circle cx="347.2" cy="647.0" r="7.05" fill="#A52A2A" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: axe-core
+Soutien commercial et support: 5"><circle cx="347.2" cy="647.0" r="7.05" fill="#AC7F5E" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: axe-core
 Couverture du contraste: 4
 Simulation des déficiences de la vision des couleurs: 1
 Correction fidèle à la couleur d'origine: 1
@@ -432,7 +432,7 @@ Espace de couleur perceptuel: 5
 Fondé sur une source publiée: 4
 Agit sur ce qui est réellement affiché: 1
 Maturité et écosystème: 2
-Soutien commercial et support: 1"><circle cx="895.1" cy="259.0" r="7.05" fill="#AF52DE" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Accessible Palette
+Soutien commercial et support: 1"><circle cx="895.1" cy="259.0" r="7.05" fill="#CB30E0" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: Accessible Palette
 Couverture du contraste: 4
 Simulation des déficiences de la vision des couleurs: 1
 Correction fidèle à la couleur d'origine: 3
@@ -572,7 +572,7 @@ Espace de couleur perceptuel: 3
 Fondé sur une source publiée: 3
 Agit sur ce qui est réellement affiché: 1
 Maturité et écosystème: 5
-Soutien commercial et support: 2"><circle cx="912.0" cy="520.7" r="7.05" fill="#007AFF" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: chroma.js
+Soutien commercial et support: 2"><circle cx="912.0" cy="520.7" r="7.05" fill="#0088FF" stroke="white" stroke-width="1" opacity="0.95"/><title>Outils: chroma.js
 Couverture du contraste: 2
 Simulation des déficiences de la vision des couleurs: 1
 Correction fidèle à la couleur d'origine: 2

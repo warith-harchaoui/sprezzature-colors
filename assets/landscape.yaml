@@ -68,7 +68,7 @@ approaches:
     axis_1: 2.5714
     axis_2: 3.5754
   role: best
-  color: '#FF3B30'
+  color: '#FF383C'
   attributes:
     Contrast coverage: 3.0
     Colour-vision-deficiency simulation: 4.0
@@ -134,7 +134,7 @@ approaches:
     axis_1: -2.2693
     axis_2: -2.5898
   role: worst
-  color: '#A52A2A'
+  color: '#AC7F5E'
   attributes:
     Contrast coverage: 4.0
     Colour-vision-deficiency simulation: 1.0
@@ -398,7 +398,7 @@ approaches:
     axis_1: 2.4266
     axis_2: 3.5754
   role: top
-  color: '#AF52DE'
+  color: '#CB30E0'
   attributes:
     Contrast coverage: 4.0
     Colour-vision-deficiency simulation: 1.0
@@ -508,7 +508,7 @@ approaches:
     axis_1: 2.5714
     axis_2: -0.5837
   role: right
-  color: '#007AFF'
+  color: '#0088FF'
   attributes:
     Contrast coverage: 2.0
     Colour-vision-deficiency simulation: 1.0
