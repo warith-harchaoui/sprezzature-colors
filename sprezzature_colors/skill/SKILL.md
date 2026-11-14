@@ -103,8 +103,8 @@ is the corporate one in a compact layout:
 | #FF8D28 | Orange | Surprise | Friendly, Cheerful, Confidence | Courage, Confidence… | Deprivation, Frustration… |
 | … | … | … | … | … | … |
 
-`scripts/sync_palettes.py` copies the three files from the site again when it
-changes. Never edit a hex here by hand: change the site, then sync.
+A maintainer script in the repository, `sync_palettes.py`, copies the three
+files from the site again when it changes. Never edit a hex here by hand: change the site, then sync.
 
 The same hex can serve multiple semantics: `#FF383C`, for example, is *Red* (base), *Anger* (emotion), and carries both
 "Excitement" (concept) and "Power" (psychology positive). A single source
