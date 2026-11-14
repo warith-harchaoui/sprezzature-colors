@@ -102,3 +102,26 @@ def test_unknown_theme_raises() -> None:
 
     with pytest.raises(ValueError):
         theme_rows("pastel")
+
+
+@pytest.mark.parametrize("target", [3.0, 4.5, 7.0])
+def test_every_fix_suggestion_meets_its_target_as_a_hex(target: float) -> None:
+    """A suggested hex is measured as shipped: rounded to 8 bits, inside sRGB.
+
+    The search used to judge the unrounded, possibly out-of-gamut colour, and
+    offered #C30000 at 7.10 for a red that measures 6.33.
+    """
+    from _colors import contrast_ratio_hex, parse_hex_linear
+    from audit_contrast import DEFAULT_PALETTE, adjust_for_contrast, normalize_palette
+
+    flat = normalize_palette(DEFAULT_PALETTE)
+    for fg in flat.values():
+        for bg in ("#FFFFFF", "#000000", "#F2F2F7", "#1C1C1E"):
+            if len(fg) != 7:
+                continue
+            found = adjust_for_contrast(parse_hex_linear(fg), parse_hex_linear(bg), target)
+            if found is None:
+                continue
+            hexv, ratio = found
+            assert contrast_ratio_hex(hexv, bg) >= target, (fg, bg, hexv)
+            assert abs(contrast_ratio_hex(hexv, bg) - ratio) < 1e-9

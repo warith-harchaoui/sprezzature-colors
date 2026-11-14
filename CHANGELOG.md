@@ -31,6 +31,17 @@
 - `audit_contrast.py`'s built-in brand tokens carry the corporate hex and
   light tint, and Apple's dark-mode value of the same date for `dark`.
 
+### Fixed
+
+- **`--fix` suggested colours that fail the target.** The search measured
+  each candidate before it became a hex code: before rounding to 8 bits and,
+  worse, before the out-of-gamut ones were clipped into sRGB. A suggestion
+  could then miss its own threshold by a wide margin: `#C30000` was offered
+  "at 7.10" for a red on white and measures 6.33; `#0074E9` "at 4.55"
+  measures 4.49. The candidate is now judged as the hex that is printed,
+  and a test checks every suggestion of the built-in audit against its
+  target.
+
 ### Added
 
 - **The print palette**, checked for offset printing on coated paper:

@@ -96,7 +96,7 @@ sprezzature-colors-contrast --fix
 # Target ratio: 4.5
 #
 #   ✗             brand-blue  on         surface-primary   ratio 3.52
-#       → suggest #0074E9  (ratio 4.55)
+#       → suggest #0071E6  (ratio 4.66)
 #   ✓             brand-blue  on    surface-primary-dark   ratio 5.97
 #   ...
 # 35 pass, 21 fail.

@@ -51,11 +51,11 @@ hex that clears the target ratio:
 Target ratio: 7.0
 
   ✗              brand-red  on         surface-primary   ratio 3.57
-      → suggest #C30000  (ratio 7.10)
+      → suggest #B40000  (ratio 7.14)
   ✗              brand-red  on    surface-primary-dark   ratio 5.88
-      → suggest #FF4C4B  (ratio 7.07)
+      → suggest #FF5F5A  (ratio 7.04)
   ✗         brand-red-dark  on    surface-primary-dark   ratio 6.12
-      → suggest #FF5151  (ratio 7.10)
+      → suggest #FF5F5D  (ratio 7.05)
 
 0 pass, 3 fail.
 ```

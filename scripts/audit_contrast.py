@@ -146,7 +146,10 @@ def adjust_for_contrast(
     best: tuple[float, tuple[float, float, float]] | None = None
     for i in range(0, 101):
         l_test: float = i / 100.0
-        candidate = oklab_to_linear(oklch_to_oklab((l_test, C, H)))
+        # Judge the colour that will be shipped: the 8-bit hex, not the
+        # unrounded OKLCH point. Rounding can cost a few hundredths of
+        # contrast, and #0074E9 was offered "at 4.55" while it measures 4.49.
+        candidate = parse_hex(to_hex(oklab_to_linear(oklch_to_oklab((l_test, C, H)))))
         ratio = contrast_ratio(candidate, bg_linear)
         if ratio >= target:
             distance: float = abs(l_test - L)
