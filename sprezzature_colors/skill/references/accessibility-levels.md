@@ -122,7 +122,8 @@ the CVD matrices, with no Pillow needed.
 
 Two ways in. `sprezzature-colors-levels --level <level>` (or
 `sprezzature-colors levels`) prints each colour's name, hex and contrast
-against white, from the canonical `palette.csv` or a file given with `--csv`.
+against white, from one of the three palettes (`--theme corporate`, the default,
+`academic` or `print`) or a file given with `--csv`.
 `sprezzature-figures` calls `apply_level` through its own
 `_apply_accessibility_level`, so a figure can be re-coloured for one level
 without a single colour name changing; when this package is not present, the

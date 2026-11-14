@@ -38,7 +38,7 @@ sprezzature-colors-contrast --palette my-palette.json --target 7 --fix
 
 ```json
 {
-  "brand-red": { "DEFAULT": "#FF3B30", "dark": "#FF453A" },
+  "brand-red": { "DEFAULT": "#FF383C", "dark": "#FF4245" },
   "surface-primary": { "DEFAULT": "#FFFFFF", "dark": "#000000" }
 }
 ```
@@ -50,12 +50,12 @@ hex that clears the target ratio:
 ```
 Target ratio: 7.0
 
-  ✗              brand-red  on         surface-primary   ratio 3.55
-      → suggest #C20000  (ratio 7.09)
-  ✗              brand-red  on    surface-primary-dark   ratio 5.92
-      → suggest #FF4E40  (ratio 7.09)
-  ✗         brand-red-dark  on    surface-primary-dark   ratio 6.16
-      → suggest #FF5346  (ratio 7.11)
+  ✗              brand-red  on         surface-primary   ratio 3.57
+      → suggest #C30000  (ratio 7.10)
+  ✗              brand-red  on    surface-primary-dark   ratio 5.88
+      → suggest #FF4C4B  (ratio 7.07)
+  ✗         brand-red-dark  on    surface-primary-dark   ratio 6.12
+      → suggest #FF5151  (ratio 7.10)
 
 0 pass, 3 fail.
 ```
@@ -97,12 +97,13 @@ sprezzature-colors-cvd hero.png --types deut
 
 ```bash
 sprezzature-colors-levels --level deuteranopia
+sprezzature-colors-levels --level deuteranopia --theme print   # or academic
 ```
 
 ```
-Red          #D70000  contrast-vs-white 5.4:1
-Orange       #CC6600  contrast-vs-white 3.8:1
-Yellow       #BE8C00  contrast-vs-white 3.0:1
+Red          #DF001F  contrast-vs-white 5.1:1
+Orange       #E67600  contrast-vs-white 3.0:1
+Yellow       #BC8A00  contrast-vs-white 3.1:1
 ...
 ```
 
@@ -115,8 +116,10 @@ sprezzature-colors-palette-to-tailwind
 # Full tailwind.config.js, with derived dark-mode variants, written to disk
 sprezzature-colors-palette-to-tailwind --emit config --with-dark --out tailwind.config.js
 
-# The Okabe-Ito academic standard instead of the Apple-derived brand palette
+# The academic palette (Okabe and Ito, readable with colour blindness) or the
+# print palette instead of the corporate one (Apple system colours)
 sprezzature-colors-palette-to-tailwind --theme academic
+sprezzature-colors-palette-to-tailwind --theme print
 ```
 
 ## Ask the web server
@@ -127,10 +130,10 @@ The app answers over HTTP (HyperText Transfer Protocol, the request-and-reply ex
 uvicorn sprezzature_colors.api:app --port 8000 &
 curl -s -X POST localhost:8000/v1/cvd \
      -H 'content-type: application/json' -d '{"colors":["Red"]}'
-# {"results":[{"input":"#FF3B30","simulated":{"protanopia":"#796D2C",
-#   "deuteranopia":"#A99725","tritanopia":"#FF003B"}}]}
+# {"results":[{"input":"#FF383C","simulated":{"protanopia":"#776C3A",
+#   "deuteranopia":"#A89733","tritanopia":"#FF003C"}}]}
 curl -s "localhost:8000/v1/concepts?keyword=trust"
-# {"keyword":"trust","colors":["#007AFF"]}
+# {"keyword":"trust","colors":["#0088FF"]}
 ```
 
 ## Pre-commit hook
@@ -173,9 +176,10 @@ that folder.
 ```python
 import sprezzature_colors as sc
 
-ratio = sc.contrast_ratio_hex("#007AFF", "#FFFFFF")                # -> 4.02 (rounded)
-ok = sc.meets_wcag("#007AFF", "#FFFFFF", level="AA", size="large")  # -> True
-sc.lighten("#007AFF", 0.15)                                          # -> "#47ABFF"
+ratio = sc.contrast_ratio_hex("#0088FF", "#FFFFFF")                # -> 3.52 (rounded)
+ok = sc.meets_wcag("#0088FF", "#FFFFFF", level="AA", size="large")  # -> True
+sc.lighten("#0088FF", 0.15)                                          # -> "#4CB9FF"
+sc.print_palette()["Blue"]                                           # -> "#437DB5"
 ```
 
 The `Color` wrapper gives a chainable form of the same functions. It is not
@@ -185,9 +189,9 @@ implementation:
 ```python
 from sprezzature_colors_scripts._colors import Color
 
-blue = Color("#007AFF")
-blue.lighten(0.15).hex        # -> "#47ABFF", hue preserved
-blue.contrast_with("#FFFFFF") # -> 4.02 (rounded)
+blue = Color("#0088FF")
+blue.lighten(0.15).hex        # -> "#4CB9FF", hue preserved
+blue.contrast_with("#FFFFFF") # -> 3.52 (rounded)
 blue.meets_wcag("#FFFFFF")    # -> False: AA body text needs 4.5
-Color.from_name("Blue").hex   # -> "#007AFF"
+Color.from_name("Blue").hex   # -> "#0088FF"
 ```

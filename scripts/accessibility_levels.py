@@ -59,8 +59,9 @@ import click
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _click import run_command, sprezzature_command  # noqa: E402
 from _colors import (  # noqa: E402
-    _PALETTE_PATH,  # source-tree vs. installed-package path, resolved once
+    _REFERENCES_DIR,  # source-tree vs. installed-package path, resolved once
     CVD_MATRICES,
+    THEMES,
     contrast_ratio_hex,
     linear_to_oklab,
     linear_to_srgb,
@@ -256,16 +257,23 @@ def apply_level(
     help="Accessibility level to remap the palette to.",
 )
 @click.option(
+    "--theme",
+    type=click.Choice(THEMES),
+    default="corporate",
+    show_default=True,
+    help="Which palette of deraison.ai/colors to remap: corporate, academic or print.",
+)
+@click.option(
     "--csv",
     "csv_path",
     type=click.Path(path_type=Path),
-    default=_PALETTE_PATH,
-    help="palette CSV to read (default: the canonical palette.csv, resolved "
-    "the same way in a source checkout or an installed package)",
+    default=None,
+    help="palette CSV to read instead of --theme (a Base or Name column and a "
+    "Hexcode column)",
 )
-def _command(level: str, csv_path: Path) -> int:
+def _command(level: str, theme: str, csv_path: Path | None) -> int:
     """Print the remapped palette; the exit code is :func:`main`'s."""
-    return _preview(level, csv_path)
+    return _preview(level, csv_path or _REFERENCES_DIR / f"palette-{theme}.csv")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -284,12 +292,13 @@ def _preview(level: str, csv_path: Path) -> int:
     try:
         with csv_path.open(encoding="utf-8", newline="") as fh:
             for row in csv.DictReader(fh):
-                name = (row.get("Base") or "").strip()
+                # Base in palette.csv, Name in the site's palette-<theme>.csv.
+                name = (row.get("Base") or row.get("Name") or "").strip()
                 hexv = (row.get("Hexcode") or "").strip()
                 if name and hexv.startswith("#"):
                     base[name] = hexv.upper()
         if not base:
-            raise ValueError("no row has both a Base name and a #Hexcode")
+            raise ValueError("no row has both a Base (or Name) and a #Hexcode")
         leveled = apply_level(base, level)
     except (OSError, ValueError, csv.Error) as exc:
         sys.stderr.write(f"sprezzature-colors-levels: cannot read {csv_path}: {exc}.\n")

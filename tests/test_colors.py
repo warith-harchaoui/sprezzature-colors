@@ -46,17 +46,17 @@ def test_meets_wcag_aa() -> None:
     """Apple system blue on white: passes AA for large text, fails for normal."""
     from _colors import meets_wcag
 
-    # #007AFF on #FFFFFF measures ~4.02:1 — above the 3.0 large-text bar,
+    # #0088FF on #FFFFFF measures ~3.52:1 — above the 3.0 large-text bar,
     # below the 4.5 normal-text bar.
-    assert meets_wcag("#007AFF", "#FFFFFF", level="AA", size="large")
-    assert not meets_wcag("#007AFF", "#FFFFFF", level="AA", size="normal")
+    assert meets_wcag("#0088FF", "#FFFFFF", level="AA", size="large")
+    assert not meets_wcag("#0088FF", "#FFFFFF", level="AA", size="normal")
 
 
 def test_lighten_darkens_in_oklch() -> None:
     """lighten/darken must move L in the right direction without changing hue."""
     from _colors import darken, lighten, linear_to_oklab, oklab_to_oklch, parse_hex_linear
 
-    base = "#007AFF"
+    base = "#0088FF"
     lighter = lighten(base, 0.15)
     darker = darken(base, 0.15)
 
@@ -92,8 +92,8 @@ def test_normalize_palette_flat_and_nested() -> None:
     flat = normalize_palette({"fg": "#000000", "bg": "#FFFFFF"})
     assert flat == {"fg": "#000000", "bg": "#FFFFFF"}
 
-    nested = normalize_palette({"brand": {"DEFAULT": "#007AFF", "dark": "#0A84FF"}})
-    assert nested["brand"] == "#007AFF"
+    nested = normalize_palette({"brand": {"DEFAULT": "#0088FF", "dark": "#0A84FF"}})
+    assert nested["brand"] == "#0088FF"
     assert nested["brand-dark"] == "#0A84FF"
 
 
@@ -101,7 +101,7 @@ def test_parse_hex_roundtrip() -> None:
     """parse_hex -> rgb_to_hex must round-trip without loss."""
     from _colors import parse_hex, rgb_to_hex
 
-    for hexv in ("#FF3B30", "#007AFF", "#FFFFFF", "#000000"):
+    for hexv in ("#FF383C", "#0088FF", "#FFFFFF", "#000000"):
         assert rgb_to_hex(parse_hex(hexv)) == hexv
 
 
@@ -118,7 +118,7 @@ def test_academic_palette_rows_shape() -> None:
     from _colors import academic_palette_rows
 
     rows = academic_palette_rows()
-    assert len(rows) == 8
+    assert len(rows) == 11
     for row in rows:
         assert set(row.keys()) == {"Base", "Hexcode", "LightHex"}
         assert row["Hexcode"].startswith("#")
@@ -136,7 +136,7 @@ def test_palette_to_tailwind_theme_flag() -> None:
     with contextlib.redirect_stdout(out):
         assert ptt_main(["--theme", "academic"]) == 0
     assert "#0072B2" in out.getvalue()
-    assert "#007AFF" not in out.getvalue()
+    assert "#0088FF" not in out.getvalue()
 
 
 # ── Color class ──────────────────────────────────────────────────────────────
@@ -145,19 +145,19 @@ def test_color_from_hex_and_tuple_agree() -> None:
     """Color built from a hex string and from an equivalent RGB tuple must match."""
     from _colors import Color
 
-    a = Color("#007AFF")
-    b = Color((0, 122, 255))
+    a = Color("#0088FF")
+    b = Color((0, 136, 255))
     assert a == b
-    assert a.rgb == (0, 122, 255)
-    assert a.hex == "#007AFF"
+    assert a.rgb == (0, 136, 255)
+    assert a.hex == "#0088FF"
 
 
 def test_color_from_name() -> None:
     """Color.from_name looks up the curated palette (case-insensitive)."""
     from _colors import Color
 
-    assert Color.from_name("Red").hex == "#FF3B30"
-    assert Color.from_name("red").hex == "#FF3B30"
+    assert Color.from_name("Red").hex == "#FF383C"
+    assert Color.from_name("red").hex == "#FF383C"
     with pytest.raises(KeyError):
         Color.from_name("Not-A-Color")
 
@@ -176,7 +176,7 @@ def test_color_lighten_darken_return_color_instances() -> None:
     """Color.lighten/darken return new Color objects with L shifted the right way."""
     from _colors import Color
 
-    base = Color("#007AFF")
+    base = Color("#0088FF")
     lighter = base.lighten(0.15)
     darker = base.darken(0.15)
     assert isinstance(lighter, Color)
@@ -184,7 +184,7 @@ def test_color_lighten_darken_return_color_instances() -> None:
     assert lighter.oklch[0] > base.oklch[0]
     assert darker.oklch[0] < base.oklch[0]
     # Original is untouched (immutability).
-    assert base.hex == "#007AFF"
+    assert base.hex == "#0088FF"
 
 
 def test_color_contrast_with_and_meets_wcag() -> None:
@@ -204,13 +204,13 @@ def test_color_repr_eq_hash() -> None:
     """__repr__, __eq__, __hash__ round-trip sensibly."""
     from _colors import Color
 
-    c1 = Color("#007AFF")
-    c2 = Color("#007AFF")
-    c3 = Color("#FF3B30")
-    assert repr(c1) == "Color('#007AFF')"
+    c1 = Color("#0088FF")
+    c2 = Color("#0088FF")
+    c3 = Color("#FF383C")
+    assert repr(c1) == "Color('#0088FF')"
     assert c1 == c2
     assert c1 != c3
-    assert c1 != "#007AFF"  # not a Color instance
+    assert c1 != "#0088FF"  # not a Color instance
     assert hash(c1) == hash(c2)
     assert {c1, c2, c3} == {c1, c3}  # dedupes equal colors in a set
 
@@ -258,7 +258,7 @@ def test_flatten_alpha_hex_and_tuple() -> None:
     # Half-white over black background -> mid gray.
     assert flatten_alpha("#FFFFFF80", "#000000") == (128, 128, 128)
     # Opaque input passes through unchanged regardless of bg.
-    assert flatten_alpha("#FF3B30", "#000000") == (255, 59, 48)
+    assert flatten_alpha("#FF383C", "#000000") == (255, 56, 60)
     # Tuple form with explicit alpha behaves the same as the hex form.
     assert flatten_alpha((255, 255, 255, 0.5), "#000000") == (128, 128, 128)
 
@@ -292,7 +292,7 @@ def test_palette_names_includes_known_bases() -> None:
     from _colors import palette_names
 
     names = palette_names()
-    for expected in ("Red", "Blue", "Black", "White", "Gray"):
+    for expected in ("Red", "Blue", "Black", "Gray"):
         assert expected in names
 
 
@@ -300,9 +300,9 @@ def test_name_to_hex_and_rgb_case_insensitive() -> None:
     """name_to_hex/name_to_rgb resolve case-insensitively and raise on unknown names."""
     from _colors import name_to_hex, name_to_rgb
 
-    assert name_to_hex("Blue") == "#007AFF"
-    assert name_to_hex("BLUE") == "#007AFF"
-    assert name_to_rgb("Blue") == (0, 122, 255)
+    assert name_to_hex("Blue") == "#0088FF"
+    assert name_to_hex("BLUE") == "#0088FF"
+    assert name_to_rgb("Blue") == (0, 136, 255)
     with pytest.raises(KeyError):
         name_to_hex("Chartreuse")
 
@@ -311,8 +311,8 @@ def test_light_variant_by_name_and_hex() -> None:
     """light_variant resolves via base name or hex and returns the curated LightHex."""
     from _colors import light_variant
 
-    assert light_variant("Red") == "#FFD8D6"
-    assert light_variant("#FF3B30") == "#FFD8D6"
+    assert light_variant("Red") == "#FFD7D8"
+    assert light_variant("#FF383C") == "#FFD7D8"
     assert light_variant("#123456") is None  # not in the palette
 
 
@@ -321,8 +321,8 @@ def test_emotions_and_emotion_to_hex() -> None:
     from _colors import emotion_to_hex, emotions
 
     table = emotions()
-    assert table["Anger"] == "#FF3B30"
-    assert emotion_to_hex("anger") == "#FF3B30"
+    assert table["Anger"] == "#FF383C"
+    assert emotion_to_hex("anger") == "#FF383C"
     with pytest.raises(KeyError):
         emotion_to_hex("Ennui")
 
@@ -333,7 +333,7 @@ def test_concepts_and_concept_search() -> None:
 
     assert len(concepts()) > 0
     matches = concept_search("Bold")
-    assert "#FF3B30" in matches
+    assert "#FF383C" in matches
     assert concept_search("NoSuchConcept") == []
 
 
@@ -345,7 +345,7 @@ def test_psychology_for_by_name_and_hex() -> None:
     assert result is not None
     assert "Danger" in result["negative"]
     assert "Power" in result["positive"]
-    assert psychology_for("#FF3B30") == result
+    assert psychology_for("#FF383C") == result
     assert psychology_for("Not-A-Color") is None
 
 
@@ -355,7 +355,7 @@ def test_apply_level_universal_is_identity() -> None:
     """The 'universal' level must return the palette unchanged (same dict values)."""
     from accessibility_levels import apply_level
 
-    pal = {"Blue": "#007AFF", "Green": "#34C759"}
+    pal = {"Blue": "#0088FF", "Green": "#34C759"}
     out = apply_level(pal, "universal")
     assert out == pal
     assert out is not pal  # a copy, not the same object
@@ -366,7 +366,7 @@ def test_apply_level_unknown_raises() -> None:
     from accessibility_levels import apply_level
 
     with pytest.raises(ValueError):
-        apply_level({"Blue": "#007AFF"}, "not-a-level")
+        apply_level({"Blue": "#0088FF"}, "not-a-level")
 
 
 def test_apply_level_high_contrast_clears_aaa() -> None:
@@ -374,7 +374,7 @@ def test_apply_level_high_contrast_clears_aaa() -> None:
     from _colors import contrast_ratio_hex
     from accessibility_levels import apply_level
 
-    pal = {"Yellow": "#FFCC00", "Turquoise": "#79DBDC", "Blue": "#007AFF"}
+    pal = {"Yellow": "#FFCC00", "Turquoise": "#00C3D0", "Blue": "#0088FF"}
     out = apply_level(pal, "high-contrast", bg="#FFFFFF")
     assert set(out) == set(pal)
     for hexv in out.values():
@@ -386,7 +386,7 @@ def test_apply_level_monochrome_is_grayscale_and_separable() -> None:
     from _colors import linear_to_oklab, oklab_to_oklch, parse_hex_linear
     from accessibility_levels import apply_level
 
-    pal = {"Red": "#FF3B30", "Green": "#28CD41", "Blue": "#007AFF"}
+    pal = {"Red": "#FF383C", "Green": "#34C759", "Blue": "#0088FF"}
     out = apply_level(pal, "monochrome", bg="#FFFFFF")
     assert set(out) == set(pal)
     lightnesses = []
@@ -412,7 +412,7 @@ def test_apply_level_cvd_levels_keep_keys_and_hue() -> None:
     from _colors import linear_to_oklab, oklab_to_oklch, parse_hex_linear
     from accessibility_levels import apply_level
 
-    pal = {"Red": "#FF3B30", "Green": "#28CD41", "Blue": "#007AFF"}
+    pal = {"Red": "#FF383C", "Green": "#34C759", "Blue": "#0088FF"}
     for level in ("deuteranopia", "protanopia", "tritanopia"):
         out = apply_level(pal, level, bg="#FFFFFF")
         assert set(out) == set(pal)
@@ -455,12 +455,24 @@ def test_accessibility_levels_csv_default_resolves_to_a_real_file() -> None:
     does not exist, so ``sprezzature-colors-levels`` crashed with
     ``FileNotFoundError`` for anyone who ran it after a plain ``pip
     install`` (confirmed with a real non-editable install into a fresh
-    venv). The fix reuses ``_colors._PALETTE_PATH``, which already resolves
-    both layouts.
+    venv). The fix reuses ``_colors._REFERENCES_DIR``, which already
+    resolves both layouts; since 1.4.0 the default is the ``--theme``
+    palette in it, so every theme's file must be there.
     """
-    from accessibility_levels import _PALETTE_PATH
+    from accessibility_levels import _REFERENCES_DIR, THEMES
 
-    assert _PALETTE_PATH.is_file()
+    for theme in THEMES:
+        assert (_REFERENCES_DIR / f"palette-{theme}.csv").is_file()
+
+
+@pytest.mark.parametrize("theme", ["corporate", "academic", "print"])
+def test_accessibility_levels_reads_every_theme(theme: str, capsys: pytest.CaptureFixture[str]) -> None:
+    """--theme reads the site's CSV (Name column), eleven colours, exit 0."""
+    from accessibility_levels import main as levels_main
+
+    assert levels_main(["--theme", theme]) == 0
+    lines = [line for line in capsys.readouterr().out.splitlines() if line.strip()]
+    assert len(lines) == 11
 
 
 def test_accessibility_levels_main_cli(capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch) -> None:

@@ -2,6 +2,66 @@
 
 ## [Unreleased]
 
+## [1.4.0] — 2026-11-14
+
+### Changed
+
+- **The colours come from [deraison.ai/colors](https://deraison.ai/colors/)
+  now, and nowhere else.** The site publishes three palettes with the same
+  eleven names; the package ships its three CSV files byte for byte
+  (`references/palette-corporate.csv`, `palette-academic.csv`,
+  `palette-print.csv`), and `palette.csv` is derived from the corporate one.
+  The values change accordingly:
+  - **corporate**: Apple's system colours of June 9, 2025, where the old file
+    had an earlier set. Red `#FF3B30` → `#FF383C`, orange `#FF9500` →
+    `#FF8D28`, green `#28CD41` → `#34C759`, turquoise `#79DBDC` → `#00C3D0`,
+    blue `#007AFF` → `#0088FF`, purple `#AF52DE` → `#CB30E0`, brown
+    `#A52A2A` → `#AC7F5E`, gray `#808080` → `#8E8E93`; yellow, pink and black
+    unchanged. Every light tint follows.
+  - **academic**: the red is the CUD (Colour Universal Design) vermilion
+    `#E73121` instead of Okabe and Ito's `#D55E00`; pink is `#FF8082` and no
+    longer borrows purple's `#CC79A7`; brown `#804000`, black and gray
+    `#84919E` are part of it. Its light tints are the site's, no longer
+    derived by `lighten` (`ACADEMIC_LIGHT_DELTA` is gone).
+  - **white has left the palettes**, as on the site on 2026-11-13: eleven
+    names, not twelve.
+  - **no RGB columns**: the site keeps hexadecimal codes only, so
+    `palette.csv` dropped `R`, `G` and `B`. `name_to_rgb` still answers,
+    from the hex.
+- `audit_contrast.py`'s built-in brand tokens carry the corporate hex and
+  light tint, and Apple's dark-mode value of the same date for `dark`.
+
+### Added
+
+- **The print palette**, checked for offset printing on coated paper:
+  `print_palette()`, and `--theme print` on `palette-to-tailwind` and on
+  `levels`.
+- `THEMES`, `theme_rows(theme)` (the site's rows, English and French),
+  `theme_palette(theme)` (the eight hues) and `theme_palette_rows(theme)`
+  (eleven `Base` / `Hexcode` / `LightHex` rows), exported by the package.
+- `GET /v1/palette?theme=corporate|academic|print`, and the same argument on
+  the MCP tool `get_palette`; the answer names its `theme` and no longer
+  carries `R`, `G`, `B`.
+- `sprezzature-colors-levels --theme corporate|academic|print`; `--csv`
+  also reads a `Name` column, so the site's files work as they are.
+- `scripts/sync_palettes.py` copies the three files from the site (or a
+  checkout of it) into `references/` and the skill, and rewrites
+  `palette.csv`. The site serves them with `\r\n` line ends; the copy is
+  normalised to `\n`, so where it was read from changes nothing.
+- `tests/test_palettes.py`: eleven names in order in each palette,
+  `palette.csv` equal to what the sync derives, the skill's copies equal to
+  the package's, every CSV declared as package data, and the audit's brand
+  tokens equal to the corporate palette.
+
+### Docs
+
+- Every example that printed a palette value was run again: contrast of the
+  blue on white 3.52 (was 4.02), the audit's `35 pass, 21 fail` (was 34 and
+  22), the levels preview, the API answers. The collision given as an example
+  of what the deficiency levels cannot always prevent is now Orange and
+  Yellow under deuteranopia, measured on the new palette (Yellow and White
+  was the old one, and white is gone).
+
 ## [1.3.0] — 2026-11-12
 
 ### Added

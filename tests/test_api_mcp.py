@@ -205,3 +205,21 @@ def test_every_tool_says_when_to_call_it() -> None:
             f"{route.operation_id}: description is {len(description)} chars. Say when "
             f"to call it, not just what it is."
         )
+
+
+def test_palette_endpoint_serves_each_theme() -> None:
+    """GET /v1/palette?theme= serves the three palettes of deraison.ai/colors."""
+    from fastapi.testclient import TestClient
+
+    from sprezzature_colors.api import app
+
+    client = TestClient(app)
+    blues = {}
+    for theme in ("corporate", "academic", "print"):
+        body = client.get("/v1/palette", params={"theme": theme}).json()
+        assert body["theme"] == theme
+        assert len(body["colors"]) == 11
+        blues[theme] = next(r["Hexcode"] for r in body["colors"] if r["Base"] == "Blue")
+    assert blues == {"corporate": "#0088FF", "academic": "#0072B2", "print": "#437DB5"}
+    assert client.get("/v1/palette").json()["theme"] == "corporate"
+    assert client.get("/v1/palette", params={"theme": "pastel"}).status_code == 422

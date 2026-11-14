@@ -24,7 +24,7 @@ which are not. A request belongs here when it names one of these objects:
 
 - **a colour**: a hex code (`#RRGGBB`, `#RRGGBBAA`), a palette name (`Red`,
   `Orange`, `Yellow`, `Green`, `Turquoise`, `Blue`, `Purple`, `Pink`,
-  `Brown`, `Black`, `Gray`, `White`), or a role (`label-…`, `brand-…`,
+  `Brown`, `Black`, `Gray`), a palette (`corporate`, `academic`, `print`), or a role (`label-…`, `brand-…`,
   `surface-…`);
 - **a pair**: foreground and background, text on a surface;
 - **a measure**: contrast ratio, WCAG level (AA and AAA (the standard and

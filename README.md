@@ -95,11 +95,11 @@ sprezzature-colors-skill --path                  # where pip put it
 sprezzature-colors-contrast --fix
 # Target ratio: 4.5
 #
-#   ✗             brand-blue  on         surface-primary   ratio 4.02
-#       → suggest #006FF3  (ratio 4.61)
-#   ✓             brand-blue  on    surface-primary-dark   ratio 5.23
+#   ✗             brand-blue  on         surface-primary   ratio 3.52
+#       → suggest #0074E9  (ratio 4.55)
+#   ✓             brand-blue  on    surface-primary-dark   ratio 5.97
 #   ...
-# 34 pass, 22 fail.
+# 35 pass, 21 fail.
 ```
 
 "Ratio" here is the WCAG contrast ratio: a number from 1 (identical brightness, unreadable) to 21 (pure black on pure white). 4.5 is the WCAG threshold for normal body text. Without `--palette`, the audit reads its built-in default palette. The exit code is 0 when every checked pair passes, 1 when a pair fails, and 2 when nothing could be checked: no pair in the palette, or a palette it cannot read.
@@ -140,11 +140,13 @@ sprezzature-colors-palette-to-tailwind
 # Full tailwind.config.js with derived dark variants
 sprezzature-colors-palette-to-tailwind --emit config --with-dark --out tailwind.config.js
 
-# The Okabe-Ito color-blind-safe set instead of the brand palette
+# The academic palette (Okabe and Ito, readable with color blindness) or the
+# print palette (checked for offset on coated paper) instead of the corporate one
 sprezzature-colors-palette-to-tailwind --theme academic
+sprezzature-colors-palette-to-tailwind --theme print
 ```
 
-`--include-neutrals` adds the Brown, Black, Gray and White tokens, which are left out by default.
+`--include-neutrals` adds the Brown, Black and Gray tokens, which are left out by default.
 
 ### Accessibility levels
 
@@ -156,7 +158,7 @@ sprezzature-colors-levels --level high-contrast
 #                   deuteranopia, protanopia, tritanopia
 ```
 
-Each line prints the color name, its hex at that level, and its contrast against white. `--csv` reads another palette file with the same columns; a file it cannot read, or without those columns, exits 2.
+Each line prints the color name, its hex at that level, and its contrast against white. `--theme corporate|academic|print` picks the palette (corporate by default). `--csv` reads another palette file with a `Base` or `Name` column and a `Hexcode` column; a file it cannot read, or without those columns, exits 2.
 
 ---
 
@@ -166,26 +168,26 @@ Each line prints the color name, its hex at that level, and its contrast against
 import sprezzature_colors as sc
 
 # WCAG contrast ratio
-sc.contrast_ratio_hex("#007AFF", "#FFFFFF")          # -> 4.02 (rounded)
+sc.contrast_ratio_hex("#0088FF", "#FFFFFF")          # -> 3.52 (rounded)
 
 # WCAG tests: fails AA for body text, passes for large text
-sc.meets_wcag("#007AFF", "#FFFFFF", level="AA", size="normal")  # -> False
-sc.meets_wcag("#007AFF", "#FFFFFF", level="AA", size="large")   # -> True
+sc.meets_wcag("#0088FF", "#FFFFFF", level="AA", size="normal")  # -> False
+sc.meets_wcag("#0088FF", "#FFFFFF", level="AA", size="large")   # -> True
 
 # Perceptual lighten / darken on the OKLCH lightness axis, hue preserved.
 # OKLCH is a color model built so that a fixed numeric step in lightness
 # matches what a human eye perceives as an equal step in brightness, unlike
 # raw RGB.
-sc.lighten("#007AFF", 0.15)   # -> "#47ABFF"
-sc.darken("#007AFF", 0.10)    # -> "#0059DC"
+sc.lighten("#0088FF", 0.15)   # -> "#4CB9FF"
+sc.darken("#0088FF", 0.10)    # -> "#0068DC"
 
 # CVD pixel simulation (8-bit sRGB in, 8-bit sRGB out)
 sc.simulate_pixel((255, 0, 0), sc.CVD_MATRICES["protanopia"])  # -> (109, 95, 0)
 
 # The house palette and its color psychology
-sc.palette_names()            # -> ['Red', 'Orange', ..., 'White'], 12 names
-sc.name_to_hex("Blue")        # -> "#007AFF"
-sc.concept_search("trust")    # -> ['#007AFF']
+sc.palette_names()            # -> ['Red', 'Orange', ..., 'Gray'], 11 names
+sc.name_to_hex("Blue")        # -> "#0088FF"
+sc.concept_search("trust")    # -> ['#0088FF']
 sc.psychology_for("Blue")     # -> {'positive': ['Trust', ...], 'negative': [...]}
 ```
 
@@ -249,9 +251,9 @@ The server wraps the same FastAPI app with fastapi-mcp and mounts the MCP endpoi
 | Fix suggestions | Nearest OKLCH neighbour that passes the threshold |
 | CVD simulation | MACHADO et al. 2009 matrices (protanopia, deuteranopia, tritanopia) |
 | Grayscale luminance check | Relative-luminance gray to catch hue-only distinctions |
-| Tailwind theme export | `brand` block or full `module.exports` config, corporate or Okabe-Ito |
+| Tailwind theme export | `brand` block or full `module.exports` config, corporate, academic or print |
 | Accessibility levels | universal / high-contrast / monochrome / CVD-specific palette remapping |
-| Palette science | OKLab / OKLCH conversions, sRGB transfer functions, curated Apple base palette |
+| Palette science | OKLab / OKLCH conversions, sRGB transfer functions; the three palettes of [deraison.ai/colors](https://deraison.ai/en/colors) (corporate, academic, print), shipped as the site's own CSV files |
 | Color psychology | Emotion, concepts and associations for each of the 12 palette colors |
 | Dependencies | One install: click, FastAPI, uvicorn, Pillow, fastapi-mcp, mcp |
 
@@ -277,7 +279,7 @@ is ranked by how bright it looks *to that viewer*, under the MACHADO matrices,
 and the lightnesses are then spread across a legible band. Hue and saturation
 are left alone. That spreads the categories for that reader without proving
 them apart: the 3:1 floor against white and the gamut can bring two back
-together, as Yellow and White under tritanopia on the house palette, which is
+together, as Orange and Yellow under deuteranopia on the house palette, which is
 why shape and label stay on the job.
 
 That is also why the deficiency palettes are options rather than the default.

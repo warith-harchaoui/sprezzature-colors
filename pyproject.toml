@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sprezzature-colors"
-version = "1.3.0"
+version = "1.4.0"
 description = "Color accessibility and palette tooling for the sprezzature stack: WCAG contrast auditing, color vision deficiency simulation, and Tailwind CSS palette export."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -87,7 +87,7 @@ packages = ["sprezzature_colors", "sprezzature_colors_scripts", "sprezzature_col
 # carries all five surfaces; `sprezzature-colors-skill --install` puts it
 # where Claude Code or OpenCode looks.
 "sprezzature_colors" = ["skill/**/*"]
-"sprezzature_colors_references" = ["palette.csv"]
+"sprezzature_colors_references" = ["palette.csv", "palette-corporate.csv", "palette-academic.csv", "palette-print.csv"]
 
 [tool.pytest.ini_options]
 # This repository had no pytest section at all: no `testpaths`, so a bare

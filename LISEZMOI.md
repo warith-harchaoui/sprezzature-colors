@@ -95,11 +95,11 @@ sprezzature-colors-skill --path                  # où pip l'a rangé
 sprezzature-colors-contrast --fix
 # Target ratio: 4.5
 #
-#   ✗             brand-blue  on         surface-primary   ratio 4.02
-#       → suggest #006FF3  (ratio 4.61)
-#   ✓             brand-blue  on    surface-primary-dark   ratio 5.23
+#   ✗             brand-blue  on         surface-primary   ratio 3.52
+#       → suggest #0074E9  (ratio 4.55)
+#   ✓             brand-blue  on    surface-primary-dark   ratio 5.97
 #   ...
-# 34 pass, 22 fail.
+# 35 pass, 21 fail.
 ```
 
 Le « ratio » ici est le ratio de contraste WCAG : un nombre allant de 1 (luminosités identiques, illisible) à 21 (noir pur sur blanc pur). 4,5 est le seuil WCAG pour le texte courant. Sans `--palette`, l'audit lit sa palette par défaut intégrée. Le code de sortie vaut 0 quand toutes les paires vérifiées passent, 1 quand une paire échoue, et 2 quand rien n'a pu être vérifié : aucune paire dans la palette, ou une palette illisible.
@@ -140,11 +140,13 @@ sprezzature-colors-palette-to-tailwind
 # tailwind.config.js complet avec variantes sombres dérivées
 sprezzature-colors-palette-to-tailwind --emit config --with-dark --out tailwind.config.js
 
-# Le jeu Okabe-Ito, sûr pour les daltoniens, à la place de la palette de marque
+# La palette académique (Okabe et Ito, lisible par les daltoniens) ou la
+# palette d'impression (vérifiée en offset sur papier couché) à la place de la palette entreprise
 sprezzature-colors-palette-to-tailwind --theme academic
+sprezzature-colors-palette-to-tailwind --theme print
 ```
 
-`--include-neutrals` ajoute les jetons Brown, Black, Gray et White, laissés de côté par défaut.
+`--include-neutrals` ajoute les jetons Brown, Black et Gray, laissés de côté par défaut.
 
 ### Niveaux d'accessibilité
 
@@ -156,7 +158,7 @@ sprezzature-colors-levels --level high-contrast
 #                       deuteranopia, protanopia, tritanopia
 ```
 
-Chaque ligne affiche le nom de la couleur, son code hexadécimal à ce niveau, et son contraste sur blanc. `--csv` lit un autre fichier de palette aux mêmes colonnes ; un fichier illisible, ou sans ces colonnes, sort en 2.
+Chaque ligne affiche le nom de la couleur, son code hexadécimal à ce niveau, et son contraste sur blanc. `--theme corporate|academic|print` choisit la palette (entreprise par défaut). `--csv` lit un autre fichier de palette, avec une colonne `Base` ou `Name` et une colonne `Hexcode` ; un fichier illisible, ou sans ces colonnes, sort en 2.
 
 ---
 
@@ -166,26 +168,26 @@ Chaque ligne affiche le nom de la couleur, son code hexadécimal à ce niveau, e
 import sprezzature_colors as sc
 
 # Ratio de contraste WCAG
-sc.contrast_ratio_hex("#007AFF", "#FFFFFF")          # -> 4,02 (arrondi)
+sc.contrast_ratio_hex("#0088FF", "#FFFFFF")          # -> 3,52 (arrondi)
 
 # Tests WCAG : échoue en AA pour le texte courant, passe pour le grand texte
-sc.meets_wcag("#007AFF", "#FFFFFF", level="AA", size="normal")  # -> False
-sc.meets_wcag("#007AFF", "#FFFFFF", level="AA", size="large")   # -> True
+sc.meets_wcag("#0088FF", "#FFFFFF", level="AA", size="normal")  # -> False
+sc.meets_wcag("#0088FF", "#FFFFFF", level="AA", size="large")   # -> True
 
 # Éclaircir / assombrir de façon perceptuelle sur l'axe de clarté OKLCH,
 # teinte conservée. OKLCH est un modèle de couleur construit pour qu'un même
 # pas numérique de luminosité corresponde à un même écart de clarté perçu
 # par l'œil, ce que le RGB brut ne garantit pas.
-sc.lighten("#007AFF", 0.15)   # -> "#47ABFF"
-sc.darken("#007AFF", 0.10)    # -> "#0059DC"
+sc.lighten("#0088FF", 0.15)   # -> "#4CB9FF"
+sc.darken("#0088FF", 0.10)    # -> "#0068DC"
 
 # Simulation de daltonisme pixel par pixel (sRGB 8 bits en entrée et en sortie)
 sc.simulate_pixel((255, 0, 0), sc.CVD_MATRICES["protanopia"])  # -> (109, 95, 0)
 
 # La palette maison et sa psychologie des couleurs
-sc.palette_names()            # -> ['Red', 'Orange', ..., 'White'], 12 noms
-sc.name_to_hex("Blue")        # -> "#007AFF"
-sc.concept_search("trust")    # -> ['#007AFF']
+sc.palette_names()            # -> ['Red', 'Orange', ..., 'Gray'], 11 noms
+sc.name_to_hex("Blue")        # -> "#0088FF"
+sc.concept_search("trust")    # -> ['#0088FF']
 sc.psychology_for("Blue")     # -> {'positive': ['Trust', ...], 'negative': [...]}
 ```
 
@@ -249,9 +251,9 @@ Le serveur enveloppe la même application FastAPI avec fastapi-mcp et monte le p
 | Suggestions de correction | Voisin OKLCH le plus proche qui franchit le seuil |
 | Simulation de daltonisme | Matrices de MACHADO et al. 2009 (protanopie, deutéranopie, tritanopie) |
 | Vérification en niveaux de gris | Luminance relative, pour détecter les distinctions qui reposent sur la teinte seule |
-| Export palette Tailwind | Bloc `brand` ou configuration `module.exports` complète, palette de marque ou Okabe-Ito |
+| Export palette Tailwind | Bloc `brand` ou configuration `module.exports` complète, palette entreprise, académique ou d'impression |
 | Niveaux d'accessibilité | universel / fort contraste / monochrome / palette adaptée à une déficience précise |
-| Science de la palette | Conversions OKLab / OKLCH, fonctions de transfert sRGB, palette de base inspirée d'Apple |
+| Science de la palette | Conversions OKLab / OKLCH, fonctions de transfert sRGB ; les trois palettes de [deraison.ai/colors](https://deraison.ai/colors/) (entreprise, académique, impression), livrées dans les fichiers CSV du site |
 | Psychologie des couleurs | Émotion, concepts et associations pour chacune des 12 couleurs de la palette |
 | Dépendances | Une seule installation : click, FastAPI, uvicorn, Pillow, fastapi-mcp, mcp |
 
@@ -277,8 +279,8 @@ couleur est classée selon sa clarté *telle que ce lecteur la perçoit*, d'apr�
 les matrices de MACHADO, puis les clartés sont réparties sur une plage
 lisible. La teinte et la saturation ne bougent pas. Cela écarte les catégories pour
 ce lecteur sans prouver qu'elles se distinguent : le plancher de 3:1 sur blanc
-et le gamut peuvent en rapprocher deux, comme le jaune et le blanc en
-tritanopie sur la palette maison, et c'est pourquoi la forme et l'étiquette
+et le gamut peuvent en rapprocher deux, comme l'orange et le jaune en
+deutéranopie sur la palette maison, et c'est pourquoi la forme et l'étiquette
 restent à leur poste.
 
 C'est aussi pourquoi ces palettes sont des options plutôt que le défaut.

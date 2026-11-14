@@ -45,6 +45,7 @@ from sprezzature_colors_scripts._colors import (
     CVD_LABELS,
     CVD_MATRICES,
     CVD_SHORTHAND,
+    THEMES,
     academic_palette,
     academic_palette_rows,
     apple_palette,
@@ -72,15 +73,19 @@ from sprezzature_colors_scripts._colors import (
     parse_hex,
     parse_hex_linear,
     parse_hex_rgba,
+    print_palette,
     psychology_for,
     relative_luminance,
     rgb_to_hex,
     simulate_pixel,
     srgb_to_linear,
+    theme_palette,
+    theme_palette_rows,
+    theme_rows,
     to_hex,
 )
 
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 __author__ = "Warith HARCHAOUI"
 __email__ = "warithmetics@deraison.ai"
 
@@ -121,6 +126,11 @@ __all__ = [
     "apple_palette",
     "academic_palette",
     "academic_palette_rows",
+    "print_palette",
+    "THEMES",
+    "theme_rows",
+    "theme_palette",
+    "theme_palette_rows",
     # color vision deficiency
     "simulate_pixel",
     "CVD_MATRICES",

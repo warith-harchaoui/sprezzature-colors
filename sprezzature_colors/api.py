@@ -13,7 +13,7 @@ re-exported by the package, never a second copy of the arithmetic.
 What ships here
 ---------------
 - ``GET  /health``: a liveness probe, so a monitor can tell the app is up.
-- ``GET  /v1/palette``: the house palette, one row per colour.
+- ``GET  /v1/palette?theme=``: a house palette (corporate, academic, print), one row per colour.
 - ``POST /v1/contrast``: contrast ratios and WCAG verdicts for colour pairs.
 - ``POST /v1/cvd``: how colours look to a colour-blind viewer.
 - ``POST /v1/adjust``: lighten or darken, in perceptual OKLab space.
@@ -76,13 +76,13 @@ from . import (
     darken,
     emotions,
     lighten,
-    load_palette,
     meets_wcag,
     name_to_hex,
     parse_hex,
     psychology_for,
     rgb_to_hex,
     simulate_pixel,
+    theme_rows,
 )
 from . import (
     __version__ as _VERSION,
@@ -199,26 +199,41 @@ def health() -> dict:
     "/v1/palette",
     tags=["palette"],
     operation_id="get_palette",
-    summary="Get the house colour palette by name",
+    summary="Get one of the three house colour palettes",
 )
-def palette() -> dict:
+def palette(theme: Literal["corporate", "academic", "print"] = "corporate") -> dict:
     """
-    The house palette: every name, its hex, its light variant, and its psychology.
+    A house palette: every name, its hex, its light variant, and its psychology.
 
     Call this when you need a colour and want the project's own rather than
     inventing a hex: "what are our brand colours", "give me the palette",
     "quelle couleur pour…". Every other tool here accepts a palette NAME
     wherever it accepts a hex, so fetching this once lets you talk in names.
+    The three palettes are those of https://deraison.ai/colors, with the
+    same eleven names: ``corporate`` (Apple system colours, the default),
+    ``academic`` (readable with colour blindness, for scientific figures)
+    and ``print`` (checked for offset printing on coated paper).
 
     Returns
     -------
     dict
-        ``{"colors": [row, ...]}``, one row of ``palette.csv`` per colour, with
-        the keys ``Base`` (the name), ``Hexcode``, ``R``, ``G``, ``B``,
-        ``LightHex``, ``Emotion``, ``Concepts``, ``PsychologyPositive`` and
-        ``PsychologyNegative``.
+        ``{"theme": theme, "colors": [row, ...]}``, one row per colour, with
+        the keys ``Base`` (the name), ``Hexcode``, ``LightHex``, ``Emotion``,
+        ``Concepts``, ``PsychologyPositive`` and ``PsychologyNegative``.
     """
-    return {"colors": load_palette()}
+    rows = [
+        {
+            "Base": r["Name"],
+            "Hexcode": r["Hexcode"],
+            "LightHex": r["LightHex"],
+            "Emotion": r["Emotion"],
+            "Concepts": r["Concepts"],
+            "PsychologyPositive": r["Positive"],
+            "PsychologyNegative": r["Negative"],
+        }
+        for r in theme_rows(theme)
+    ]
+    return {"theme": theme, "colors": rows}
 
 
 @app.post(

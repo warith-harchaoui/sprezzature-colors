@@ -89,16 +89,22 @@ parse_hex = parse_hex_linear
 # ── Skill's built-in palette ────────────────────────────────────────────────
 
 #: Default palette used when ``--palette`` is not supplied. Mirrors the
-#: skill's semantic Tailwind tokens.
+#: skill's semantic Tailwind tokens. ``DEFAULT`` and ``light`` are the
+#: corporate palette of https://deraison.ai/colors (Apple's system colours,
+#: light mode, values of June 9, 2025); ``dark`` is Apple's dark-mode value
+#: of the same colour on the same date, which the site does not publish.
+#: Turquoise is Apple's teal. Run ``scripts/sync_palettes.py`` then update
+#: this table when the site changes; ``tests/test_palettes.py`` checks the
+#: two agree.
 DEFAULT_PALETTE: dict[str, dict[str, str]] = {
-    "brand-blue":      {"DEFAULT": "#007AFF", "dark": "#0A84FF", "light": "#CCE4FF"},
-    "brand-red":       {"DEFAULT": "#FF3B30", "dark": "#FF453A", "light": "#FFD8D6"},
-    "brand-green":     {"DEFAULT": "#28CD41", "dark": "#30D158", "light": "#D4F5D9"},
-    "brand-orange":    {"DEFAULT": "#FF9500", "dark": "#FF9F0A", "light": "#FFEACC"},
-    "brand-yellow":    {"DEFAULT": "#FFCC00", "dark": "#FFD60A", "light": "#FFF5CC"},
-    "brand-purple":    {"DEFAULT": "#AF52DE", "dark": "#BF5AF2", "light": "#EFDCF8"},
-    "brand-pink":      {"DEFAULT": "#FF2D55", "dark": "#FF375F", "light": "#FFD5DD"},
-    "brand-turquoise": {"DEFAULT": "#79DBDC", "dark": "#64D2FF", "light": "#C0E7E7"},
+    "brand-blue":      {"DEFAULT": "#0088FF", "dark": "#0091FF", "light": "#CCE7FF"},
+    "brand-red":       {"DEFAULT": "#FF383C", "dark": "#FF4245", "light": "#FFD7D8"},
+    "brand-green":     {"DEFAULT": "#34C759", "dark": "#30D158", "light": "#D6F4DE"},
+    "brand-orange":    {"DEFAULT": "#FF8D28", "dark": "#FF9230", "light": "#FFE8D4"},
+    "brand-yellow":    {"DEFAULT": "#FFCC00", "dark": "#FFD600", "light": "#FFF5CC"},
+    "brand-purple":    {"DEFAULT": "#CB30E0", "dark": "#DB34F2", "light": "#F5D6F9"},
+    "brand-pink":      {"DEFAULT": "#FF2D55", "dark": "#FF375F", "light": "#FFC0CC"},
+    "brand-turquoise": {"DEFAULT": "#00C3D0", "dark": "#00D2E0", "light": "#CCF3F6"},
     "label-primary":   {"DEFAULT": "#000000", "dark": "#FFFFFF"},
     "label-secondary": {"DEFAULT": "#3C3C434D", "dark": "#EBEBF54D"},
     "surface-primary": {"DEFAULT": "#FFFFFF", "dark": "#000000"},

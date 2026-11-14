@@ -75,23 +75,38 @@ your brand. Loop a designer in for the final call.
 |---|---|---|
 | "contrast audit" / "WCAG ratio" / "is my palette accessible" | `sprezzature-colors-contrast`; MCP `check_contrast` for single pairs | `sprezzature-colors-contrast [--palette p.json] [--target 4.5\|7\|3] [--fix] [--format json]`. Walks the (label, surface) pairs that co-occur in a rendered theme (`--all-pairs` for the full cross-product), suggests OKLCH-neighbour fix. Exit 0 all pass, 1 a pair fails, 2 nothing could be checked (no key matched `label-` / `brand-` against `surface-`, or the palette is unreadable). |
 | "color blind preview" / "CVD check" / "how does this look to a deuteranope" | `sprezzature-colors-cvd`; MCP `simulate_color_blindness` for colours | `sprezzature-colors-cvd <image> [--types prot,deut,trit] [--grid] [--grayscale] [--out PATH]`. Renders protanopia / deuteranopia / tritanopia, one `<stem>-<type>.png` each (always PNG, whatever the source's extension). |
-| "high-contrast palette" / "a palette for deuteranopes" / "monochrome version" | `sprezzature-colors-levels` | `sprezzature-colors-levels --level <level> [--csv palette.csv]`. Prints name, hex and contrast against white per colour. |
+| "high-contrast palette" / "a palette for deuteranopes" / "monochrome version" | `sprezzature-colors-levels` | `sprezzature-colors-levels --level <level> [--theme corporate\|academic\|print] [--csv palette.csv]`. Prints name, hex and contrast against white per colour. |
 | "what's the hex for Red" / "give me an emotion color" / "Apple palette" | library accessors; MCP `get_palette`, `search_concepts`, `get_color_psychology` | `import sprezzature_colors as sc`, then `sc.name_to_hex`, `sc.emotion_to_hex`, `sc.concept_search`, `sc.psychology_for`, `sc.apple_palette` |
 | "lighten this color" / "darken" / "tint" / "shade" | `sc.lighten` / `sc.darken`; MCP `adjust_lightness` | OKLCH L-axis shift; hue and chroma preserved (unlike a naïve RGB offset). |
-| "palette to tailwind" / "regenerate brand tokens" / "wire palette.csv into my Tailwind config" | `sprezzature-colors-palette-to-tailwind` | `sprezzature-colors-palette-to-tailwind [--emit theme\|config] [--with-dark] [--include-neutrals] [--theme corporate\|academic] [--out tailwind.config.js]`. `--theme academic` emits the Okabe-Ito colour-blind-safe set instead. Emits the canonical `brand: { ... }` block (or a complete config) from `references/palette.csv`. Single source of truth for brand colors across every sprezzature-* consumer. |
+| "palette to tailwind" / "regenerate brand tokens" / "wire palette.csv into my Tailwind config" | `sprezzature-colors-palette-to-tailwind` | `sprezzature-colors-palette-to-tailwind [--emit theme\|config] [--with-dark] [--include-neutrals] [--theme corporate\|academic\|print] [--out tailwind.config.js]`. `--theme academic` emits the colour-blind-safe set, `--theme print` the one checked for offset printing. Emits the canonical `brand: { ... }` block (or a complete config) from `references/palette-<theme>.csv`. Single source of truth for brand colors across every sprezzature-* consumer. |
 
 ## The unified palette
 
-`references/palette.csv` is **one canonical row per color**, with semantic
-projections as columns:
+The source of truth for every colour in the suite is
+[deraison.ai/colors](https://deraison.ai/en/colors): three palettes with the
+same eleven names (Red, Orange, Yellow, Green, Turquoise, Blue, Purple, Pink,
+Brown, Black, Gray), shipped as the site's own files:
+
+| Theme | File | What it is |
+|---|---|---|
+| `corporate` | `references/palette-corporate.csv` | Apple's system colours, light mode, values of June 9, 2025 |
+| `academic` | `references/palette-academic.csv` | Okabe and Ito (2002), readable with colour blindness, completed from the Colour Universal Design (CUD) recommended set ver.4 |
+| `print` | `references/palette-print.csv` | checked for offset printing on coated paper |
+
+Each row carries the hex, a light tint (`LightHex`), the emotion, concepts,
+positive and negative psychology, in English and French. `references/palette.csv`
+is the corporate one in a compact layout:
 
 | Hex | Base | Emotion | Concepts | Psychology (+) | Psychology (−) |
 |---|---|---|---|---|---|
-| #FF3B30 | Red | Anger | Excitement, Youthful, Bold | Power, Passion, Energy… | Anger, Danger, Warning… |
-| #FF9500 | Orange | Surprise | Friendly, Cheerful, Confidence | Courage, Confidence… | Deprivation, Frustration… |
+| #FF383C | Red | Anger | Excitement, Youthful, Bold | Power, Passion, Energy… | Anger, Danger, Warning… |
+| #FF8D28 | Orange | Surprise | Friendly, Cheerful, Confidence | Courage, Confidence… | Deprivation, Frustration… |
 | … | … | … | … | … | … |
 
-The same hex can serve multiple semantics: `#FF3B30`, for example, is *Red* (base), *Anger* (emotion), and carries both
+`scripts/sync_palettes.py` copies the three files from the site again when it
+changes. Never edit a hex here by hand: change the site, then sync.
+
+The same hex can serve multiple semantics: `#FF383C`, for example, is *Red* (base), *Anger* (emotion), and carries both
 "Excitement" (concept) and "Power" (psychology positive). A single source
 of truth keeps these projections consistent.
 
@@ -99,12 +114,15 @@ Accessors, re-exported by the package:
 
 ```python
 from sprezzature_colors import (
-    apple_palette,         # {"Red": "#FF3B30", "Orange": "#FF9500", ...}
-    name_to_hex,           # "Red"     → "#FF3B30"
-    name_to_rgb,           # "Red"     → (255, 59, 48)
-    light_variant,         # "Red"     → "#FFD8D6" (curated)
-    emotion_to_hex,        # "Anger"   → "#FF3B30"
-    concept_search,        # "Bold"    → ["#FF3B30"]
+    apple_palette,         # {"Red": "#FF383C", "Orange": "#FF8D28", ...}
+    academic_palette,      # {"Red": "#E73121", "Orange": "#E69F00", ...}
+    print_palette,         # {"Red": "#EE454C", "Orange": "#F88D38", ...}
+    theme_palette_rows,    # "print" → [{"Base", "Hexcode", "LightHex"}, ...] (11 rows)
+    name_to_hex,           # "Red"     → "#FF383C"
+    name_to_rgb,           # "Red"     → (255, 56, 60)
+    light_variant,         # "Red"     → "#FFD7D8" (curated)
+    emotion_to_hex,        # "Anger"   → "#FF383C"
+    concept_search,        # "Bold"    → ["#FF383C"]
     psychology_for,        # "Red"     → {"positive": [...], "negative": [...]}
 )
 ```
@@ -120,12 +138,12 @@ and hue intact:
 from sprezzature_colors import lighten, darken
 from sprezzature_colors_scripts._colors import Color  # not re-exported
 
-lighten("#007AFF", 0.15)   # "#47ABFF": same hue, lighter
+lighten("#0088FF", 0.15)   # "#4CB9FF": same hue, lighter
 darken("#FFCC00", 0.10)    # "#DEAB00": same hue, darker
 
 # Or via the Color class
-brand = Color("#007AFF")
-brand.contrast_with("#FFFFFF")                          # 4.02
+brand = Color("#0088FF")
+brand.contrast_with("#FFFFFF")                          # 3.52
 brand.meets_wcag("#FFFFFF", level="AA", size="normal")  # False: needs 4.5
 brand.meets_wcag("#FFFFFF", level="AA", size="large")   # True
 ```
@@ -137,7 +155,7 @@ emitter, two audit-side gates, all backed by the same CSV (comma-separated value
 
 | Mode | Tool | Purpose |
 |---|---|---|
-| **Make** — emit Tailwind config from the curated palette | `sprezzature-colors-palette-to-tailwind` | Render `references/palette.csv` as a `theme.extend.colors` block (default) or a complete `tailwind.config.js`. |
+| **Make** — emit Tailwind config from the curated palette | `sprezzature-colors-palette-to-tailwind` | Render one palette (`--theme`) as a `theme.extend.colors` block (default) or a complete `tailwind.config.js`. |
 | **Audit** — gate before ship | `sprezzature-colors-contrast`, `sprezzature-colors-cvd` | WCAG ratio audit with **suggest-only** OKLCH-neighbour fix; CVD simulation (protanopia / deuteranopia / tritanopia). |
 
 **Note on `--fix` semantics.** Other sprezzature-* auditors (`sprezzature-ux-laws-audit --fix`, `sprezzature-accessibility-lint --fix`, `sprezzature-publish-lint --fix`) apply mechanical edits in place: adding `min-h-11`, stripping redundant ARIA (Accessible Rich Internet Applications, HTML attributes that tell a screen reader what an element is, such as role="dialog") attributes, chunking digits. `sprezzature-colors-contrast --fix` is intentionally **suggest-only** because changing a brand hex is a design decision, not a mechanical repair. The script proposes the nearest accessible OKLCH neighbour for each failing pair; a human reviews and applies. This asymmetry is by design; do not "harmonise" it without a designer in the loop.
@@ -146,8 +164,9 @@ The two halves agree on the source of truth; see the next section.
 
 ## Curated default — user colors win
 
-`references/palette.csv` carries an **opinionated default** (the 8
-saturated Apple-system hues plus the four neutrals) chosen for
+The three palettes carry an **opinionated default** (eight hues plus three
+neutrals, the same names in each; corporate unless the context is a
+scientific figure, academic, or a printed one, print) chosen for
 balanced contrast, semantic projections that already exist (emotion,
 concepts, psychology), and OKLCH-derivable light/dark neighbours.
 
@@ -173,8 +192,9 @@ emitter is just unused).
 
 ## Single source of truth — make ↔ audit loop
 
-`references/palette.csv` is the **one canonical place** brand hexes
-live in the sprezzature-* ecosystem when the curated default is in play:
+`references/palette-<theme>.csv`, copied from deraison.ai/colors, is the
+**one canonical place** brand hexes live in the sprezzature-* ecosystem when
+the curated default is in play:
 
 - **Audit:** `sprezzature-colors-contrast` walks the (label × surface) pairs that
   co-occur in a rendered theme by default (`--all-pairs` for the full
@@ -225,7 +245,8 @@ Pair with a runtime audit (axe-core / Pa11y / Lighthouse) before shipping.
 - `references/cvd-simulation.md` — Color-blindness simulator (protanopia / deuteranopia / tritanopia).
 - `references/accessibility-levels.md` — Design for the greyscale worst case by default, offer stronger and deficiency-specific levels on top; the literature and what this project does.
 - `references/triggers.md` — The exhaustive trigger catalogue.
-- `references/palette.csv` — Curated palette with semantic projections.
+- `references/palette-corporate.csv`, `palette-academic.csv`, `palette-print.csv` — The three palettes of deraison.ai/colors, the site's own files.
+- `references/palette.csv` — The corporate palette in a compact layout, with semantic projections.
 
 ## Scripts
 
