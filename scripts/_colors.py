@@ -593,7 +593,7 @@ def light_variant(name_or_hex: str) -> str | None:
     Return the curated light tonal variant for an Apple base color, if any.
 
     ``name_or_hex`` may be a base name (``"Red"``) or a hex string
-    (``"#FF3B30"``). Returns ``None`` for colors without a curated light
+    (``"#FF383C"``). Returns ``None`` for colors without a curated light
     variant (neutrals, Brown, Pink in some sources). Use :func:`lighten`
     when you need an algorithmic shift instead.
     """
@@ -648,7 +648,7 @@ def psychology_for(name_or_hex: str) -> dict[str, list[str]] | None:
     """
     Return ``{"positive": [...], "negative": [...]}`` for a color, or ``None``.
 
-    Lookup is by base name (``"Red"``) or hex (``"#FF3B30"``).
+    Lookup is by base name (``"Red"``) or hex (``"#FF383C"``).
     """
     s = name_or_hex.strip()
     if s.startswith("#"):
@@ -673,11 +673,11 @@ class Color:
     """
     Small immutable wrapper around an 8-bit sRGB color with convenient views.
 
-    >>> blue = Color("#007AFF")
+    >>> blue = Color("#0088FF")
     >>> blue.lighten(0.15).hex
-    '#47ABFF'
+    '#4CB9FF'
     >>> round(blue.contrast_with("#FFFFFF"), 2)
-    4.02
+    3.52
     >>> blue.meets_wcag("#FFFFFF")
     False
     >>> blue.meets_wcag("#FFFFFF", size="large")

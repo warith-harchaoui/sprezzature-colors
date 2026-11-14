@@ -63,7 +63,7 @@ Two shapes are accepted.
 
 ```json
 {
-  "brand-blue": { "DEFAULT": "#007AFF", "dark": "#0A84FF", "light": "#CCE4FF" },
+  "brand-blue": { "DEFAULT": "#0088FF", "dark": "#0091FF", "light": "#CCE7FF" },
   "label-primary": { "DEFAULT": "#000000", "dark": "#FFFFFF" }
 }
 ```

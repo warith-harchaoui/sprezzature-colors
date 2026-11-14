@@ -92,9 +92,9 @@ def test_normalize_palette_flat_and_nested() -> None:
     flat = normalize_palette({"fg": "#000000", "bg": "#FFFFFF"})
     assert flat == {"fg": "#000000", "bg": "#FFFFFF"}
 
-    nested = normalize_palette({"brand": {"DEFAULT": "#0088FF", "dark": "#0A84FF"}})
+    nested = normalize_palette({"brand": {"DEFAULT": "#0088FF", "dark": "#0091FF"}})
     assert nested["brand"] == "#0088FF"
-    assert nested["brand-dark"] == "#0A84FF"
+    assert nested["brand-dark"] == "#0091FF"
 
 
 def test_parse_hex_roundtrip() -> None:

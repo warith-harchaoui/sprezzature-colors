@@ -182,7 +182,7 @@ def _derive_dark(base_hex: str) -> str:
     Parameters
     ----------
     base_hex : str
-        Source hex (``"#007AFF"``).
+        Source hex (``"#0088FF"``).
 
     Returns
     -------

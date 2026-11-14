@@ -215,7 +215,7 @@ def apply_level(
 
     Examples
     --------
-    >>> pal = {"Blue": "#007AFF", "Green": "#34C759"}
+    >>> pal = {"Blue": "#0088FF", "Green": "#34C759"}
     >>> apply_level(pal, "universal") == pal
     True
     >>> set(apply_level(pal, "monochrome")) == set(pal)
