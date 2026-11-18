@@ -89,7 +89,7 @@ from . import (
 )
 
 app = FastAPI(
-    title="Sprezzature Colors API",
+    title="sprezzature Colors API",
     description=(
         "HTTP surface for sprezzature-colors: WCAG contrast, colour-vision-"
         "deficiency simulation, the house palette, and colour psychology."

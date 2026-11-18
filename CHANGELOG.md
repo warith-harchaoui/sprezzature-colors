@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- The project name is written `sprezzature`, all lowercase, even at the start of a sentence, in every displayed string and document (API title, MCP server description, comments, examples). Code identifiers such as `SprezzatureCommand` and `SPREZZATURE_*` do not change.
+
 ## [1.4.0] — 2026-11-14
 
 ### Changed

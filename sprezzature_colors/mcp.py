@@ -91,7 +91,7 @@ else:
         app,
         name="sprezzature-colors",
         description=(
-            "Sprezzature Colors MCP tools: WCAG contrast ratios and verdicts, "
+            "sprezzature Colors MCP tools: WCAG contrast ratios and verdicts, "
             "colour-vision-deficiency simulation, the house palette, perceptual "
             "lighten/darken, and colour psychology."
         ),
