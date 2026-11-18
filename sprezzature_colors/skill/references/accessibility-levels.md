@@ -103,7 +103,7 @@ by shape, direct labels, and position as well as hue; diverging data uses the
 blue-to-red house convention; text and marks target WCAG AA. Every figure is
 checked with `sprezzature-colors-cvd` (the three deficiencies plus
 `--grayscale`) and with `sprezzature-accessibility-lint`, and the
-result is looked at through the Ralph Eyeball Loop, including the CVD and
+result is looked at, including the CVD and
 greyscale sheets. In other words, the shipped default is designed against the
 greyscale worst case by method, which is what the literature recommends.
 
